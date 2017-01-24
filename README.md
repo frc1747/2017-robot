@@ -6,22 +6,25 @@ This is the robot project for Harrison Boiler Robotics for the 2017 FRC Season: 
 
 This robot contains five different main subsystems. The subsystems are as follows:
 - Drive Train
+  - Drive base for the robot. 
   - 4 Motors (2 on each side) - CIMs
   - 2 Shifters (Pneumatics on each side)
   - 2 Encoders (One on each side)
 - Intake
+  - Moves up and down and collects balls from the floor
   - 1 Motor (Collecting in / out)
   - 1 Pneumatic (Up and Down)
 - Conveyor  
   - Moves the balls from the hopper to the shooter.
   - 1 Motor (775 PRO)
 - Shooter
+  - Shoots the balls into the boiler
   - 2 Motors
   - 2 Encoders on the Motors (12 cnts / rev)
 - Climber
   - 2 MiniSIMs
-  - Use current to measure when latched on. (Look for current spike). Spins when is launched
-
+  - Use current to measure when latched on. (Look for current spike).
+  
 ## Project Structure
 
 This robot project utilizes the Command-Based structure insituted by FIRST Robotics. Source files are seperated into three main parts. 
@@ -49,3 +52,11 @@ There are a lot of miscellaneous files in the robot project. Current misc files 
   - The backbone of the robot code. Includes methods that are used to call Auton, Teleop modes.
 - OI.java
   - Shortform for "Operator Interface." Contains all button mappings that are used for joysticks and controllers.
+  
+## Library
+
+There are a set of files that will be utilized quite frequently by other files in the robot code. We will classify these files under the package below:
+
+    lib.frc1747
+    
+
