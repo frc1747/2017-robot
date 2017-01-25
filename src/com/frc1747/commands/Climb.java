@@ -24,6 +24,7 @@ public class Climb extends Command {
     protected void execute() {
     	
     	climber.setMotorPower(0.5);
+    	// Comment
     
     }
 
