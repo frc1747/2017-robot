@@ -30,7 +30,11 @@ public class Drive extends Command {
     protected void execute() {
     	
     	//***PUT A REAL MULTIPLIER***
-    	drivetrain.setSetpoint(multiplier*oi.getController().getLeftVertical() + multiplier*oi.getController().getRightHorizontal(), multiplier*oi.getController().getLeftVertical() - multiplier*oi.getController().getRightHorizontal());
+    	if(oi.getController().getButtonLT().get()){
+    		drivetrain.setSetpoint(multiplier*oi.getController().getLeftVertical() + multiplier*oi.getController().getRightHorizontal(), multiplier*oi.getController().getLeftVertical() - multiplier*oi.getController().getRightHorizontal());
+    	} else {
+    		drivetrain.setPower(oi.getController().getLeftVertical() + oi.getController().getRightHorizontal(), oi.getController().getLeftVertical() - oi.getController().getRightHorizontal());
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
