@@ -84,7 +84,7 @@ public class Drivetrain extends HBRSubsystem {
 		
 	}
 	
-	public void enableModePID(){
+	public void enablePID(){
 		rightSide.enablePID();
 		leftSide.enablePID();
 	}
