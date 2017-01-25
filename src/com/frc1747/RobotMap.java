@@ -17,11 +17,11 @@ public class RobotMap {
 	public static final int TOP_SHOOTER_MOTOR = 51;
 	public static final int BOTTOM_SHOOTER_MOTOR = 61;
 	
-	public static final int SOLENOID1 = 1;
-	public static final int SOLENOID2 = 2;
-	public static final int SOLENOID3 = 3;
-	public static final int SOLENOID4 = 4;
-	public static final int SOLENOID5 = 5;
-	public static final int SOLENOID6 = 6;
+	public static final int SHIFT_SOLENOID = 0;
+	public static final int INTAKE_SOLENOID = 1;
+	public static final int HOPPER_SOLENOID = 2;
+	public static final int SHOOTER_SOLENOID1 = 4;
+	public static final int SHOOTER_SOLENOID2 = 5;
+	public static final int SHOOTER_SOLENOID3 = 6;
 	
 }
