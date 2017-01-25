@@ -22,11 +22,9 @@ public class Robot extends IterativeRobot {
 	public static Intake getIntake(){
 		return intake;
 	}
-	
 	public static OI getOI(){
 		return oi;
 	}
-	
 	public static Drivetrain getDrivetrain() {
 		return drivetrain;
 	}
@@ -46,6 +44,8 @@ public class Robot extends IterativeRobot {
 		shooter = new Shooter();
 		conveyor = new Conveyor();
 		climber = new Climber();
+		intake = new Intake();
+		oi = new OI();
 	}
 
 	@Override
