@@ -58,9 +58,13 @@ public class Drivetrain extends HBRSubsystem {
 			motor2.changeControlMode(TalonControlMode.PercentVbus);
 		}
 		
-		public void setMotors(double power){
+		public void setPower(double power){
 			motor1.set(power);
 			motor2.set(power);
+		}
+		
+		public void setSetpoint(double speed){
+			motor1.set(speed);
 		}
 		
 		
@@ -90,9 +94,14 @@ public class Drivetrain extends HBRSubsystem {
 		leftSide.disablePID();
 	}
 	
-	public void setMotors(double rightPower, double leftPower){
-		rightSide.setMotors(rightPower);
-		leftSide.setMotors(leftPower);
+	public void setPower(double rightPower, double leftPower){
+		rightSide.setPower(rightPower);
+		leftSide.setPower(leftPower);
+	}
+	
+	public void setSetpoint(double rightSpeed, double leftSpeed){
+		rightSide.setSetpoint(rightSpeed);
+		leftSide.setSetpoint(leftSpeed);
 	}
 }
 
