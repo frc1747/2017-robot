@@ -54,11 +54,11 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 	}
 	
-	public Drivetrain getDrivetrain(){
+	public static Drivetrain getDrivetrain(){
 		return drivetrain;
 	}
 	
-	public Shooter getShooter(){
+	public static Shooter getShooter(){
 		return shooter;
 	}
 	

@@ -58,6 +58,14 @@ public class Shooter extends HBRSubsystem {
     	bottomShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
     }
     
+    public void shootTop(double speed){
+    	topShooterMotor.set(speed);
+    }
+    
+    public void shootBottom(double speed){
+    	bottomShooterMotor.set(speed);
+    }
+    
     public void setTopPower(double power){
     	topShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
     	topShooterMotor.set(power);
@@ -75,6 +83,7 @@ public class Shooter extends HBRSubsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    
     }
 
 	@Override
