@@ -3,6 +3,7 @@ package com.frc1747;
 import com.frc1747.subsystems.Climber;
 import com.frc1747.subsystems.Conveyor;
 import com.frc1747.subsystems.Drivetrain;
+import com.frc1747.subsystems.Intake;
 import com.frc1747.subsystems.Shooter;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -16,6 +17,11 @@ public class Robot extends IterativeRobot {
 	private static Conveyor conveyor;
 	private static Climber climber;
 	private static OI oi;
+	private static Intake intake;
+	
+	public static Intake getIntake(){
+		return intake;
+	}
 	
 	public static OI getOI(){
 		return oi;

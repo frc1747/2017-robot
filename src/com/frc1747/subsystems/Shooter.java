@@ -5,7 +5,6 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
 import lib.frc1747.subsystems.HBRSubsystem;
 
 /*
