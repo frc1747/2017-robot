@@ -1,5 +1,6 @@
 package com.frc1747;
 
+import com.frc1747.subsystems.Conveyor;
 import com.frc1747.subsystems.Drivetrain;
 import com.frc1747.subsystems.Shooter;
 
@@ -10,13 +11,25 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 public class Robot extends IterativeRobot {
 
-	public static Drivetrain drivetrain;
-	public static Shooter shooter;
+	private static Drivetrain drivetrain;
+	private static Shooter shooter;
+	private static Conveyor conveyor;
+	
+	public static Drivetrain getDrivetrain() {
+		return drivetrain;
+	}
+	public static Shooter getShooter() {
+		return shooter;
+	}
+	public static Conveyor getConveyor() {
+		return conveyor;
+	}
 	
 	@Override
 	public void robotInit() {
 		drivetrain = new Drivetrain();
 		shooter = new Shooter();
+		conveyor = new Conveyor();
 	}
 
 	@Override
@@ -54,13 +67,6 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 	}
 	
-	public Drivetrain getDrivetrain(){
-		return drivetrain;
-	}
-	
-	public Shooter getShooter(){
-		return shooter;
-	}
 	
 	
 }
