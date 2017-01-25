@@ -11,13 +11,13 @@ import lib.frc1747.subsystems.HBRSubsystem;
  * This is a test subsystem. This does not do anything.
  * This is just here to make a sample subsystem.
  */
-public class Shooter extends HBRSubsystem {
+public class ShooterSubsystem extends HBRSubsystem {
 
 	CANTalon topShooterMotor, bottomShooterMotor;
 	double topP, topI, topD, topF;
 	double bottomP, bottomI, bottomD, bottomF;
 	
-    public Shooter(){
+    public ShooterSubsystem(){
     	topShooterMotor = new CANTalon(RobotMap.TOP_SHOOTER_MOTOR);
     	bottomShooterMotor = new CANTalon(RobotMap.BOTTOM_SHOOTER_MOTOR);
     	

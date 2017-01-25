@@ -11,11 +11,11 @@ import lib.frc1747.subsystems.HBRSubsystem;
 /**
  *
  */
-public class Drivetrain extends HBRSubsystem {
+public class DriveSubsystem extends HBRSubsystem {
 
 	DrivetrainSide rightSide, leftSide;
 	
-	public Drivetrain(){
+	public DriveSubsystem(){
 		
 		//idrk which is inverted
 		rightSide = new DrivetrainSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);

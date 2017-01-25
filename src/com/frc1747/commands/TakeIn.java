@@ -1,7 +1,7 @@
 package com.frc1747.commands;
 
 import com.frc1747.Robot;
-import com.frc1747.subsystems.Intake;
+import com.frc1747.subsystems.CollectorSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TakeIn extends Command {
 
-	Intake intake;
+	CollectorSubsystem intake;
 	double power;
 	
     public TakeIn() {

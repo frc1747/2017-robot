@@ -1,13 +1,13 @@
 package com.frc1747.commands;
 
 import com.frc1747.Robot;
-import com.frc1747.subsystems.Conveyor;
+import com.frc1747.subsystems.ConveyorSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class ConveyIn extends Command{
 
-	private Conveyor conveyor;
+	private ConveyorSubsystem conveyor;
 	
 	public ConveyIn() {
 		

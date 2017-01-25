@@ -9,11 +9,11 @@ import lib.frc1747.subsystems.HBRSubsystem;
 /**
  *
  */
-public class Intake extends HBRSubsystem {
+public class CollectorSubsystem extends HBRSubsystem {
 
 	CANTalon motor;
 	
-	public Intake(){
+	public CollectorSubsystem(){
 		motor = new CANTalon(RobotMap.INTAKE_MOTOR);
 	}
 	

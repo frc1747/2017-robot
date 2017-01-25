@@ -1,13 +1,13 @@
 package com.frc1747.commands;
 
 import com.frc1747.Robot;
-import com.frc1747.subsystems.Climber;
+import com.frc1747.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 public class Climb extends Command {
 
-	private Climber climber;
+	private ClimbSubsystem climber;
 	
 	public Climb() {
 		

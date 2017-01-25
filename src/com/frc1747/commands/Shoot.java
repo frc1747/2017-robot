@@ -1,7 +1,7 @@
 package com.frc1747.commands;
 
 import com.frc1747.Robot;
-import com.frc1747.subsystems.Shooter;
+import com.frc1747.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Shoot extends Command {
 
-	private Shooter shooter;
+	private ShooterSubsystem shooter;
 	double speed;
 	
     public Shoot() {

@@ -2,7 +2,7 @@ package com.frc1747.commands;
 
 import com.frc1747.OI;
 import com.frc1747.Robot;
-import com.frc1747.subsystems.Drivetrain;
+import com.frc1747.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class Drive extends Command {
 
-	Drivetrain drivetrain;
+	DriveSubsystem drivetrain;
 	OI oi;
 	int multiplier;
 	
