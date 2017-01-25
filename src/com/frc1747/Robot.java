@@ -1,5 +1,6 @@
 package com.frc1747;
 
+import com.frc1747.subsystems.Climber;
 import com.frc1747.subsystems.Conveyor;
 import com.frc1747.subsystems.Drivetrain;
 import com.frc1747.subsystems.Shooter;
@@ -13,6 +14,7 @@ public class Robot extends IterativeRobot {
 	private static Drivetrain drivetrain;
 	private static Shooter shooter;
 	private static Conveyor conveyor;
+	private static Climber climber;
 	
 	public static Drivetrain getDrivetrain() {
 		return drivetrain;
@@ -23,12 +25,16 @@ public class Robot extends IterativeRobot {
 	public static Conveyor getConveyor() {
 		return conveyor;
 	}
+	public static Climber getClimber() {
+		return climber;
+	}
 	
 	@Override
 	public void robotInit() {
 		drivetrain = new Drivetrain();
 		shooter = new Shooter();
 		conveyor = new Conveyor();
+		climber = new Climber();
 	}
 
 	@Override
