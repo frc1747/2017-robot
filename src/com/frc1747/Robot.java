@@ -13,6 +13,11 @@ public class Robot extends IterativeRobot {
 	private static Drivetrain drivetrain;
 	private static Shooter shooter;
 	private static Conveyor conveyor;
+	private static OI oi;
+	
+	public static OI getOI(){
+		return oi;
+	}
 	
 	public static Drivetrain getDrivetrain() {
 		return drivetrain;
