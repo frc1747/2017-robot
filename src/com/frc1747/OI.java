@@ -1,18 +1,24 @@
 package com.frc1747;
 
+import lib.frc1747.controller.Logitech;
 
-
-	public class OI {
+public class OI {
+	
+	private Logitech driver;
+	private Logitech operator;
 		
-		private LogitechController controller;
-		public OI(){
-			controller = new LogitechController(0);
-			//controller.getButtonX().whileHeld(new Drive());
-		}
-		
-		public LogitechController getController(){
-			return controller;
-		}
+	public OI(){
+		driver = new Logitech(RobotMap.DRIVER);
+		operator = new Logitech(RobotMap.OPERATOR);
 	}
+	
+	public Logitech getDriver() {
+		return driver;
+	}
+	
+	public Logitech getOperator() {
+		return operator;
+	}
+}
 		
 

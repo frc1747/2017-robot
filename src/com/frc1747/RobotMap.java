@@ -1,6 +1,9 @@
 package com.frc1747;
 
 public class RobotMap {
+	
+	public static final int DRIVER = 0;
+	public static final int OPERATOR = 1;
 
 	public static final int LEFT_DRIVE_MOTOR1 = 11;
 	public static final int LEFT_DRIVE_MOTOR2 = 12;
