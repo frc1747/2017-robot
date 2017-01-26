@@ -1,16 +1,24 @@
 package com.frc1747;
 
+import com.frc1747.commands.Increment;
+
 import lib.frc1747.controller.Logitech;
+import lib.frc1747.controller.POVButton;
+import lib.frc1747.controller.Xbox;
 
 public class OI {
 	
 	private Logitech driver;
-	private Logitech operator;
+	private Xbox operator;
 	private static OI instance;
+	private POVButton dPad;
 		
 	private OI(){
 		driver = new Logitech(RobotMap.DRIVER);
-		operator = new Logitech(RobotMap.OPERATOR);
+		operator = new Xbox(RobotMap.OPERATOR);
+		
+		dPad = new POVButton(driver, Logitech.UP);
+		dPad.whenPressed(new Increment());
 	}
 	
 	public static OI getInstance(){
@@ -24,7 +32,7 @@ public class OI {
 		return driver;
 	}
 	
-	public Logitech getOperator() {
+	public Xbox getOperator() {
 		return operator;
 	}
 }
