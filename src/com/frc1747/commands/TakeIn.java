@@ -14,7 +14,7 @@ public class TakeIn extends Command {
 	double power;
 	
     public TakeIn() {
-    	intake = Robot.getIntake();
+    	intake = CollectorSubsystem.getInstance();
     	requires(intake);
     }
 

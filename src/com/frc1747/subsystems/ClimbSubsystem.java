@@ -9,12 +9,20 @@ public class ClimbSubsystem extends Subsystem {
 
 	private CANTalon motor1;
 	private CANTalon motor2;
+	private static ClimbSubsystem instance;
 	
-	public ClimbSubsystem() {
+	private ClimbSubsystem() {
 		
 		motor1 = new CANTalon(RobotMap.CLIMBER_MOTOR1);
 		motor2 = new CANTalon(RobotMap.CLIMBER_MOTOR2);
 		
+	}
+	
+	public static ClimbSubsystem getInstance(){
+		if (instance == null){
+			instance = new ClimbSubsystem();
+		}
+		return instance;
 	}
 	
 	public void setMotorPower(double power) {

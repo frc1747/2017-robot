@@ -16,8 +16,9 @@ public class ShooterSubsystem extends HBRSubsystem {
 	CANTalon topShooterMotor, bottomShooterMotor;
 	double topP, topI, topD, topF;
 	double bottomP, bottomI, bottomD, bottomF;
+	private static ShooterSubsystem instance;
 	
-    public ShooterSubsystem(){
+    private ShooterSubsystem(){
     	topShooterMotor = new CANTalon(RobotMap.TOP_SHOOTER_MOTOR);
     	bottomShooterMotor = new CANTalon(RobotMap.BOTTOM_SHOOTER_MOTOR);
     	
@@ -46,6 +47,13 @@ public class ShooterSubsystem extends HBRSubsystem {
     	bottomShooterMotor.setD(bottomD);
     	bottomShooterMotor.setF(bottomF);
     }
+    
+    public static ShooterSubsystem getInstance(){
+		if (instance == null){
+			instance = new ShooterSubsystem();
+		}
+		return instance;
+	}
     
     public void enablePID(){
     	topShooterMotor.changeControlMode(TalonControlMode.Speed);

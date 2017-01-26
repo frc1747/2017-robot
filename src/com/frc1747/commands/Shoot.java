@@ -14,7 +14,7 @@ public class Shoot extends Command {
 	double speed;
 	
     public Shoot() {
-        shooter = Robot.getShooter();
+        shooter = ShooterSubsystem.getInstance();
         requires(shooter);
     }
 

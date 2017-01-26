@@ -1,6 +1,5 @@
 package com.frc1747.commands;
 
-import com.frc1747.Robot;
 import com.frc1747.subsystems.ConveyorSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,7 +10,7 @@ public class ConveyIn extends Command{
 	
 	public ConveyIn() {
 		
-		conveyor = Robot.getConveyor();
+		conveyor = ConveyorSubsystem.getInstance();
 		requires(conveyor);
 		
 	}
