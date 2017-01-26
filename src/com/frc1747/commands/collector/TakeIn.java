@@ -1,30 +1,31 @@
-package com.frc1747.commands;
+package com.frc1747.commands.collector;
 
-import com.frc1747.subsystems.ClimbSubsystem;
+import com.frc1747.subsystems.CollectorSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Climb extends Command {
+/**
+ *
+ */
+public class TakeIn extends Command {
 
-	private ClimbSubsystem climber;
+	CollectorSubsystem intake;
+	double power;
 	
-	public Climb() {
-		
-		climber = ClimbSubsystem.getInstance();
-		requires(climber);
-		
-	}
-	
-	// Called just before this Command runs the first time
+    public TakeIn() {
+    	intake = CollectorSubsystem.getInstance();
+    	requires(intake);
+    }
+
+    // Called just before this Command runs the first time
     protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	climber.setMotorPower(0.5);
-    	// Comment
-    
+    	//***PUT A REAL VALUE FOR POWER***
+    	intake.in(power);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -34,14 +35,10 @@ public class Climb extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	
-    	climber.setMotorPower(0.0);
-    	
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     }
-
 }

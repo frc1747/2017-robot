@@ -1,6 +1,11 @@
 package com.frc1747;
 
 import com.frc1747.commands.UpdateDashboard;
+import com.frc1747.subsystems.ClimbSubsystem;
+import com.frc1747.subsystems.CollectorSubsystem;
+import com.frc1747.subsystems.ConveyorSubsystem;
+import com.frc1747.subsystems.DriveSubsystem;
+import com.frc1747.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -10,8 +15,9 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-		
 		(new UpdateDashboard()).start();
+
+		initSubsystems();
 	}
 
 	@Override
@@ -48,5 +54,13 @@ public class Robot extends IterativeRobot {
 	public void testPeriodic() {
 		LiveWindow.run();
 	}	
+	
+	public void initSubsystems() {
+		ClimbSubsystem.getInstance();
+		CollectorSubsystem.getInstance();
+		ConveyorSubsystem.getInstance();
+		DriveSubsystem.getInstance();
+		ShooterSubsystem.getInstance();
+	}
 }
 

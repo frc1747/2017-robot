@@ -1,7 +1,5 @@
 package com.frc1747;
 
-import com.frc1747.subsystems.ShooterSubsystem;
-
 import lib.frc1747.controller.Logitech;
 
 public class OI {

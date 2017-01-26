@@ -1,34 +1,30 @@
-package com.frc1747.commands;
+package com.frc1747.commands.conveyer;
 
-import com.frc1747.Robot;
-import com.frc1747.subsystems.ShooterSubsystem;
+import com.frc1747.subsystems.ConveyorSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-/**
- *
- */
-public class Shoot extends Command {
+public class ConveyIn extends Command{
 
-	private ShooterSubsystem shooter;
-	double speed;
+	private ConveyorSubsystem conveyor;
 	
-    public Shoot() {
-        shooter = ShooterSubsystem.getInstance();
-        requires(shooter);
-    }
-
-    // Called just before this Command runs the first time
+	public ConveyIn() {
+		
+		conveyor = ConveyorSubsystem.getInstance();
+		requires(conveyor);
+		
+	}
+	
+	
+	 // Called just before this Command runs the first time
     protected void initialize() {
-    	shooter.enablePID();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	//***NOTE***: no specific speed rn
-    	shooter.shootTop(speed);
-    	shooter.shootBottom(speed);
+    	conveyor.setMotorPower(.5);
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,13 +34,12 @@ public class Shoot extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	shooter.shootTop(0);
-    	shooter.shootBottom(0);
-    	//shooter.disablePID();
+    	conveyor.setMotorPower(0.0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
     }
+
 }

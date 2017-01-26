@@ -1,30 +1,30 @@
-package com.frc1747.commands;
+package com.frc1747.commands.climb;
 
-import com.frc1747.subsystems.ConveyorSubsystem;
+import com.frc1747.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class ConveyIn extends Command{
+public class Climb extends Command {
 
-	private ConveyorSubsystem conveyor;
+	private ClimbSubsystem climber;
 	
-	public ConveyIn() {
+	public Climb() {
 		
-		conveyor = ConveyorSubsystem.getInstance();
-		requires(conveyor);
+		climber = ClimbSubsystem.getInstance();
+		requires(climber);
 		
 	}
 	
-	
-	 // Called just before this Command runs the first time
+	// Called just before this Command runs the first time
     protected void initialize() {
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	conveyor.setMotorPower(.5);
-    	
+    	climber.setMotorPower(0.5);
+    	// Comment
+    
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -34,7 +34,9 @@ public class ConveyIn extends Command{
 
     // Called once after isFinished returns true
     protected void end() {
-    	conveyor.setMotorPower(0.0);
+    	
+    	climber.setMotorPower(0.0);
+    	
     }
 
     // Called when another command which requires one or more of the same

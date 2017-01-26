@@ -1,4 +1,4 @@
-package com.frc1747.commands;
+package com.frc1747.commands.drive;
 
 import com.frc1747.OI;
 import com.frc1747.Robot;
