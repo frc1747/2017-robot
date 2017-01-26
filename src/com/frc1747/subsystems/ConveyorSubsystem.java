@@ -8,11 +8,19 @@ import lib.frc1747.subsystems.HBRSubsystem;
 public class ConveyorSubsystem extends HBRSubsystem {
 
 	private CANTalon motor1;
+	private static ConveyorSubsystem instance;
 	
-	public ConveyorSubsystem() {
+	private ConveyorSubsystem() {
 		
 		motor1 = new CANTalon(RobotMap.CONVEYOR_MOTOR);
 		
+	}
+	
+	public static ConveyorSubsystem getInstance(){
+		if (instance == null){
+			instance = new ConveyorSubsystem();
+		}
+		return instance;
 	}
 	
 	public void setMotorPower(double power) {

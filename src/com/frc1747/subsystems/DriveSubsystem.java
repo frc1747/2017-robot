@@ -14,12 +14,21 @@ import lib.frc1747.subsystems.HBRSubsystem;
 public class DriveSubsystem extends HBRSubsystem {
 
 	DrivetrainSide rightSide, leftSide;
+	private static DriveSubsystem instance;
+	final int multiplier = 100;
 	
-	public DriveSubsystem(){
+	private DriveSubsystem(){
 		
 		//idrk which is inverted
 		rightSide = new DrivetrainSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
 		leftSide = new DrivetrainSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
+	}
+	
+	public static DriveSubsystem getInstance(){
+		if (instance == null){
+			instance = new DriveSubsystem();
+		}
+		return instance;
 	}
 	
 	private class DrivetrainSide{
@@ -64,6 +73,7 @@ public class DriveSubsystem extends HBRSubsystem {
 		}
 		
 		public void setSetpoint(double speed){
+			speed = speed * multiplier;
 			motor1.set(speed);
 		}
 		

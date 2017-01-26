@@ -13,8 +13,18 @@ public class CollectorSubsystem extends HBRSubsystem {
 
 	CANTalon motor;
 	
-	public CollectorSubsystem(){
+	private static CollectorSubsystem instance;
+	
+	private CollectorSubsystem(){
 		motor = new CANTalon(RobotMap.INTAKE_MOTOR);
+	}
+	
+	public static CollectorSubsystem getInstance(){
+		if (instance == null){
+			instance = new CollectorSubsystem();
+		}
+		
+		return instance;
 	}
 	
 	public void in(double power){

@@ -5,6 +5,7 @@ import com.frc1747.Robot;
 import com.frc1747.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
+import lib.frc1747.controller.Logitech;
 
 /**
  *
@@ -14,10 +15,12 @@ public class Drive extends Command {
 	DriveSubsystem drivetrain;
 	OI oi;
 	int multiplier;
+	double leftVert;
+	double rightHoriz;
 	
     public Drive() {
-    	drivetrain = Robot.getDrivetrain();
-    	oi = Robot.getOI();
+    	drivetrain = DriveSubsystem.getInstance();
+    	oi = OI.getInstance();
     	requires(drivetrain);
     }
 
@@ -29,11 +32,14 @@ public class Drive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
+    	rightHoriz = OI.getInstance().getDriver().getAxis(Logitech.RIGHT_HORIZONTAL);
+    	leftVert = OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL);
+    	
     	//***PUT A REAL MULTIPLIER***
-    	if(oi.getController().getButtonLT().get()){
-    		drivetrain.setSetpoint(multiplier*oi.getController().getLeftVertical() + multiplier*oi.getController().getRightHorizontal(), multiplier*oi.getController().getLeftVertical() - multiplier*oi.getController().getRightHorizontal());
+    	if(oi.getDriver().getButton(Logitech.LT).get()){
+    		drivetrain.setSetpoint(leftVert + rightHoriz, leftVert - rightHoriz);
     	} else {
-    		drivetrain.setPower(oi.getController().getLeftVertical() + oi.getController().getRightHorizontal(), oi.getController().getLeftVertical() - oi.getController().getRightHorizontal());
+    		drivetrain.setPower(leftVert + rightHoriz, leftVert - rightHoriz);
     	}
     }
 

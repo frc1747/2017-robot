@@ -1,6 +1,5 @@
 package com.frc1747.commands;
 
-import com.frc1747.Robot;
 import com.frc1747.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -11,7 +10,7 @@ public class Climb extends Command {
 	
 	public Climb() {
 		
-		climber = Robot.getClimber();
+		climber = ClimbSubsystem.getInstance();
 		requires(climber);
 		
 	}
