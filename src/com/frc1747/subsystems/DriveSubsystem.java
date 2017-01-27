@@ -1,5 +1,6 @@
 package com.frc1747.subsystems;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
@@ -14,14 +15,19 @@ import lib.frc1747.subsystems.HBRSubsystem;
 public class DriveSubsystem extends HBRSubsystem {
 
 	DrivetrainSide rightSide, leftSide;
+	Solenoid solenoid;
 	private static DriveSubsystem instance;
 	final int multiplier = 100;
+	final int shiftHigh = 0; // some number goes here.	maybe a double?? idek...
+	final int shiftLow = 0; // same here
+	
 	
 	private DriveSubsystem(){
 		
 		//idrk which is inverted
 		rightSide = new DrivetrainSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
 		leftSide = new DrivetrainSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
+		solenoid = new Solenoid(RobotMap.SHIFT_SOLENOID);
 	}
 	
 	public static DriveSubsystem getInstance(){
@@ -112,6 +118,26 @@ public class DriveSubsystem extends HBRSubsystem {
 	public void setSetpoint(double rightSpeed, double leftSpeed){
 		rightSide.setSetpoint(rightSpeed);
 		leftSide.setSetpoint(leftSpeed);
+	}
+	
+	public void toggleShift(){
+		if(solenoid.get()){
+			solenoid.set(false);
+		}else{
+			solenoid.set(true);
+		}
+	}
+	
+	public boolean shiftStateGet(){
+		return solenoid.get();
+	}
+	
+	public void shiftUp(){
+		solenoid.set(true);
+	}
+	
+	public void shiftDown(){
+		solenoid.set(false);
 	}
 }
 
