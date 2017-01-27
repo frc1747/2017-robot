@@ -5,8 +5,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
+import com.frc1747.OI;
 import com.frc1747.RobotMap;
 
+import lib.frc1747.controller.Logitech;
 import lib.frc1747.subsystems.HBRSubsystem;
 
 /**
@@ -22,6 +24,8 @@ public class DriveSubsystem extends HBRSubsystem {
 	final int shiftAccelerationLow = 0;// some number goes here.	maybe a double?? idek...
 	final int shiftVelocityHigh = 0;
 	final int shiftVelocityLow = 0;// same here
+	final double turningThresholdToShift = 0;
+	OI oi;
 	
 	
 	private DriveSubsystem(){
@@ -30,6 +34,7 @@ public class DriveSubsystem extends HBRSubsystem {
 		rightSide = new DrivetrainSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
 		leftSide = new DrivetrainSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
 		solenoid = new Solenoid(RobotMap.SHIFT_SOLENOID);
+		oi = OI.getInstance();
 	}
 	
 	public static DriveSubsystem getInstance(){
@@ -147,18 +152,28 @@ public class DriveSubsystem extends HBRSubsystem {
 	}
 	
 	public double getVelocity(){
-		return rightSide.getVelocity(); //not sure if should be right, left, or wut . . .
+		return Math.max(rightSide.getVelocity(), leftSide.getVelocity());
 	}
 	
 	public double getAcceleration(){
 		return 0; //temporary, need actual acceleration
 	}
 	
+	public double getTurning(){
+		return Math.abs(oi.getDriver().getAxis(Logitech.RIGHT_HORIZONTAL));
+	}
+	
 	//returns if in the zone to shift to high gear
 	public boolean shouldShiftUp(){
-		//returns if above the line
+		
 		double slope = -shiftAccelerationHigh/shiftVelocityLow;
-		return(getAcceleration() >= slope*getVelocity() + shiftAccelerationHigh);
+		
+		if(getTurning() <= turningThresholdToShift){
+			return(getAcceleration() >= slope*getVelocity() + shiftAccelerationHigh);
+		}
+		else{
+			return false;
+		}
 	}
 }
 
