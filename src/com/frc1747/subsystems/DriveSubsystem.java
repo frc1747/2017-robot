@@ -18,8 +18,10 @@ public class DriveSubsystem extends HBRSubsystem {
 	Solenoid solenoid;
 	private static DriveSubsystem instance;
 	final int multiplier = 100;
-	final int shiftHigh = 0; // some number goes here.	maybe a double?? idek...
-	final int shiftLow = 0; // same here
+	final int shiftAccelerationHigh = 0;
+	final int shiftAccelerationLow = 0;// some number goes here.	maybe a double?? idek...
+	final int shiftVelocityHigh = 0;
+	final int shiftVelocityLow = 0;// same here
 	
 	
 	private DriveSubsystem(){
@@ -83,6 +85,10 @@ public class DriveSubsystem extends HBRSubsystem {
 			motor1.set(speed);
 		}
 		
+		public int getVelocity(){
+			return motor1.getEncVelocity();
+		}
+		
 		
 		
 		
@@ -138,6 +144,20 @@ public class DriveSubsystem extends HBRSubsystem {
 	
 	public void shiftDown(){
 		solenoid.set(false);
+	}
+	
+	public double getVelocity(){
+		return rightSide.getVelocity(); //not sure if should be right, left, or wut . . .
+	}
+	
+	public double getAcceleration(){
+		return 0; //temporary, need actual acceleration
+	}
+	
+	//returns if in the zone to shift to high gear
+	public boolean shouldShiftUp(){
+		//returns if above the line
+		return(getAcceleration() >= -(shiftAccelerationHigh/shiftVelocityLow)*getVelocity() + shiftAccelerationHigh);
 	}
 }
 

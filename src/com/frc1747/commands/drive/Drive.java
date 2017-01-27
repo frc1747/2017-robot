@@ -41,6 +41,13 @@ public class Drive extends Command {
     	} else {
     		drivetrain.setPower(leftVert + rightHoriz, leftVert - rightHoriz);
     	}
+    	
+    	if(drivetrain.shouldShiftUp()){
+    		drivetrain.shiftUp();
+    	}
+    	else{
+    		drivetrain.shiftDown();
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
