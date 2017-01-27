@@ -25,6 +25,8 @@ public class DriveSubsystem extends HBRSubsystem {
 	final int shiftVelocityHigh = 0;
 	final int shiftVelocityLow = 0;// same here
 	final double turningThresholdToShift = 0;
+	final boolean HIGH_GEAR = true;
+	final boolean LOW_GEAR = false;
 	OI oi;
 	
 	
@@ -93,11 +95,6 @@ public class DriveSubsystem extends HBRSubsystem {
 		public int getVelocity(){
 			return motor1.getEncVelocity();
 		}
-		
-		
-		
-		
-		
 	}
 
     public void initDefaultCommand() {
@@ -139,20 +136,24 @@ public class DriveSubsystem extends HBRSubsystem {
 		}
 	}
 	
-	public boolean shiftStateGet(){
-		return solenoid.get();
+	public boolean isHighGear(){
+		return solenoid.get() == HIGH_GEAR;
+	}
+	
+	public boolean isLowGear(){
+		return solenoid.get() == LOW_GEAR;
 	}
 	
 	public void shiftUp(){
-		solenoid.set(true);
+		solenoid.set(HIGH_GEAR);
 	}
 	
 	public void shiftDown(){
-		solenoid.set(false);
+		solenoid.set(LOW_GEAR);
 	}
 	
 	public double getVelocity(){
-		return Math.max(rightSide.getVelocity(), leftSide.getVelocity());
+		return (rightSide.getVelocity()+leftSide.getVelocity())/2;
 	}
 	
 	public double getAcceleration(){
@@ -169,10 +170,15 @@ public class DriveSubsystem extends HBRSubsystem {
 		double slope = -shiftAccelerationHigh/shiftVelocityLow;
 		
 		if(getTurning() <= turningThresholdToShift){
-			return(getAcceleration() >= slope*getVelocity() + shiftAccelerationHigh);
+			if(getAcceleration() >= slope*getVelocity() + shiftAccelerationHigh){
+				return HIGH_GEAR;
+			}
+			else{
+				return LOW_GEAR;
+			}
 		}
 		else{
-			return false;
+			return LOW_GEAR;
 		}
 	}
 }
