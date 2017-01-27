@@ -157,7 +157,8 @@ public class DriveSubsystem extends HBRSubsystem {
 	//returns if in the zone to shift to high gear
 	public boolean shouldShiftUp(){
 		//returns if above the line
-		return(getAcceleration() >= -(shiftAccelerationHigh/shiftVelocityLow)*getVelocity() + shiftAccelerationHigh);
+		double slope = -shiftAccelerationHigh/shiftVelocityLow;
+		return(getAcceleration() >= slope*getVelocity() + shiftAccelerationHigh);
 	}
 }
 
