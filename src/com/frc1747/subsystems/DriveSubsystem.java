@@ -19,12 +19,12 @@ public class DriveSubsystem extends HBRSubsystem {
 	DrivetrainSide rightSide, leftSide;
 	Solenoid solenoid;
 	private static DriveSubsystem instance;
-	final int multiplier = 100;
-	final int shiftAccelerationHigh = 0;
-	final int shiftAccelerationLow = 0;// some number goes here.	maybe a double?? idek...
-	final int shiftVelocityHigh = 0;
-	final int shiftVelocityLow = 0;// same here
-	final double turningThresholdToShift = 0;
+	final int MULTIPLIER = 100;
+	final int SHIFT_ACCELERATION_HIGH = 0;
+	final int SHIFT_ACCELERATION_LOW = 0;// some number goes here.	maybe a double?? idek...
+	final int SHIFT_VELOCITY_HIGH = 0;
+	final int SHIFT_VELOCITY_LOW = 0;// same here
+	final double TURNING_THRESHOLD_TO_SHIFT = 0;
 	final boolean HIGH_GEAR = true;
 	final boolean LOW_GEAR = false;
 	OI oi;
@@ -88,7 +88,7 @@ public class DriveSubsystem extends HBRSubsystem {
 		}
 		
 		public void setSetpoint(double speed){
-			speed = speed * multiplier;
+			speed = speed * MULTIPLIER;
 			motor1.set(speed);
 		}
 		
@@ -167,10 +167,10 @@ public class DriveSubsystem extends HBRSubsystem {
 	//returns if in the zone to shift to high gear
 	public boolean shouldShiftUp(){
 		
-		double slope = -shiftAccelerationHigh/shiftVelocityLow;
+		double slope = -SHIFT_ACCELERATION_HIGH/SHIFT_VELOCITY_LOW;
 		
-		if(getTurning() <= turningThresholdToShift){
-			if(getAcceleration() >= slope*getVelocity() + shiftAccelerationHigh){
+		if(getTurning() <= TURNING_THRESHOLD_TO_SHIFT){
+			if(getAcceleration() >= slope*getVelocity() + SHIFT_ACCELERATION_HIGH){
 				return HIGH_GEAR;
 			}
 			else{
