@@ -27,4 +27,5 @@ public class RobotMap {
 	public static final int SHOOTER_SOLENOID2 = 5;
 	public static final int SHOOTER_SOLENOID3 = 6;
 	
+	
 }

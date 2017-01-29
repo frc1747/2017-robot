@@ -36,6 +36,7 @@ public abstract class Controller {
 		buttons[Y] = new JoystickButton(stick, Y);
 		buttons[LB] = new JoystickButton(stick, LB);
 		buttons[RB] = new JoystickButton(stick, RB);
+		
 	}
 		
 	public JoystickButton getButton(int buttonName) {

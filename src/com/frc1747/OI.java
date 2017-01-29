@@ -1,7 +1,7 @@
 package com.frc1747;
 
 import com.frc1747.commands.Increment;
-import com.frc1747.commands.ResetGyro;
+import com.frc1747.commands.drive.ResetGyro;
 
 import lib.frc1747.controller.Controller;
 import lib.frc1747.controller.Logitech;
@@ -23,6 +23,7 @@ public class OI {
 		dPad.whenPressed(new Increment());
 
 		driver.getButton(Logitech.A).whileHeld(new ResetGyro());
+		
 
 	}
 	

@@ -183,21 +183,19 @@ public class DriveSubsystem extends HBRSubsystem {
 		return (rightSide.getVelocity()+leftSide.getVelocity())/2;
 	}
 	
-	public double getXAcceleration(){
+	public double getForwardAcceleration(){
+		//Replace axis name when possible
 		return gyro.getRawAccelX();
 	}
 	
-	public double getYAcceleration(){
+	public double getLateralAcceleration(){
+		//Replace axis name when possible
 		return gyro.getRawAccelY();
-	}
-	
-	public double getZAcceleration(){
-		return gyro.getRawAccelZ();
 	}
 	
 	public double getTurning(){
 		//return Math.abs(oi.getDriver().getAxis(Logitech.RIGHT_HORIZONTAL));
-		return gyro.getAngle();
+		return gyro.getRate();
 	}
 	
 	//returns if in the zone to shift to high gear
@@ -205,9 +203,9 @@ public class DriveSubsystem extends HBRSubsystem {
 		
 		double slope = -SHIFT_ACCELERATION_HIGH/SHIFT_VELOCITY_LOW;
 		
-		if(getTurning() <= TURNING_THRESHOLD_TO_SHIFT){
+		if(Math.abs(getTurning()) <= TURNING_THRESHOLD_TO_SHIFT){
 			//***Might need to be XAcceleration/YAcceleration/Combination of the two***
-			if(getXAcceleration() >= slope*getVelocity() + SHIFT_ACCELERATION_HIGH){
+			if(getForwardAcceleration() >= slope*getVelocity() + SHIFT_ACCELERATION_HIGH){
 				return HIGH_GEAR;
 			}
 			else{

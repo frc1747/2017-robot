@@ -1,20 +1,22 @@
-package com.frc1747.commands.collector;
+package com.frc1747.commands.conveyer;
 
-import com.frc1747.subsystems.CollectorSubsystem;
+import com.frc1747.subsystems.ConveyorSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class TakeIn extends Command {
-
-	private CollectorSubsystem intake;
-	double power;
+public class ConveyOut extends Command {
 	
-    public TakeIn() {
-    	intake = CollectorSubsystem.getInstance();
-    	requires(intake);
+	private ConveyorSubsystem conveyor;
+
+    public ConveyOut() {
+    	
+    	conveyor = ConveyorSubsystem.getInstance();
+    	requires(conveyor);
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
@@ -23,9 +25,7 @@ public class TakeIn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	//***PUT A REAL VALUE FOR POWER***
-    	intake.in(power);
+    	conveyor.setMotorPower(-.5);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -35,6 +35,7 @@ public class TakeIn extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	conveyor.setMotorPower(0.0);
     }
 
     // Called when another command which requires one or more of the same
