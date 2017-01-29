@@ -10,6 +10,7 @@ import com.frc1747.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import lib.frc1747.controller.Controller;
 
 public class Robot extends IterativeRobot {
 

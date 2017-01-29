@@ -1,12 +1,17 @@
 package com.frc1747.subsystems;
 
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.OI;
 import com.frc1747.RobotMap;
+import com.frc1747.commands.drive.Drive;
+import com.kauailabs.navx.frc.AHRS;
 
 import lib.frc1747.controller.Logitech;
 import lib.frc1747.subsystems.HBRSubsystem;
@@ -27,16 +32,16 @@ public class DriveSubsystem extends HBRSubsystem {
 	final double TURNING_THRESHOLD_TO_SHIFT = 0;
 	final boolean HIGH_GEAR = true;
 	final boolean LOW_GEAR = false;
-	OI oi;
+	AHRS gyro;
 	
 	
 	private DriveSubsystem(){
 		
 		//idrk which is inverted
-		rightSide = new DrivetrainSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
-		leftSide = new DrivetrainSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
+		//rightSide = new DrivetrainSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
+		//leftSide = new DrivetrainSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
 		solenoid = new Solenoid(RobotMap.SHIFT_SOLENOID);
-		oi = OI.getInstance();
+		gyro = new AHRS(SPI.Port.kMXP);
 	}
 	
 	public static DriveSubsystem getInstance(){
@@ -50,11 +55,22 @@ public class DriveSubsystem extends HBRSubsystem {
 		
 		CANTalon motor1, motor2;
 		
+		double kP, kI, kD, kF;
+		
+	
+	
+		
 		private DrivetrainSide(int motorPort1, int motorPort2, boolean isInverted, double kP, double kI, double kD, double kF, int encoderCounts){
 			motor1 = new CANTalon(motorPort1);
 			motor2 = new CANTalon(motorPort2);
 			motor1.setInverted(isInverted);
 			motor2.setInverted(isInverted);
+			
+			this.kP = kP;
+			this.kI = kI;
+			this.kD = kD;
+			this.kF = kF;
+			
 			
 			//not necessarily motor1
 			motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -95,17 +111,34 @@ public class DriveSubsystem extends HBRSubsystem {
 		public int getVelocity(){
 			return motor1.getEncVelocity();
 		}
+		public void togglePID(){
+			if(solenoid.get() == HIGH_GEAR){
+				motor1.setP(0.0);
+				motor1.setI(0.0);
+				motor1.setD(0.0);
+				motor1.setF(0.0);
+			}
+			else{
+				motor1.setP(kP);
+				motor1.setI(kI);
+				motor1.setD(kD);
+				motor1.setF(kF);
+			}
+			
+		}
 	}
 
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    	
     }
 
 	@Override
 	public void updateDashboard() {
 		// TODO Auto-generated method stub
-		
+		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
+		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
 	}
 	
 	public void enablePID(){
@@ -128,13 +161,7 @@ public class DriveSubsystem extends HBRSubsystem {
 		leftSide.setSetpoint(leftSpeed);
 	}
 	
-	public void toggleShift(){
-		if(solenoid.get()){
-			solenoid.set(false);
-		}else{
-			solenoid.set(true);
-		}
-	}
+
 	
 	public boolean isHighGear(){
 		return solenoid.get() == HIGH_GEAR;
@@ -156,12 +183,21 @@ public class DriveSubsystem extends HBRSubsystem {
 		return (rightSide.getVelocity()+leftSide.getVelocity())/2;
 	}
 	
-	public double getAcceleration(){
-		return 0; //temporary, need actual acceleration
+	public double getXAcceleration(){
+		return gyro.getRawAccelX();
+	}
+	
+	public double getYAcceleration(){
+		return gyro.getRawAccelY();
+	}
+	
+	public double getZAcceleration(){
+		return gyro.getRawAccelZ();
 	}
 	
 	public double getTurning(){
-		return Math.abs(oi.getDriver().getAxis(Logitech.RIGHT_HORIZONTAL));
+		//return Math.abs(oi.getDriver().getAxis(Logitech.RIGHT_HORIZONTAL));
+		return gyro.getAngle();
 	}
 	
 	//returns if in the zone to shift to high gear
@@ -170,7 +206,8 @@ public class DriveSubsystem extends HBRSubsystem {
 		double slope = -SHIFT_ACCELERATION_HIGH/SHIFT_VELOCITY_LOW;
 		
 		if(getTurning() <= TURNING_THRESHOLD_TO_SHIFT){
-			if(getAcceleration() >= slope*getVelocity() + SHIFT_ACCELERATION_HIGH){
+			//***Might need to be XAcceleration/YAcceleration/Combination of the two***
+			if(getXAcceleration() >= slope*getVelocity() + SHIFT_ACCELERATION_HIGH){
 				return HIGH_GEAR;
 			}
 			else{
@@ -181,5 +218,12 @@ public class DriveSubsystem extends HBRSubsystem {
 			return LOW_GEAR;
 		}
 	}
+	
+	public void resetGyro(){
+		gyro.zeroYaw();
+	}
+	
+	
+	
 }
 
