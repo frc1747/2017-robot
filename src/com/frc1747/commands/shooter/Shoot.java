@@ -26,7 +26,7 @@ public class Shoot extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	//***NOTE***: no specific speed rn
+    	//TODO: NOTE: no specific speed rn
     	shooter.shootTop(speed);
     	shooter.shootBottom(speed);
     }

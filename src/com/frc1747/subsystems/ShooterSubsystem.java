@@ -7,10 +7,8 @@ import com.frc1747.RobotMap;
 
 import lib.frc1747.subsystems.HBRSubsystem;
 
-/*
- * This is a test subsystem. This does not do anything.
- * This is just here to make a sample subsystem.
- */
+
+
 public class ShooterSubsystem extends HBRSubsystem {
 
 	CANTalon topShooterMotor, bottomShooterMotor;
@@ -24,16 +22,16 @@ public class ShooterSubsystem extends HBRSubsystem {
     	
 		
 		topShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		//topShooterMotor.reverseSensor();
+		//TODO: topShooterMotor.reverseSensor();
 		topShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
-		//possibly +12.0f, -0.0f
+		//TODO: possibly +12.0f, -0.0f
 		topShooterMotor.configPeakOutputVoltage(+0.0f, -12.0f);
 		topShooterMotor.setProfile(0);
 		
 		bottomShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		//bottomShooterMotor.reverseSensor();
+		//TODO: bottomShooterMotor.reverseSensor();
 		bottomShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
-		//possibly +12.0f, -0.0f
+		//TODO: possibly +12.0f, -0.0f
 		bottomShooterMotor.configPeakOutputVoltage(+0.0f, -12.0f);
 		bottomShooterMotor.setProfile(0);
     	

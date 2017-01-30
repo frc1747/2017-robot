@@ -37,9 +37,9 @@ public class DriveSubsystem extends HBRSubsystem {
 	
 	private DriveSubsystem(){
 		
-		//idrk which is inverted
-		//rightSide = new DrivetrainSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
-		//leftSide = new DrivetrainSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
+		//TODO: idrk which is inverted
+		rightSide = new DrivetrainSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
+		leftSide = new DrivetrainSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, false, 0, 0, 0, 0, 0);
 		solenoid = new Solenoid(RobotMap.SHIFT_SOLENOID);
 		gyro = new AHRS(SPI.Port.kMXP);
 	}
@@ -72,12 +72,12 @@ public class DriveSubsystem extends HBRSubsystem {
 			this.kF = kF;
 			
 			
-			//not necessarily motor1
+			//TODO: not necessarily motor1
 			motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-			//motor1.reverseSensor(isInverted);
-			//motor1.configEncoderCodesPerRev(encoderCounts);
+			//TODO: motor1.reverseSensor(isInverted);
+			//TODO: motor1.configEncoderCodesPerRev(encoderCounts);
 			motor1.configNominalOutputVoltage(+0.0f, -0.0f);
-			//possibly +12.0f, -0.0f
+			//TODO: possibly +12.0f, -0.0f
 			motor1.configPeakOutputVoltage(+0.0f, -12.0f);
 			motor1.setProfile(0);
 			
@@ -184,12 +184,12 @@ public class DriveSubsystem extends HBRSubsystem {
 	}
 	
 	public double getForwardAcceleration(){
-		//Replace axis name when possible
+		//TODO: Replace axis name when possible
 		return gyro.getRawAccelX();
 	}
 	
 	public double getLateralAcceleration(){
-		//Replace axis name when possible
+		//TODO: Replace axis name when possible
 		return gyro.getRawAccelY();
 	}
 	
@@ -204,7 +204,7 @@ public class DriveSubsystem extends HBRSubsystem {
 		double slope = -SHIFT_ACCELERATION_HIGH/SHIFT_VELOCITY_LOW;
 		
 		if(Math.abs(getTurning()) <= TURNING_THRESHOLD_TO_SHIFT){
-			//***Might need to be XAcceleration/YAcceleration/Combination of the two***
+			//TODO: Might need to be XAcceleration/YAcceleration/Combination of the two
 			if(getForwardAcceleration() >= slope*getVelocity() + SHIFT_ACCELERATION_HIGH){
 				return HIGH_GEAR;
 			}

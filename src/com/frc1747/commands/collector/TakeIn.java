@@ -24,7 +24,7 @@ public class TakeIn extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	//***PUT A REAL VALUE FOR POWER***
+    	//TODO: PUT A REAL VALUE FOR POWER
     	intake.in(power);
     }
 

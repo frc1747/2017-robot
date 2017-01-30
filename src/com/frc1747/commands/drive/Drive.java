@@ -35,7 +35,7 @@ public class Drive extends Command {
     	rightHoriz = OI.getInstance().getDriver().getAxis(Logitech.RIGHT_HORIZONTAL);
     	leftVert = OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL);
     	
-    	//***PUT A REAL MULTIPLIER***
+    	//TODO: PUT A REAL MULTIPLIER
     	if(oi.getDriver().getButton(Logitech.LT).get()){
     		drivetrain.setSetpoint(leftVert + rightHoriz, leftVert - rightHoriz);
     	} else {
