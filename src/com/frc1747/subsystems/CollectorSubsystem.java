@@ -15,6 +15,11 @@ public class CollectorSubsystem extends HBRSubsystem {
 	CANTalon motor;
 	Solenoid intakeSolenoid;
 	
+	private static final double WHEEL_DIAMETER = 1.6/12; //in feet
+	private static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI; 
+	private static final double ENCODER_COUNTS_PER_REVOLUTION = 4;
+	private static final double ENCODER_REFRESH_TIME = .1; //in seconds, motor speed is recorded over intervals of this
+	
 	private static CollectorSubsystem instance;
 	
 	private CollectorSubsystem(){
@@ -48,6 +53,14 @@ public class CollectorSubsystem extends HBRSubsystem {
 	public void IntakeDown(){
 		// TODO possibly the wrong direction
 		intakeSolenoid.set(false);
+	}
+	
+	public double getSpeed(){
+		return motor.getSpeed();
+	}
+	
+	public double getSpeedFeetPerSecond(){
+		return getSpeed()*WHEEL_CIRCUMFERENCE/(ENCODER_COUNTS_PER_REVOLUTION*ENCODER_REFRESH_TIME);
 	}
 
     public void initDefaultCommand() {

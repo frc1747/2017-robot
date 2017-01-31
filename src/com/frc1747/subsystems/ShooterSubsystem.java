@@ -16,6 +16,10 @@ public class ShooterSubsystem extends HBRSubsystem {
 	double topP, topI, topD, topF;
 	double bottomP, bottomI, bottomD, bottomF;
 	private static ShooterSubsystem instance;
+	private static final double SHOOTER_DIAMETER = 1.6/12; //in feet
+	private static final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI; 
+	private static final double ENCODER_COUNTS_PER_REVOLUTION = 4;
+	private static final double ENCODER_REFRESH_TIME = .1; //in seconds, motor speed is recorded over intervals of this
 	
     private ShooterSubsystem(){
     	topShooterMotor = new CANTalon(RobotMap.TOP_SHOOTER_MOTOR);
@@ -107,7 +111,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 	}
 	
 	public double getTopFeetPerSecond(){
-		return getTop()*1000/(1.6*Math.PI*12);
+		return getTop()*SHOOTER_CIRCUMFERENCE/(ENCODER_COUNTS_PER_REVOLUTION*ENCODER_REFRESH_TIME);
 	}
 	
 	public double getBottomFeetPerSecond(){

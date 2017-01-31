@@ -34,6 +34,12 @@ public class DriveSubsystem extends HBRSubsystem {
 	final boolean LOW_GEAR = false;
 	AHRS gyro;
 	
+	private static final double WHEEL_DIAMETER = 4/12; //in feet
+	private static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI; 
+	private static final double ENCODER_COUNTS_PER_REVOLUTION = 4;
+	private static final double ENCODER_REFRESH_TIME = .1; //in seconds, motor speed is recorded over intervals of this
+	
+	
 	
 	private DriveSubsystem(){
 		
@@ -225,11 +231,11 @@ public class DriveSubsystem extends HBRSubsystem {
 	}
 	
 	public double getRightFeetPerSecond(){
-		return getRightVelocity()*1000/(4*Math.PI*12);
+		return getRightVelocity()*WHEEL_CIRCUMFERENCE/(ENCODER_COUNTS_PER_REVOLUTION*ENCODER_REFRESH_TIME);
 	}
 	
 	public double getLeftFeetPerSecond(){
-		return getLeftVelocity()*1000/(4*Math.PI*12);
+		return getLeftVelocity()*WHEEL_CIRCUMFERENCE/(ENCODER_COUNTS_PER_REVOLUTION*ENCODER_REFRESH_TIME);
 	}
 	
 	public double getRightVelocity(){
