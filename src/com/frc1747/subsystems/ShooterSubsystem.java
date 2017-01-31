@@ -5,6 +5,7 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import lib.frc1747.subsystems.HBRSubsystem;
 
 
@@ -81,6 +82,14 @@ public class ShooterSubsystem extends HBRSubsystem {
     	bottomShooterMotor.set(power);
     }
     
+    public double getTop(){
+    	return topShooterMotor.get();
+    }
+    
+    public double getBottom(){
+    	return bottomShooterMotor.get();
+    }
+    
     
 	// Put methods for controlling this subsystem
     // here. Call these from Commands.
@@ -93,7 +102,16 @@ public class ShooterSubsystem extends HBRSubsystem {
 
 	@Override
 	public void updateDashboard() {
-		// Make update smart dashboard calls here.
+		SmartDashboard.putNumber("Top Shooter Speed (ft/s)", getTopFeetPerSecond());
+		SmartDashboard.putNumber("Bottom Shooter Speed (ft/s)", getBottomFeetPerSecond());
+	}
+	
+	public double getTopFeetPerSecond(){
+		return getTop()*1000/(1.6*Math.PI*12);
+	}
+	
+	public double getBottomFeetPerSecond(){
+		return getBottom()*1000/(1.6*Math.PI*12);
 	}
 }
 

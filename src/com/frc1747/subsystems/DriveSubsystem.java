@@ -139,6 +139,9 @@ public class DriveSubsystem extends HBRSubsystem {
 		// TODO Auto-generated method stub
 		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
 		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
+		
+		SmartDashboard.putNumber("Right Velocity (ft/s)", getRightFeetPerSecond());
+		SmartDashboard.putNumber("Left Velocity (ft/s)", getLeftFeetPerSecond());
 	}
 	
 	public void enablePID(){
@@ -219,9 +222,23 @@ public class DriveSubsystem extends HBRSubsystem {
 	
 	public void resetGyro(){
 		gyro.zeroYaw();
-		//
 	}
 	
+	public double getRightFeetPerSecond(){
+		return getRightVelocity()*1000/(4*Math.PI*12);
+	}
+	
+	public double getLeftFeetPerSecond(){
+		return getLeftVelocity()*1000/(4*Math.PI*12);
+	}
+	
+	public double getRightVelocity(){
+		return rightSide.getVelocity();
+	}
+	
+	public double getLeftVelocity(){
+		return leftSide.getVelocity();
+	}
 	
 	
 }
