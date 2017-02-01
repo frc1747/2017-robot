@@ -35,7 +35,7 @@ public class Climb extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	
-    	climber.setMotorPower(0.0);
+    	climber.setMotorPower(climber.CLIMBER_POWER);
     	
     }
 

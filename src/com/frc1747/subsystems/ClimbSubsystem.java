@@ -11,6 +11,8 @@ public class ClimbSubsystem extends Subsystem {
 	private CANTalon motor2;
 	private static ClimbSubsystem instance;
 	
+	public final double CLIMBER_POWER = 0; //TODO: use actual power
+	
 	private ClimbSubsystem() {
 		
 		motor1 = new CANTalon(RobotMap.CLIMBER_MOTOR1);

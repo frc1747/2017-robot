@@ -9,6 +9,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
 
 	private CANTalon motor1;
 	private static ConveyorSubsystem instance;
+	public final double CONVEYOR_POWER = 0; //TODO: use actual power
 	
 	private ConveyorSubsystem() {
 		

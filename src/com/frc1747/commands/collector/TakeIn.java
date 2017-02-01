@@ -25,7 +25,7 @@ public class TakeIn extends Command {
     protected void execute() {
     	
     	//TODO: PUT A REAL VALUE FOR POWER
-    	intake.in(power);
+    	intake.setPower(intake.COLLECTOR_POWER);
     }
 
     // Make this return true when this Command no longer needs to run execute()
