@@ -27,8 +27,8 @@ public class Shoot extends Command {
     protected void execute() {
     	
     	//TODO: NOTE: no specific speed rn
-    	shooter.shootTop(speed);
-    	shooter.shootBottom(speed);
+    	shooter.shootTop(shooter.SHOOTER_POWER);
+    	shooter.shootBottom(shooter.SHOOTER_POWER);
     }
 
     // Make this return true when this Command no longer needs to run execute()

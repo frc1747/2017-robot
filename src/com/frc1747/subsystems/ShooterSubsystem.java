@@ -21,6 +21,8 @@ public class ShooterSubsystem extends HBRSubsystem {
 	private final double ENCODER_COUNTS_PER_REVOLUTION = 4;
 	private final double ENCODER_REFRESH_TIME = .1; //in seconds, motor speed is recorded over intervals of this
 	
+	public final double SHOOTER_POWER = 0; //TODO: put actual value
+	
     private ShooterSubsystem(){
     	topShooterMotor = new CANTalon(RobotMap.TOP_SHOOTER_MOTOR);
     	bottomShooterMotor = new CANTalon(RobotMap.BOTTOM_SHOOTER_MOTOR);

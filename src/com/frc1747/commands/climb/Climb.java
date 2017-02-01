@@ -22,7 +22,7 @@ public class Climb extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
-    	climber.setMotorPower(0.5);
+    	climber.setMotorPower(climber.CLIMBER_POWER);
     	// Comment
     
     }
@@ -35,7 +35,7 @@ public class Climb extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	
-    	climber.setMotorPower(climber.CLIMBER_POWER);
+    	climber.setMotorPower(0.0);
     	
     }
 
