@@ -10,7 +10,7 @@ import lib.frc1747.controller.Logitech;
 /**
  *
  */
-public class Drive extends Command {
+public class TeleopDrive extends Command {
 
 	DriveSubsystem drivetrain;
 	OI oi;
@@ -18,7 +18,7 @@ public class Drive extends Command {
 	double leftVert;
 	double rightHoriz;
 	
-    public Drive() {
+    public TeleopDrive() {
     	drivetrain = DriveSubsystem.getInstance();
     	oi = OI.getInstance();
     	requires(drivetrain);
@@ -39,7 +39,7 @@ public class Drive extends Command {
     	if(oi.getDriver().getButton(Logitech.LT).get()){
     		drivetrain.setSetpoint(leftVert + rightHoriz, leftVert - rightHoriz);
     	} else {
-    		drivetrain.setPower(leftVert + rightHoriz, leftVert - rightHoriz);
+    		drivetrain.driveArcadeMode(leftVert, rightHoriz);
     	}
     	
     	if(drivetrain.shouldShiftUp()){

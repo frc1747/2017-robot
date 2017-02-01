@@ -10,7 +10,7 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.OI;
 import com.frc1747.RobotMap;
-import com.frc1747.commands.drive.Drive;
+import com.frc1747.commands.drive.TeleopDrive;
 import com.kauailabs.navx.frc.AHRS;
 
 import lib.frc1747.controller.Logitech;
@@ -137,6 +137,7 @@ public class DriveSubsystem extends HBRSubsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
+    	setDefaultCommand(new TeleopDrive());
     	
     }
 
@@ -150,6 +151,16 @@ public class DriveSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Left Velocity (ft/s)", getLeftFeetPerSecond());
 	}
 	
+	public void setPower(double rightPower, double leftPower){
+		rightSide.setPower(rightPower);
+		leftSide.setPower(leftPower);
+	}
+	
+	public void driveArcadeMode(double leftVert, double rightHoriz){
+		rightSide.setPower(leftVert - rightHoriz);
+		leftSide.setPower(leftVert + rightHoriz);
+	}
+	
 	public void enablePID(){
 		rightSide.enablePID();
 		leftSide.enablePID();
@@ -160,33 +171,13 @@ public class DriveSubsystem extends HBRSubsystem {
 		leftSide.disablePID();
 	}
 	
-	public void setPower(double rightPower, double leftPower){
-		rightSide.setPower(rightPower);
-		leftSide.setPower(leftPower);
-	}
-	
 	public void setSetpoint(double rightSpeed, double leftSpeed){
 		rightSide.setSetpoint(rightSpeed);
 		leftSide.setSetpoint(leftSpeed);
 	}
 	
 
-	
-	public boolean isHighGear(){
-		return solenoid.get() == HIGH_GEAR;
-	}
-	
-	public boolean isLowGear(){
-		return solenoid.get() == LOW_GEAR;
-	}
-	
-	public void shiftUp(){
-		solenoid.set(HIGH_GEAR);
-	}
-	
-	public void shiftDown(){
-		solenoid.set(LOW_GEAR);
-	}
+
 	
 	public double getVelocity(){
 		return (rightSide.getVelocity()+leftSide.getVelocity())/2;
@@ -226,6 +217,22 @@ public class DriveSubsystem extends HBRSubsystem {
 		}
 	}
 	
+	public void shiftUp(){
+		solenoid.set(HIGH_GEAR);
+	}
+	
+	public void shiftDown(){
+		solenoid.set(LOW_GEAR);
+	}
+	
+	public boolean isHighGear(){
+		return solenoid.get() == HIGH_GEAR;
+	}
+	
+	public boolean isLowGear(){
+		return solenoid.get() == LOW_GEAR;
+	}
+	
 	public void resetGyro(){
 		gyro.zeroYaw();
 	}
@@ -245,7 +252,7 @@ public class DriveSubsystem extends HBRSubsystem {
 	public double getLeftVelocity(){
 		return leftSide.getVelocity();
 	}
-	
+
 	
 }
 
