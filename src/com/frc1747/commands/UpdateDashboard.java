@@ -2,6 +2,7 @@ package com.frc1747.commands;
 
 import com.frc1747.OI;
 import com.frc1747.subsystems.DriveSubsystem;
+import com.frc1747.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -36,7 +37,8 @@ public class UpdateDashboard extends Command {
 	    	SmartDashboard.putBoolean("Up Left", OI.getInstance().getDriver().getDPADButton(Logitech.UP_LEFT));
 	    	SmartDashboard.putBoolean("Down Right", OI.getInstance().getDriver().getDPADButton(Logitech.DOWN_RIGHT));
 	    	SmartDashboard.putBoolean("Down Left", OI.getInstance().getDriver().getDPADButton(Logitech.DOWN_LEFT));
-	    	DriveSubsystem.getInstance().updateDashboard();
+	    	//DriveSubsystem.getInstance().updateDashboard();
+	    	ShooterSubsystem.getInstance().updateDashboard();
 	    	timer.reset();
     	}
     }

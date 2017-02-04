@@ -27,8 +27,7 @@ public class Shoot extends Command {
     protected void execute() {
     	
     	//TODO: NOTE: no specific speed rn
-    	shooter.shootTop(shooter.SHOOTER_POWER);
-    	shooter.shootBottom(shooter.SHOOTER_POWER);
+    	shooter.setSetpoint(shooter.SHOOTER_POWER, shooter.SHOOTER_POWER);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -38,9 +37,8 @@ public class Shoot extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	shooter.shootTop(0);
-    	shooter.shootBottom(0);
-    	//shooter.disablePID();
+    	shooter.setSetpoint(0, 0);
+    	shooter.disablePID();
     }
 
     // Called when another command which requires one or more of the same

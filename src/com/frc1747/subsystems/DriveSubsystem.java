@@ -2,18 +2,15 @@ package com.frc1747.subsystems;
 
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
-import com.frc1747.OI;
 import com.frc1747.RobotMap;
 import com.frc1747.commands.drive.TeleopDrive;
 import com.kauailabs.navx.frc.AHRS;
 
-import lib.frc1747.controller.Logitech;
 import lib.frc1747.subsystems.HBRSubsystem;
 
 /**
@@ -137,7 +134,7 @@ public class DriveSubsystem extends HBRSubsystem {
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
-    	setDefaultCommand(new TeleopDrive());
+//    	setDefaultCommand(new TeleopDrive());
     	
     }
 

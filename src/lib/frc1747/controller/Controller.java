@@ -8,11 +8,11 @@ public abstract class Controller {
 	Joystick stick;
 
 	JoystickButton xButton, aButton, bButton, yButton, 
-	leftBumper, rightBumper, leftTrigger, rightTrigger;
+	leftBumper, rightBumper, leftTrigger, rightTrigger, start, back;
 	
 	JoystickButton [] buttons = new JoystickButton [] { null, 
 			xButton, aButton, bButton, yButton, 
-			leftBumper, rightBumper, leftTrigger, rightTrigger
+			leftBumper, rightBumper, leftTrigger, rightTrigger, start, back
 	};
 	
 	public static final int LB = 5, RB = 6, LT = 7, RT = 8;
