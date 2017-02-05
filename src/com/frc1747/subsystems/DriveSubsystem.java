@@ -20,8 +20,8 @@ public class DriveSubsystem extends HBRSubsystem {
 	private final int SHIFT_VELOCITY_HIGH = 0;
 	private final int SHIFT_VELOCITY_LOW = 0;// same here
 	
-	private final boolean HIGH_GEAR = true;
-	private final boolean LOW_GEAR = false;
+	public final boolean HIGH_GEAR = true;
+	public final boolean LOW_GEAR = false;
 
 	private final double TURNING_THRESHOLD_TO_SHIFT = 0;
 	private final double WHEEL_DIAMETER = 4/12; //in feet
@@ -40,8 +40,8 @@ public class DriveSubsystem extends HBRSubsystem {
 	private DriveSubsystem() {
 
 		// TODO: Determine which side is inverted
-		left = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, false);
-		right = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, false);
+		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, false);
+		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, true);
 		left.setPIDF(LEFT_KP, LEFT_KI, LEFT_KD, LEFT_KF);
 		right.setPIDF(RIGHT_KP, RIGHT_KI, RIGHT_KD, RIGHT_KF);
 		shifter = new Solenoid(RobotMap.SHIFT_SOLENOID);
@@ -65,9 +65,9 @@ public class DriveSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Left Velocity (ft/s)", getLeftFeetPerSecond());
 	}
 	
-	public void setPower(double rightPower, double leftPower) {
-		right.setPower(rightPower);
+	public void setPower(double leftPower, double rightPower) {
 		left.setPower(leftPower);
+		right.setPower(rightPower);
 	}
 	
 	public void driveArcadeMode(double leftVert, double rightHoriz) {
@@ -129,12 +129,8 @@ public class DriveSubsystem extends HBRSubsystem {
 		}
 	}
 	
-	public void shiftUp(){
-		shifter.set(HIGH_GEAR);
-	}
-	
-	public void shiftDown(){
-		shifter.set(LOW_GEAR);
+	public void setTransmission(boolean gear){
+		shifter.set(gear);
 	}
 	
 	public boolean isHighGear(){

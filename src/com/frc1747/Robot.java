@@ -63,6 +63,7 @@ public class Robot extends IterativeRobot {
 		ConveyorSubsystem.getInstance();
 		DriveSubsystem.getInstance();
 		ShooterSubsystem.getInstance();
+		OI.getInstance();
 	}
 }
 

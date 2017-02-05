@@ -17,7 +17,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 	private final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI; 
 	private final int ENCODER_COUNTS_PER_REVOLUTION = 6; // 6 cycles per 1 rev of shooter roller
 
-	CANTalon topShooterMotor, bottomShooterMotor;
+	CANTalon backShooterMotor, frontShooterMotor;
 	double topP, topI, topD, topF;
 	double bottomP, bottomI, bottomD, bottomF;
 	private static ShooterSubsystem instance;
@@ -25,45 +25,43 @@ public class ShooterSubsystem extends HBRSubsystem {
 	public final double SHOOTER_POWER = 0; //TODO: put actual value
 	
     private ShooterSubsystem(){
-    	bottomShooterMotor = new CANTalon(RobotMap.BOTTOM_SHOOTER_MOTOR);
-    	topShooterMotor = new CANTalon(RobotMap.TOP_SHOOTER_MOTOR);
-		
-		topShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		//TODO: topShooterMotor.reverseSensor();
-		topShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
-		//TODO: possibly +12.0f, -0.0f
-		topShooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
-		topShooterMotor.configEncoderCodesPerRev(ENCODER_COUNTS_PER_REVOLUTION);
-		topShooterMotor.setProfile(0);
-		
-		bottomShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		//TODO: bottomShooterMotor.reverseSensor();
-		bottomShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
-		//TODO: possibly +12.0f, -0.0f
-		bottomShooterMotor.configPeakOutputVoltage(+12.0f, -0.0f);
-		bottomShooterMotor.configEncoderCodesPerRev(ENCODER_COUNTS_PER_REVOLUTION);
-		bottomShooterMotor.setProfile(0);
+    	backShooterMotor = new CANTalon(RobotMap.TOP_SHOOTER_MOTOR);
+    	//bottomShooterMotor = new CANTalon(RobotMap.BOTTOM_SHOOTER_MOTOR);
+    	frontShooterMotor = new CANTalon(RobotMap.CLIMBER_MOTOR2);
     	
-		topD = 30;
-		topF = 4.4;
-		topP = 30;
+		backShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		backShooterMotor.reverseSensor(true);
+		backShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
+		backShooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
+		backShooterMotor.configEncoderCodesPerRev(ENCODER_COUNTS_PER_REVOLUTION);
+		backShooterMotor.setProfile(0);
+		
+		frontShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		frontShooterMotor.reverseSensor(true);
+		frontShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
+		frontShooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
+		frontShooterMotor.configEncoderCodesPerRev(ENCODER_COUNTS_PER_REVOLUTION);
+		frontShooterMotor.setProfile(0);
+
+		topP = 20;
     	topI = 0;
-    	
-    	topShooterMotor.setP(topP);
-    	topShooterMotor.setI(topI);
-    	topShooterMotor.setD(topD);
-    	topShooterMotor.setF(topF);
-    	
-    	
-    	bottomD = 20;
-    	bottomF = 3.5;
-    	bottomP = 18;
+		topD = 30;
+		topF = 3.8;
+		
+    	backShooterMotor.setP(topP);
+    	backShooterMotor.setI(topI);
+    	backShooterMotor.setD(topD);
+    	backShooterMotor.setF(topF);
+
+    	bottomP = 20;
     	bottomI = 0;
+    	bottomD = 35;
+    	bottomF = 4;
     	
-    	bottomShooterMotor.setP(bottomP);
-    	bottomShooterMotor.setI(bottomI);
-    	bottomShooterMotor.setD(bottomD);
-    	bottomShooterMotor.setF(bottomF);
+    	frontShooterMotor.setP(bottomP);
+    	frontShooterMotor.setI(bottomI);
+    	frontShooterMotor.setD(bottomD);
+    	frontShooterMotor.setF(bottomF);
     }
     
     public static ShooterSubsystem getInstance(){
@@ -74,79 +72,74 @@ public class ShooterSubsystem extends HBRSubsystem {
 	}
     
     public void enablePID(){
-    	topShooterMotor.changeControlMode(TalonControlMode.Speed);
-    	bottomShooterMotor.changeControlMode(TalonControlMode.Speed);
+    	backShooterMotor.changeControlMode(TalonControlMode.Speed);
+    	frontShooterMotor.changeControlMode(TalonControlMode.Speed);
     }
     
     public void disablePID(){
-    	topShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
-    	bottomShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
+    	backShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
+    	frontShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
     }
     
-    public void setSetpoint(double topSpeed, double bottomSpeed){
+    public void setSetpoint(double backSpeed, double frontSpeed){
     	
-    	topSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
-    	bottomSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
+    	backSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
+    	frontSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
     	
-    	topShooterMotor.set(topSpeed);
-    	bottomShooterMotor.set(bottomSpeed);
+    	backShooterMotor.set(backSpeed);
+    	frontShooterMotor.set(frontSpeed);
     }
     
-    public void setTopPower(double power){
-    	topShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
-    	topShooterMotor.set(power);
+    public void setBackPower(double power){
+    	backShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
+    	backShooterMotor.set(power);
     }
     
-    public void setBottomPower(double power){
-    	bottomShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
-    	bottomShooterMotor.set(power);
+    public void setFrontPower(double power){
+    	frontShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
+    	frontShooterMotor.set(power);
     }
     
-    public double getTopRPS(){
-    	return topShooterMotor.getSpeed() / (ENCODER_COUNTS_PER_REVOLUTION / READ_TIME);
+    public double getBackRPS(){
+    	return backShooterMotor.getSpeed() / (ENCODER_COUNTS_PER_REVOLUTION / READ_TIME);
     }
     
-    public double getBottomRPS() {
-    	return bottomShooterMotor.getSpeed() / (ENCODER_COUNTS_PER_REVOLUTION / READ_TIME);
+    public double getFrontRPS() {
+    	return frontShooterMotor.getSpeed() / (ENCODER_COUNTS_PER_REVOLUTION / READ_TIME);
     }
     
-    public double getTopPosition() {
-    	return topShooterMotor.getPosition();
+    public double getBackPosition() {
+    	return backShooterMotor.getPosition();
     }
     
-    public double getBottomPosition() {
-    	return bottomShooterMotor.getPosition();
+    public double getFrontPosition() {
+    	return frontShooterMotor.getPosition();
     }
 
-	public double getTopFeetPerSecond(){
-		return (getTopRPS() * SHOOTER_CIRCUMFERENCE);
+	public double getBackFeetPerSecond(){
+		return (getBackRPS() * SHOOTER_CIRCUMFERENCE);
 	}
 	
-	public double getBottomFeetPerSecond(){
-		return (getBottomRPS() * SHOOTER_CIRCUMFERENCE);
+	public double getFrontFeetPerSecond(){
+		return (getFrontRPS() * SHOOTER_CIRCUMFERENCE);
 	} 
     
-	// Put methods for controlling this subsystem
-    // here. Call these from Commands.
-
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
     }
     
     double avg_speed = 0;
 
 	@Override
 	public void updateDashboard() {
-		SmartDashboard.putNumber("Top Encoder Speed", getTopRPS());
-		SmartDashboard.putNumber("Top Shooter Speed (ft/s)", getTopFeetPerSecond());
-		SmartDashboard.putNumber("Top Shooter Position", getTopPosition());
-		avg_speed = avg_speed * .9 + getBottomRPS() * .1;
-		SmartDashboard.putNumber("Bottom Encoder Filter Speed", avg_speed);
-		SmartDashboard.putNumber("Bottom Encoder Speed", getBottomRPS());
+		SmartDashboard.putNumber("Back Shooter Speed", getBackRPS());
+		SmartDashboard.putNumber("Back Shooter Surface Speed", getBackFeetPerSecond());
+		SmartDashboard.putNumber("Back Shooter Position", getBackPosition());
 		
-		SmartDashboard.putNumber("Bottom Shooter Speed (ft/s)", avg_speed);
-		SmartDashboard.putNumber("Bottom Encoder Position", getBottomPosition());
+		avg_speed = avg_speed * .9 + getFrontRPS() * .1;
+		SmartDashboard.putNumber("Front Shooter Filter Speed", avg_speed);
+		SmartDashboard.putNumber("Front Shooter Speed", getFrontRPS());
+		SmartDashboard.putNumber("Front Shooter Surface Speed", avg_speed);
+		SmartDashboard.putNumber("Front Shooter Position", getFrontPosition());
 //		SmartDashboard.putNumber("Bottom Shooter Speed (ft/s)", getBottomFeetPerSecond());
 	}
 }

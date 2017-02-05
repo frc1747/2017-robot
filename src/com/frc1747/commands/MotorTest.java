@@ -10,13 +10,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class MotorTest extends Command {
 
-	private ShooterSubsystem shooterSubsystem;
+	private ShooterSubsystem shooter;
 	
     public MotorTest() {
     	
-    	shooterSubsystem = ShooterSubsystem.getInstance();
-    	requires(shooterSubsystem);
-    	SmartDashboard.putNumber("Setpoint", 75);
+    	shooter = ShooterSubsystem.getInstance();
+    	requires(shooter);
+    	SmartDashboard.putNumber("SetpointFront", 65);
+    	SmartDashboard.putNumber("setpointBack", 65);
     	
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -24,12 +25,14 @@ public class MotorTest extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	shooterSubsystem.enablePID();
+    	shooter.enablePID();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	shooterSubsystem.setSetpoint(0, SmartDashboard.getNumber("Setpoint", 75));// SmartDashboard.getNumber("Setpoint", 75));
+    	shooter.setSetpoint(SmartDashboard.getNumber("setpointBack", 65), -SmartDashboard.getNumber("SetpointFront", 65));
+
+    	//shooterSubsystem.setSetpoint(0, -SmartDashboard.getNumber("Setpoint", 75));
     	//shooterSubsystem.setTopPower(-0.85);
     	//shooterSubsystem.setBottomPower(-0.85);
     	
@@ -42,8 +45,9 @@ public class MotorTest extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	shooterSubsystem.disablePID();
-    	shooterSubsystem.setTopPower(0.0);
+    	shooter.disablePID();
+    	shooter.setBackPower(0.0);
+    	shooter.setFrontPower(0.0);
     }
 
     // Called when another command which requires one or more of the same

@@ -23,8 +23,6 @@ public class TakeIn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	//TODO: PUT A REAL VALUE FOR POWER
     	intake.setPower(intake.COLLECTOR_POWER);
     }
 
@@ -41,5 +39,6 @@ public class TakeIn extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

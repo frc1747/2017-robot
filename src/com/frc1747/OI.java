@@ -1,9 +1,16 @@
 package com.frc1747;
 
 import com.frc1747.commands.Increment;
+import com.frc1747.commands.MotorTest;
+import com.frc1747.commands.collector.Extend;
+import com.frc1747.commands.collector.Retract;
+import com.frc1747.commands.collector.TakeIn;
+import com.frc1747.commands.collector.TakeOut;
+import com.frc1747.commands.conveyer.ConveyIn;
 import com.frc1747.commands.drive.ResetGyro;
+import com.frc1747.commands.drive.ShiftDown;
+import com.frc1747.commands.drive.ShiftUp;
 
-import lib.frc1747.controller.Controller;
 import lib.frc1747.controller.Logitech;
 import lib.frc1747.controller.POVButton;
 import lib.frc1747.controller.Xbox;
@@ -16,6 +23,7 @@ public class OI {
 	private POVButton dPad;
 		
 	private OI(){
+		System.out.println("OI Create");
 		driver = new Logitech(RobotMap.DRIVER);
 		operator = new Xbox(RobotMap.OPERATOR);
 		
@@ -23,8 +31,14 @@ public class OI {
 		dPad.whenPressed(new Increment());
 
 		driver.getButton(Logitech.A).whileHeld(new ResetGyro());
-		
-
+		//driver.getButton(Logitech.X).whileHeld(new MotorTest());
+		//driver.getButton(Logitech.B).whileHeld(new ConveyIn());
+		driver.getButton(Logitech.B).whenPressed(new Extend());
+		driver.getButton(Logitech.Y).whenPressed(new Retract());
+		driver.getButton(Logitech.LB).whileHeld(new TakeIn());
+		driver.getButton(Logitech.RB).whileHeld(new TakeOut());
+		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
+		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
 	}
 	
 	public static OI getInstance(){

@@ -21,11 +21,10 @@ public class DriveWithJoysticks extends Command {
 	
     public DriveWithJoysticks() {
     	requires(drive = DriveSubsystem.getInstance());
-    	oi = OI.getInstance();
     }
 
     protected void initialize() {
-    	drive.enablePID();
+    	//drive.enablePID();
     }
     
     protected void execute() {
@@ -33,17 +32,17 @@ public class DriveWithJoysticks extends Command {
     	rightHoriz = OI.getInstance().getDriver().getAxis(Logitech.RIGHT_HORIZONTAL);
     	leftVert = OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL);
     	
-    	if(oi.getDriver().getButton(Logitech.LT).get()){
-    		drive.setSetpoint(leftVert + rightHoriz, leftVert - rightHoriz);
-    	} else {
+    	//if(oi.getDriver().getButton(Logitech.LT).get()){
+    		//drive.setSetpoint(leftVert + rightHoriz, leftVert - rightHoriz);
+    	//} else {
     		drive.driveArcadeMode(leftVert, rightHoriz);
-    	}
+    	//}
     	
-    	if(drive.shouldShiftUp()){
-    		drive.shiftUp();
-    	} else{
-    		drive.shiftDown();
-    	}
+    	//if(drive.shouldShiftUp()){
+    		//drive.setTransmission(drive.HIGH_GEAR);
+    	//} else{
+    		//drive.setTransmission(drive.LOW_GEAR);
+    	//}
     }
 
     protected boolean isFinished() {
@@ -51,11 +50,12 @@ public class DriveWithJoysticks extends Command {
     }
     
     protected void end() {
-    	drive.setSetpoint(0, 0);
-    	drive.disablePID();
+    	drive.setPower(0.0, 0.0);
+    	//drive.setSetpoint(0, 0);
+    	//drive.disablePID();
     }
 
     protected void interrupted() {
-    	drive.disablePID();
+    	//end();
     }
 }

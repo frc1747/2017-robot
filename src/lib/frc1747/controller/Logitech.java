@@ -16,7 +16,7 @@ public class Logitech extends Controller{
 		buttons[Y] = new JoystickButton(stick, Y);
 		buttons[LT] = new JoystickButton(stick, LT);
 		buttons[RT] = new JoystickButton(stick, RT);
-//		buttons[START] = new JoystickButton(stick, START);
-//		buttons[BACK] = new JoystickButton(stick, BACK);
+		buttons[START] = new JoystickButton(stick, START);
+		buttons[BACK] = new JoystickButton(stick, BACK);
 	}
 }
