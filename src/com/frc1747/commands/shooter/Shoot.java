@@ -1,6 +1,5 @@
 package com.frc1747.commands.shooter;
 
-import com.frc1747.Robot;
 import com.frc1747.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
