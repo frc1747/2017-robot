@@ -31,7 +31,7 @@ public class OI {
 		dPad.whenPressed(new Increment());
 
 		driver.getButton(Logitech.A).whileHeld(new ResetGyro());
-		//driver.getButton(Logitech.X).whileHeld(new MotorTest());
+		//driver.getButton(Logitech.X).whileHeld(new Shoot());
 		//driver.getButton(Logitech.B).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.B).whenPressed(new Extend());
 		driver.getButton(Logitech.Y).whenPressed(new Retract());

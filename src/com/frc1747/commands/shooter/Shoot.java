@@ -4,6 +4,7 @@ import com.frc1747.Robot;
 import com.frc1747.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -11,11 +12,12 @@ import edu.wpi.first.wpilibj.command.Command;
 public class Shoot extends Command {
 
 	private ShooterSubsystem shooter;
-	double speed;
 	
     public Shoot() {
-        shooter = ShooterSubsystem.getInstance();
-        requires(shooter);
+    	shooter = ShooterSubsystem.getInstance();
+    	requires(shooter);
+    	SmartDashboard.putNumber("Front Shooter Setpoint", 65);
+    	SmartDashboard.putNumber("Back Shooter Setpoint", 65);
     }
 
     // Called just before this Command runs the first time
@@ -25,9 +27,8 @@ public class Shoot extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
-    	//TODO: NOTE: no specific speed rn
-    	shooter.setSetpoint(shooter.SHOOTER_POWER, shooter.SHOOTER_POWER);
+    	shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 65),
+    			-SmartDashboard.getNumber("Fron Shooter Setpoint", 65));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -37,8 +38,9 @@ public class Shoot extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	shooter.setSetpoint(0, 0);
     	shooter.disablePID();
+    	shooter.setBackPower(0.0);
+    	shooter.setFrontPower(0.0);
     }
 
     // Called when another command which requires one or more of the same
