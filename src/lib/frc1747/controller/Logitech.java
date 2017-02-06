@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 public class Logitech extends Controller{
 	
-	public static final int X = 1, A = 2, B = 3, Y = 4, BACK = 9, START = 10;
+	public static final int X = 1, A = 2, B = 3, Y = 4, LT = 7, RT = 8, BACK = 9, START = 10;
 
 	public Logitech(int port){
 		super(port);

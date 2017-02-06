@@ -15,7 +15,7 @@ public abstract class Controller {
 			leftBumper, rightBumper, leftTrigger, rightTrigger, start, back
 	};
 	
-	public static final int LB = 5, RB = 6, LT = 7, RT = 8;
+	public static final int LB = 5, RB = 6;
 	
 	public static final int UP = 0, RIGHT = 90, DOWN = 180, LEFT = 270;
 	public static final int UP_RIGHT = 45, DOWN_RIGHT = 135, DOWN_LEFT = 225, UP_LEFT = 315;
