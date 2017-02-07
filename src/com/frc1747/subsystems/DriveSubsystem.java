@@ -40,8 +40,8 @@ public class DriveSubsystem extends HBRSubsystem {
 	private DriveSubsystem() {
 
 		// TODO: Determine which side is inverted
-		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, false);
-		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, true);
+		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, RobotMap.LEFT_DRIVE_INVERTED);
+		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, RobotMap.RIGHT_DRIVE_INVERTED);
 		left.setPIDF(LEFT_KP, LEFT_KI, LEFT_KD, LEFT_KF);
 		right.setPIDF(RIGHT_KP, RIGHT_KI, RIGHT_KD, RIGHT_KF);
 		shifter = new Solenoid(RobotMap.SHIFT_SOLENOID);

@@ -27,6 +27,7 @@ public class CollectorSubsystem extends HBRSubsystem {
 	
 	private CollectorSubsystem(){
 		motor = new CANTalon(RobotMap.INTAKE_MOTOR);
+		motor.setInverted(RobotMap.INTAKE_INVERTED);
 		intakeSolenoid = new Solenoid(RobotMap.INTAKE_SOLENOID);
 		System.out.println("collectorsubsystem contructor");
 	}
