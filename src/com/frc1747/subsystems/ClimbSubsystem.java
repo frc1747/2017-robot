@@ -16,6 +16,8 @@ public class ClimbSubsystem extends Subsystem {
 	private ClimbSubsystem() {
 		motor1 = new CANTalon(RobotMap.CLIMBER_MOTOR1);
 		motor2 = new CANTalon(RobotMap.CLIMBER_MOTOR2);
+		motor1.setInverted(RobotMap.CLIMBER_INVERTED1);
+		motor2.setInverted(RobotMap.CLIMBER_INVERTED2);
 	}
 	
 	public static ClimbSubsystem getInstance(){
