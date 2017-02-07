@@ -35,22 +35,18 @@ public class CollectorSubsystem extends HBRSubsystem {
 		if (instance == null){
 			instance = new CollectorSubsystem();
 		}
-		
 		return instance;
 	}
 	
 	public void setPower(double power){
-		// TODO possibly the wrong direction
 		motor.set(power);
 	}
 	
 	public void IntakeUp(){
-		// TODO possibly the wrong direction
 		intakeSolenoid.set(true);
 	}
 	
 	public void IntakeDown(){
-		// TODO possibly the wrong direction
 		intakeSolenoid.set(false);
 	}
 	
@@ -67,13 +63,10 @@ public class CollectorSubsystem extends HBRSubsystem {
 	}
 
     public void initDefaultCommand() {
-    	//setDefaultCommand(new TakeIn());
     }
 
 	@Override
 	public void updateDashboard() {
-		// TODO Auto-generated method stub
-		
 	}
 }
 

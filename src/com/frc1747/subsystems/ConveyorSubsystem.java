@@ -18,8 +18,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
 	private final int READ_TIME = 10;
 	
 	private ConveyorSubsystem() {
-		//motor1 = new CANTalon(RobotMap.CONVEYOR_MOTOR);
-		motor1 = new CANTalon(RobotMap.CLIMBER_MOTOR1);
+		motor1 = new CANTalon(RobotMap.CONVEYOR_MOTOR);
     	motor1.setInverted(true);
 		motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		motor1.reverseSensor(false);
@@ -59,13 +58,10 @@ public class ConveyorSubsystem extends HBRSubsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		//setDefaultCommand(new ConveyIn());
 	}
 
 	@Override
 	public void updateDashboard() {
-		// TODO Auto-generated method stub
 		SmartDashboard.putNumber("Conveyer Speed", getSpeed());
 	}
 }

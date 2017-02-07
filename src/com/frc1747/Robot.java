@@ -6,6 +6,7 @@ import com.frc1747.subsystems.ClimbSubsystem;
 import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
 import com.frc1747.subsystems.DriveSubsystem;
+import com.frc1747.subsystems.HopperSubsystem;
 import com.frc1747.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -18,23 +19,19 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotInit() {
 		(new UpdateDashboard()).start();
-
 		initSubsystems();
 	}
 
 	@Override
 	public void teleopInit() {
-	
 	}
 
 	@Override
 	public void autonomousInit() {
-	
 	}
 	
 	@Override
 	public void disabledInit() {
-	
 	}
 
 	@Override
@@ -63,6 +60,7 @@ public class Robot extends IterativeRobot {
 		ConveyorSubsystem.getInstance();
 		DriveSubsystem.getInstance();
 		ShooterSubsystem.getInstance();
+		HopperSubsystem.getInstance();
 		OI.getInstance();
 	}
 }

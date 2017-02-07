@@ -25,9 +25,8 @@ public class ShooterSubsystem extends HBRSubsystem {
 	public final double SHOOTER_POWER = 0; //TODO: put actual value
 	
     private ShooterSubsystem(){
-    	backShooterMotor = new CANTalon(RobotMap.TOP_SHOOTER_MOTOR);
-    	//bottomShooterMotor = new CANTalon(RobotMap.BOTTOM_SHOOTER_MOTOR);
-    	frontShooterMotor = new CANTalon(RobotMap.CLIMBER_MOTOR2);
+    	backShooterMotor = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR);
+    	frontShooterMotor = new CANTalon(RobotMap.FRONT_SHOOTER_MOTOR);
     	
 		backShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		backShooterMotor.reverseSensor(true);

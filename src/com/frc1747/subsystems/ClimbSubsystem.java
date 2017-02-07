@@ -14,10 +14,8 @@ public class ClimbSubsystem extends Subsystem {
 	public final double CLIMBER_POWER = 0; //TODO: use actual power
 	
 	private ClimbSubsystem() {
-		
 		motor1 = new CANTalon(RobotMap.CLIMBER_MOTOR1);
 		motor2 = new CANTalon(RobotMap.CLIMBER_MOTOR2);
-		
 	}
 	
 	public static ClimbSubsystem getInstance(){
@@ -28,16 +26,12 @@ public class ClimbSubsystem extends Subsystem {
 	}
 	
 	public void setMotorPower(double power) {
-		
 		motor1.set(power);
 		motor2.set(power);
-		
 	}
 	
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

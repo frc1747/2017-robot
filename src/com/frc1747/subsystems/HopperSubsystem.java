@@ -8,12 +8,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class HopperSubsystem extends Subsystem {
 
 	private Solenoid sol1;
-	public boolean OUT = true, IN = false;
+	public final boolean OUT = true, IN = false;
+	
+	private static HopperSubsystem instance;
 	
 	public HopperSubsystem() {
-		
 		sol1 = new Solenoid(RobotMap.HOPPER_SOLENOID);
-		
+	}
+	
+	public static HopperSubsystem getInstance() {
+		return instance == null ? instance = new HopperSubsystem() : instance;
 	}
 	
 	public void setPosition(boolean position) {
@@ -22,8 +26,6 @@ public class HopperSubsystem extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

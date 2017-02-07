@@ -17,8 +17,8 @@ public class RobotMap {
 	
 	public static final int INTAKE_MOTOR = 31;
 	
-	public static final int TOP_SHOOTER_MOTOR = 51;
-	public static final int BOTTOM_SHOOTER_MOTOR = 61;
+	public static final int FRONT_SHOOTER_MOTOR = 51;
+	public static final int BACK_SHOOTER_MOTOR = 61;
 	
 	public static final int SHIFT_SOLENOID = 0;
 	public static final int INTAKE_SOLENOID = 1;
@@ -26,6 +26,5 @@ public class RobotMap {
 	public static final int SHOOTER_SOLENOID1 = 4;
 	public static final int SHOOTER_SOLENOID2 = 5;
 	public static final int SHOOTER_SOLENOID3 = 6;
-	
 	
 }
