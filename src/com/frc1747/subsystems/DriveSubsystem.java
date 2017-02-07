@@ -15,10 +15,10 @@ public class DriveSubsystem extends HBRSubsystem {
 
 	// CONSTANTS
 	private final int MULTIPLIER = 100;
-	private final int SHIFT_ACCELERATION_HIGH = 0;
-	private final int SHIFT_ACCELERATION_LOW = 0;// some number goes here.	maybe a double?? idek...
-	private final int SHIFT_VELOCITY_HIGH = 0;
-	private final int SHIFT_VELOCITY_LOW = 0;// same here
+	private final int SHIFT_ACCELERATION_HIGH = 1;
+	private final int SHIFT_ACCELERATION_LOW = 1;// some number goes here.	maybe a double?? idek...
+	private final int SHIFT_VELOCITY_HIGH = 1;
+	private final int SHIFT_VELOCITY_LOW = 1;// same here
 	
 	public final boolean HIGH_GEAR = true;
 	public final boolean LOW_GEAR = false;
@@ -101,7 +101,7 @@ public class DriveSubsystem extends HBRSubsystem {
 	
 	public double getLateralAcceleration(){
 		//TODO: Replace axis name when possible
-		return gyro.getRawAccelY();
+		return gyro.getRawAccelZ();
 	}
 	
 	public double getTurning(){

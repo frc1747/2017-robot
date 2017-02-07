@@ -38,11 +38,11 @@ public class DriveWithJoysticks extends Command {
     		drive.driveArcadeMode(leftVert, rightHoriz);
     	//}
     	
-    	//if(drive.shouldShiftUp()){
+    	if(drive.shouldShiftUp()){
     		//drive.setTransmission(drive.HIGH_GEAR);
-    	//} else{
+    	} else{
     		//drive.setTransmission(drive.LOW_GEAR);
-    	//}
+    	}
     }
 
     protected boolean isFinished() {
