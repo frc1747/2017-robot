@@ -22,8 +22,11 @@ This robot contains five different main subsystems. The subsystems are as follow
   - 2 Motors
   - 2 Encoders on the Motors (12 cnts / rev)
 - Climber
-  - 2 MiniSIMs
+  - 2 MiniCIMs
   - Use current to measure when latched on. (Look for current spike).
+- Hopper
+  - Holds the balls
+  - 2 Pneumatics (In and Out)
   
 ## Project Structure
 
