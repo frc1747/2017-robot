@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OutTake extends Command {
+public class TakeOut extends Command {
 	
 	private CollectorSubsystem intake;
 
-    public OutTake() {
+    public TakeOut() {
     	intake = CollectorSubsystem.getInstance();
     	requires(intake);
     }
