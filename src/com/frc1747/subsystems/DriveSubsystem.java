@@ -22,7 +22,7 @@ public class DriveSubsystem extends HBRSubsystem {
 	
 	public final boolean HIGH_GEAR = true;
 	public final boolean LOW_GEAR = false;
-
+	
 	private final double TURNING_THRESHOLD_TO_SHIFT = 0;
 	private final double WHEEL_DIAMETER = 4/12; //in feet
 	private final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI; 
@@ -32,7 +32,6 @@ public class DriveSubsystem extends HBRSubsystem {
 	private final double RIGHT_KP = 0, RIGHT_KI = 0, RIGHT_KD = 0, RIGHT_KF = 0;
 	
 	private DriveSide left, right;
-	private Solenoid shifter;
 	private AHRS gyro;
 	
 	private static DriveSubsystem instance;
@@ -44,7 +43,6 @@ public class DriveSubsystem extends HBRSubsystem {
 		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, RobotMap.RIGHT_DRIVE_INVERTED);
 		left.setPIDF(LEFT_KP, LEFT_KI, LEFT_KD, LEFT_KF);
 		right.setPIDF(RIGHT_KP, RIGHT_KI, RIGHT_KD, RIGHT_KF);
-		shifter = new Solenoid(RobotMap.SHIFT_SOLENOID);
 		gyro = new AHRS(SPI.Port.kMXP);
 	}
 	
@@ -129,18 +127,6 @@ public class DriveSubsystem extends HBRSubsystem {
 		}
 	}
 	
-	public void setTransmission(boolean gear){
-		shifter.set(gear);
-	}
-	
-	public boolean isHighGear(){
-		return shifter.get() == HIGH_GEAR;
-	}
-	
-	public boolean isLowGear(){
-		return shifter.get() == LOW_GEAR;
-	}
-	
 	public void resetGyro(){
 		gyro.zeroYaw();
 		gyro.reset();
@@ -223,19 +209,6 @@ public class DriveSubsystem extends HBRSubsystem {
 			return motor1.getEncVelocity();
 		}
 		
-		public void togglePID() {
-			if(isHighGear()) {
-				motor1.setP(0.0);
-				motor1.setI(0.0);
-				motor1.setD(0.0);
-				motor1.setF(0.0);
-			} else {
-				motor1.setP(Kp);
-				motor1.setI(Ki);
-				motor1.setD(Kd);
-				motor1.setF(Kf);
-			}
-		}
 	}
 }
 

@@ -32,15 +32,6 @@ public class UpdateDashboard extends Command {
     protected void execute() {
     	
     	if(timer.get() > 0.1){
-    		/*SmartDashboard.putBoolean("Up", OI.getInstance().getDriver().getDPADButton(Logitech.UP));
-	    	SmartDashboard.putBoolean("Down", OI.getInstance().getDriver().getDPADButton(Logitech.DOWN));
-	    	SmartDashboard.putBoolean("Left", OI.getInstance().getDriver().getDPADButton(Logitech.LEFT));
-	    	SmartDashboard.putBoolean("Right", OI.getInstance().getDriver().getDPADButton(Logitech.RIGHT));
-	    	SmartDashboard.putBoolean("Up Right", OI.getInstance().getDriver().getDPADButton(Logitech.UP_RIGHT));
-	    	SmartDashboard.putBoolean("Up Left", OI.getInstance().getDriver().getDPADButton(Logitech.UP_LEFT));
-	    	SmartDashboard.putBoolean("Down Right", OI.getInstance().getDriver().getDPADButton(Logitech.DOWN_RIGHT));
-	    	SmartDashboard.putBoolean("Down Left", OI.getInstance().getDriver().getDPADButton(Logitech.DOWN_LEFT));
-	    	*/
 	    	DriveSubsystem.getInstance().updateDashboard();
 	    	ShooterSubsystem.getInstance().updateDashboard();
 	    	ConveyorSubsystem.getInstance().updateDashboard();

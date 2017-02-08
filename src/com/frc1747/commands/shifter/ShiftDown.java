@@ -1,19 +1,20 @@
-package com.frc1747.commands.drive;
+package com.frc1747.commands.shifter;
 
 import com.frc1747.subsystems.DriveSubsystem;
+import com.frc1747.subsystems.ShifterSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ShiftUp extends Command {
+public class ShiftDown extends Command {
 
-	private DriveSubsystem drive;
+	private ShifterSubsystem shifter;
 	
-    public ShiftUp() {
-    	drive = DriveSubsystem.getInstance();
-        requires(drive);
+    public ShiftDown() {
+    	shifter = ShifterSubsystem.getInstance();
+    	requires(shifter);
     }
 
     // Called just before this Command runs the first time
@@ -21,8 +22,8 @@ public class ShiftUp extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {    
-    	drive.setTransmission(drive.HIGH_GEAR);
+    protected void execute() {
+    	shifter.setTransmission(shifter.LOW_GEAR);
     }
 
     // Make this return true when this Command no longer needs to run execute()

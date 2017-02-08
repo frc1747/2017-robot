@@ -7,6 +7,7 @@ import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
 import com.frc1747.subsystems.DriveSubsystem;
 import com.frc1747.subsystems.HopperSubsystem;
+import com.frc1747.subsystems.ShifterSubsystem;
 import com.frc1747.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -62,6 +63,7 @@ public class Robot extends IterativeRobot {
 		ShooterSubsystem.getInstance();
 		HopperSubsystem.getInstance();
 		OI.getInstance();
+		ShifterSubsystem.getInstance();
 	}
 }
 

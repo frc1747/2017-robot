@@ -15,8 +15,8 @@ public class Shoot extends Command {
     public Shoot() {
     	shooter = ShooterSubsystem.getInstance();
     	requires(shooter);
-    	SmartDashboard.putNumber("Front Shooter Setpoint", 65);
-    	SmartDashboard.putNumber("Back Shooter Setpoint", 65);
+    	SmartDashboard.putNumber("Front Shooter Setpoint", 55);
+    	SmartDashboard.putNumber("Back Shooter Setpoint", 70);
     }
 
     protected void initialize() {
@@ -24,8 +24,8 @@ public class Shoot extends Command {
     }
 
     protected void execute() {
-    	shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 65),
-    			-SmartDashboard.getNumber("Fron Shooter Setpoint", 65));
+    	shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 70),
+    			-SmartDashboard.getNumber("Front Shooter Setpoint", 55));
     }
 
     protected boolean isFinished() {
@@ -39,5 +39,6 @@ public class Shoot extends Command {
     }
 
     protected void interrupted() {
+    	end();
     }
 }

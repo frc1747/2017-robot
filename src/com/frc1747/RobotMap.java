@@ -18,9 +18,9 @@ public class RobotMap {
 	public static final boolean CLIMBER_INVERTED2 = false;
 	
 	public static final int CONVEYOR_MOTOR1 = 41;
-	public static final boolean CONVEYOR_INVERTED1 = false;
+	public static final boolean CONVEYOR_INVERTED1 = true;
 	public static final int CONVEYOR_MOTOR2 = 42;
-	public static final boolean CONVEYOR_INVERTED2 = false;
+	public static final boolean CONVEYOR_INVERTED2 = true;
 	
 	public static final int INTAKE_MOTOR = 31;
 	public static final boolean INTAKE_INVERTED = false;
