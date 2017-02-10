@@ -10,6 +10,8 @@ public class ConveyIn extends Command{
 	
 	public ConveyIn() {
 		conveyor = ConveyorSubsystem.getInstance();
+		//conveyor.setPIDF(kP, kI, kD, kF);
+		//conveyor.enablePID();
 		requires(conveyor);
 	}
 	
