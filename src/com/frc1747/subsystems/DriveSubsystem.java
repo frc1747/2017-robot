@@ -15,15 +15,10 @@ public class DriveSubsystem extends HBRSubsystem {
 
 	// CONSTANTS
 	private final int MULTIPLIER = 100;
-	private final int SHIFT_ACCELERATION_HIGH = 1;
-	private final int SHIFT_ACCELERATION_LOW = 1;// some number goes here.	maybe a double?? idek...
-	private final int SHIFT_VELOCITY_HIGH = 1;
-	private final int SHIFT_VELOCITY_LOW = 1;// same here
 	
 	public final boolean HIGH_GEAR = true;
 	public final boolean LOW_GEAR = false;
-	
-	private final double TURNING_THRESHOLD_TO_SHIFT = 0;
+
 	private final double WHEEL_DIAMETER = 4/12; //in feet
 	private final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI; 
 	private final double ENCODER_COUNTS_PER_REVOLUTION = 4;
@@ -111,21 +106,7 @@ public class DriveSubsystem extends HBRSubsystem {
 	 * Determines if the robot should shift into high gear
 	 * @return True if robot should be in high gear, false if it should be in low gear
 	 */
-	public boolean shouldShiftUp(){
-		
-		double slope = -SHIFT_ACCELERATION_HIGH/SHIFT_VELOCITY_LOW;
-		
-		if(Math.abs(getTurning()) <= TURNING_THRESHOLD_TO_SHIFT) {
-			//TODO: Might need to be XAcceleration/YAcceleration/Combination of the two
-			if(getForwardAcceleration() >= slope*getVelocity() + SHIFT_ACCELERATION_HIGH) {
-				return HIGH_GEAR;
-			} else {
-				return LOW_GEAR;
-			}
-		} else {
-			return LOW_GEAR;
-		}
-	}
+
 	
 	public void resetGyro(){
 		gyro.zeroYaw();

@@ -1,5 +1,6 @@
 package com.frc1747;
 
+import com.frc1747.commands.AutoAllign;
 import com.frc1747.commands.Increment;
 import com.frc1747.commands.MotorTest;
 import com.frc1747.commands.collector.Extend;
@@ -32,14 +33,15 @@ public class OI {
 		dPad = new POVButton(driver, Logitech.UP);
 		dPad.whenPressed(new Increment());
 
-		driver.getButton(Logitech.LT).whileHeld(new ConveyIn());
-		driver.getButton(Logitech.RT).whileHeld(new ConveyOut());
-		driver.getButton(Logitech.X).whileHeld(new Shoot());
+		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
+		driver.getButton(Logitech.A).whileHeld(new ConveyOut());
+		driver.getButton(Logitech.RB).whileHeld(new Shoot());
+		driver.getButton(Logitech.RT).whileHeld(new AutoAllign());
 		//driver.getButton(Logitech.B).whileHeld(new ConveyIn());
-		driver.getButton(Logitech.B).whenPressed(new Extend());
-		driver.getButton(Logitech.Y).whenPressed(new Retract());
-		driver.getButton(Logitech.LB).whileHeld(new TakeIn());
-		driver.getButton(Logitech.RB).whileHeld(new TakeOut());
+		driver.getButton(Logitech.LT).whenPressed(new Extend());
+		driver.getButton(Logitech.LB).whenPressed(new Retract());
+		driver.getButton(Logitech.B).whileHeld(new TakeIn());
+		driver.getButton(Logitech.X).whileHeld(new TakeOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
 		

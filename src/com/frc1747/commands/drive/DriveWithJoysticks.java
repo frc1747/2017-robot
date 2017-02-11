@@ -2,6 +2,7 @@ package com.frc1747.commands.drive;
 
 import com.frc1747.OI;
 import com.frc1747.subsystems.DriveSubsystem;
+import com.frc1747.subsystems.ShifterSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 import lib.frc1747.controller.Logitech;
@@ -14,6 +15,7 @@ public class DriveWithJoysticks extends Command {
 
 	private DriveSubsystem drive;
 	private OI oi;
+	private ShifterSubsystem shifter;
 	
 	int multiplier;
 	double leftVert;
@@ -21,6 +23,7 @@ public class DriveWithJoysticks extends Command {
 	
     public DriveWithJoysticks() {
     	requires(drive = DriveSubsystem.getInstance());
+    	requires(shifter = ShifterSubsystem.getInstance());
     }
 
     protected void initialize() {
@@ -38,10 +41,10 @@ public class DriveWithJoysticks extends Command {
     		drive.driveArcadeMode(leftVert, rightHoriz);
     	//}
     	
-    	if(drive.shouldShiftUp()){
-    		//drive.setTransmission(drive.HIGH_GEAR);
+    	if(shifter.shouldShiftUp()){
+    		//shifter.setTransmission(shifter.HIGH_GEAR);
     	} else{
-    		//drive.setTransmission(drive.LOW_GEAR);
+    		//shifter.setTransmission(shifter.LOW_GEAR);
     	}
     }
 
