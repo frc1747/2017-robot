@@ -25,41 +25,42 @@ public class Shoot extends Command {
     	conveyor = ConveyorSubsystem.getInstance();
     	shooterGate = ShooterGateSubsystem.getInstance();
     	counter = 0;
-    	gateTime = 500;
+    	gateTime = 100;
     	requires(conveyor);
     	requires(shooter);
     	requires(shooterGate);
     	SmartDashboard.putNumber("Front Shooter Setpoint", 55);
     	SmartDashboard.putNumber("Back Shooter Setpoint", 70);
-    	SmartDashboard.putNumber("Shooter Gate Time", 200);
+    	SmartDashboard.putNumber("Shooter Gate Time", gateTime);
     }
 
     protected void initialize() {
     	shooter.enablePID();
     	startTime = System.currentTimeMillis();
+      	//shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 70),
+    			//-SmartDashboard.getNumber("Front Shooter Setpoint", 55));
     }
 
     protected void execute() {
-    	shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 70),
-    			-SmartDashboard.getNumber("Front Shooter Setpoint", 55));
-    	if (System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Shooter Gate Time", 200)) {
+  
+    	if (System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Shooter Gate Time", gateTime)) {
 	    		
     		shooterGate.setSolenoid1(ShooterGateSubsystem.GATE_CLOSE);
     		shooterGate.setSolenoid2(ShooterGateSubsystem.GATE_CLOSE);
     		shooterGate.setSolenoid3(ShooterGateSubsystem.GATE_CLOSE);
     		
 	    	if(shooter.isAtTarget()) {
-	    		if (counter % 2 == 0) {
+	    		if (counter % 3 == 0) {
 	    			shooterGate.setSolenoid1(ShooterGateSubsystem.GATE_OPEN);
 	    		}
 	    		else if (counter % 3 == 1) {
-	    		shooterGate.setSolenoid2(ShooterGateSubsystem.GATE_OPEN);
+	    			shooterGate.setSolenoid2(ShooterGateSubsystem.GATE_OPEN);
 	    		}
 	    		else {
-	    		shooterGate.setSolenoid3(ShooterGateSubsystem.GATE_OPEN);
+	    			shooterGate.setSolenoid3(ShooterGateSubsystem.GATE_OPEN);
 	    		}
 	    		
-	    		conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
+	    		//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
 	    		startTime = System.currentTimeMillis();
 	    		counter += 1;
 	    		
@@ -67,7 +68,7 @@ public class Shoot extends Command {
 	    	else {
 	    		conveyor.setMotorPower(0.0);
 	    	}
-	    	conveyor.setSetpoint(0.0);
+//	    	conveyor.setSetpoint(0.0);
     	}
     }
 
