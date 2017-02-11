@@ -27,8 +27,10 @@ public class RobotMap {
 	
 	public static final int FRONT_SHOOTER_MOTOR = 51;
 	public static final boolean FRONT_SHOOTER_INVERTED = false;
-	public static final int BACK_SHOOTER_MOTOR = 61;
-	public static final boolean BACK_SHOOTER_INVERTED = false;
+	public static final int BACK_SHOOTER_MOTOR1 = 61;
+	public static final boolean BACK_SHOOTER1_INVERTED = false;
+	public static final int BACK_SHOOTER_MOTOR2 = 62;
+	public static final boolean BACK_SHOOTER2_INVERTED = false;
 	
 	public static final int SHIFT_SOLENOID = 0;
 	public static final int INTAKE_SOLENOID = 1;
