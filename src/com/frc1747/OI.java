@@ -42,6 +42,19 @@ public class OI {
 		driver.getButton(Logitech.RB).whileHeld(new TakeOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
+		
+		operator.getButton(Xbox.LT).whileHeld(new ConveyIn());
+		operator.getButton(Xbox.RT).whileHeld(new ConveyOut());
+		operator.getButton(Xbox.X).whileHeld(new Shoot());
+		////operator.getButton(Xbox.B).whileHeld(new ConveyIn());
+		operator.getButton(Xbox.B).whenPressed(new Extend());
+		operator.getButton(Xbox.Y).whenPressed(new Retract());
+		operator.getButton(Xbox.LB).whileHeld(new TakeIn());
+		operator.getButton(Xbox.RB).whileHeld(new TakeOut());
+//		operator.getButton(Xbox.BACK).whenPressed(new ShiftDown());
+//		operator.getButton(Xbox.START).whenPressed(new ShiftUp());
+		
+		
 	}
 	
 	public static OI getInstance(){
