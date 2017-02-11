@@ -31,6 +31,7 @@ public class Shoot extends Command {
     	requires(shooterGate);
     	SmartDashboard.putNumber("Front Shooter Setpoint", 55);
     	SmartDashboard.putNumber("Back Shooter Setpoint", 70);
+    	SmartDashboard.putNumber("Shooter Gate Time", 500);
     }
 
     protected void initialize() {
@@ -41,7 +42,7 @@ public class Shoot extends Command {
     protected void execute() {
     	shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 70),
     			-SmartDashboard.getNumber("Front Shooter Setpoint", 55));
-    	if (System.currentTimeMillis() - startTime >= gateTime) {
+    	if (System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Shooter Gate Time", 500)) {
 	    		
     		shooterGate.setSolenoid1(ShooterGateSubsystem.GATE_CLOSE);
     		shooterGate.setSolenoid2(ShooterGateSubsystem.GATE_CLOSE);
