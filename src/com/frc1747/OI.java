@@ -7,6 +7,7 @@ import com.frc1747.commands.collector.Retract;
 import com.frc1747.commands.collector.TakeIn;
 import com.frc1747.commands.collector.TakeOut;
 import com.frc1747.commands.conveyer.ConveyIn;
+import com.frc1747.commands.conveyer.ConveyInWait;
 import com.frc1747.commands.conveyer.ConveyOut;
 import com.frc1747.commands.drive.ResetGyro;
 import com.frc1747.commands.shifter.ShiftDown;
@@ -32,8 +33,7 @@ public class OI {
 		dPad = new POVButton(driver, Logitech.UP);
 		dPad.whenPressed(new Increment());
 
-//		driver.getButton(Logitech.A).whileHeld(new ResetGyro());
-		driver.getButton(Logitech.A).whileHeld(new ConveyIn());
+		driver.getButton(Logitech.LT).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.RT).whileHeld(new ConveyOut());
 		driver.getButton(Logitech.X).whileHeld(new Shoot());
 		//driver.getButton(Logitech.B).whileHeld(new ConveyIn());

@@ -16,11 +16,14 @@ public class ShooterSubsystem extends HBRSubsystem {
 	private final double SHOOTER_DIAMETER = 1.6 / 12.0; //in feet
 	private final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI; 
 	private final int ENCODER_COUNTS_PER_REVOLUTION = 6; // 6 cycles per 1 rev of shooter roller
+	private final int SHOOTER_TOLERANCE = 1;
 
 	CANTalon backShooterMotor, frontShooterMotor;
 	double topP, topI, topD, topF;
 	double bottomP, bottomI, bottomD, bottomF;
 	private static ShooterSubsystem instance;
+	private double frontSetpoint = 0.0;
+	private double backSetpoint = 0.0;
 	
 	public final double SHOOTER_POWER = 0; //TODO: put actual value
 	
@@ -80,8 +83,13 @@ public class ShooterSubsystem extends HBRSubsystem {
     	frontShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
     }
     
+    public boolean isAtTarget() {
+    	return Math.abs(getBackRPS() - backSetpoint) < SHOOTER_TOLERANCE;
+    }
+    
     public void setSetpoint(double backSpeed, double frontSpeed){
-    	
+    	frontSetpoint = frontSpeed;
+    	backSetpoint = backSpeed;
     	backSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
     	frontSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
     	
@@ -126,6 +134,14 @@ public class ShooterSubsystem extends HBRSubsystem {
     public void initDefaultCommand() {
     }
     
+    public double getFrontVoltage() {
+    	return frontShooterMotor.getOutputVoltage();
+    }
+    
+    public double getBackVoltage() {
+    	return backShooterMotor.getOutputVoltage();
+    }
+    
     double avg_speed = 0;
 
 	@Override
@@ -133,12 +149,14 @@ public class ShooterSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Back Shooter Speed", getBackRPS());
 		SmartDashboard.putNumber("Back Shooter Surface Speed", getBackFeetPerSecond());
 		SmartDashboard.putNumber("Back Shooter Position", getBackPosition());
-		
+		SmartDashboard.putNumber("Front Shooter Voltage", getFrontVoltage());		
+		SmartDashboard.putBoolean("Back at Target", isAtTarget());
 		avg_speed = avg_speed * .9 + getFrontRPS() * .1;
 		SmartDashboard.putNumber("Front Shooter Filter Speed", avg_speed);
 		SmartDashboard.putNumber("Front Shooter Speed", getFrontRPS());
 		SmartDashboard.putNumber("Front Shooter Surface Speed", avg_speed);
 		SmartDashboard.putNumber("Front Shooter Position", getFrontPosition());
+		SmartDashboard.putNumber("Back Shooter Voltage", getBackVoltage());
 //		SmartDashboard.putNumber("Bottom Shooter Speed (ft/s)", getBottomFeetPerSecond());
 	}
 }
