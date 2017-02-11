@@ -1,6 +1,7 @@
 package com.frc1747;
 
 import com.frc1747.commands.AutoAllign;
+import com.frc1747.commands.AutoShoot;
 import com.frc1747.commands.Increment;
 import com.frc1747.commands.MotorTest;
 import com.frc1747.commands.collector.Extend;
@@ -53,6 +54,7 @@ public class OI {
 		operator.getButton(Xbox.Y).whenPressed(new Retract());
 		operator.getButton(Xbox.LB).whileHeld(new TakeIn());
 		operator.getButton(Xbox.RB).whileHeld(new TakeOut());
+		operator.getButton(Xbox.A).whileHeld(new AutoShoot());
 //		operator.getButton(Xbox.BACK).whenPressed(new ShiftDown());
 //		operator.getButton(Xbox.START).whenPressed(new ShiftUp());
 		

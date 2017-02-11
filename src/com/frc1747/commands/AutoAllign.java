@@ -30,6 +30,7 @@ public class AutoAllign extends Command {
     	
     	if(SmartDashboard.getString("Targeted", "Do nothing") == "Targeted"){
         	drive.setSetpoint(0.0, 0.0);
+        	end();
     	}
     	else if(SmartDashboard.getString("Targeted", "Do nothing") == "Turn Left"){
         	drive.setSetpoint(0.3, -0.3);
