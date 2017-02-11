@@ -160,4 +160,3 @@ public class ShooterSubsystem extends HBRSubsystem {
 //		SmartDashboard.putNumber("Bottom Shooter Speed (ft/s)", getBottomFeetPerSecond());
 	}
 }
-

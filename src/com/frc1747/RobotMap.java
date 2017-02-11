@@ -33,6 +33,7 @@ public class RobotMap {
 	public static final int SHIFT_SOLENOID = 0;
 	public static final int INTAKE_SOLENOID = 1;
 	public static final int HOPPER_SOLENOID = 2;
+	
 	public static final int SHOOTER_SOLENOID1 = 3;
 	public static final int SHOOTER_SOLENOID2 = 4;
 	public static final int SHOOTER_SOLENOID3 = 5;

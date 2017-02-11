@@ -18,9 +18,9 @@ public abstract class HBRSubsystem extends Subsystem {
 		hbrSubsystem.add(this);
 	}
 	
-	/**
+	/*
 	 * Called at a periodic rate to update the
-	 * dashboard.
+	 * dashboard
 	 */
 	public abstract void updateDashboard();
 	
