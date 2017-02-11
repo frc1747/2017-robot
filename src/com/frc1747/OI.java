@@ -7,7 +7,6 @@ import com.frc1747.commands.collector.Retract;
 import com.frc1747.commands.collector.TakeIn;
 import com.frc1747.commands.collector.TakeOut;
 import com.frc1747.commands.conveyer.ConveyIn;
-import com.frc1747.commands.conveyer.ConveyInWait;
 import com.frc1747.commands.conveyer.ConveyOut;
 import com.frc1747.commands.drive.ResetGyro;
 import com.frc1747.commands.shifter.ShiftDown;
