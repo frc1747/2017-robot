@@ -4,11 +4,12 @@ import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import lib.frc1747.subsystems.HBRSubsystem;
 
 /**
  *
  */
-public class ShifterSubsystem extends Subsystem {
+public class ShifterSubsystem extends HBRSubsystem {
 
 	private static final int SHIFT_ACCELERATION_HIGH = 1;
 	private static final int SHIFT_VELOCITY_LOW = 1;
@@ -73,5 +74,10 @@ public class ShifterSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+	@Override
+	public void updateDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

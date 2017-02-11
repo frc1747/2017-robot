@@ -4,11 +4,12 @@ import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import lib.frc1747.subsystems.HBRSubsystem;
 
 /**
  *
  */
-public class ShooterGateSubsystem extends Subsystem {
+public class ShooterGateSubsystem extends HBRSubsystem {
 	private Solenoid solenoid1;
 	private Solenoid solenoid2;
 	private Solenoid solenoid3; 
@@ -45,5 +46,10 @@ public class ShooterGateSubsystem extends Subsystem {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+	@Override
+	public void updateDashboard() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

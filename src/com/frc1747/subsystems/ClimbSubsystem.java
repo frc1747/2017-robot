@@ -4,8 +4,9 @@ import com.ctre.CANTalon;
 import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import lib.frc1747.subsystems.HBRSubsystem;
 
-public class ClimbSubsystem extends Subsystem {
+public class ClimbSubsystem extends HBRSubsystem {
 
 	private CANTalon motor1;
 	private CANTalon motor2;
@@ -34,6 +35,12 @@ public class ClimbSubsystem extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
+	}
+
+	@Override
+	public void updateDashboard() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
