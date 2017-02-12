@@ -1,3 +1,4 @@
+
 package com.frc1747;
 
 import com.frc1747.commands.AutoAllign;
@@ -20,7 +21,6 @@ import lib.frc1747.controller.POVButton;
 import lib.frc1747.controller.Xbox;
 
 public class OI {
-	
 	private Logitech driver;
 	private Xbox operator;
 	private static OI instance;

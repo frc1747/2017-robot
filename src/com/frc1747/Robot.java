@@ -13,6 +13,7 @@ import com.frc1747.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import lib.frc1747.controller.Controller;
 
 public class Robot extends IterativeRobot {
@@ -21,6 +22,7 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		(new UpdateDashboard()).start();
 		initSubsystems();
+		SmartDashboard.putNumber("Auton Shoot Time", 5000);
 	}
 
 	@Override
