@@ -16,11 +16,11 @@ public class ShooterSubsystem extends HBRSubsystem {
 	private final double SHOOTER_DIAMETER = 1.6 / 12.0; //in feet
 	private final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI; 
 	private final int ENCODER_COUNTS_PER_REVOLUTION = 6; // 6 cycles per 1 rev of shooter roller
-	private final int SHOOTER_TOLERANCE = 1;
+	private final int SHOOTER_TOLERANCE = 10;
 
 	CANTalon backShooterMotor1, backShooterMotor2, frontShooterMotor;
-	double topP, topI, topD, topF;
-	double bottomP, bottomI, bottomD, bottomF;
+	double backP, backI, backD, backF;
+	double frontP, frontI, frontD, frontF;
 	private static ShooterSubsystem instance;
 	private double frontSetpoint = 0.0;
 	private double backSetpoint = 0.0;
@@ -47,25 +47,25 @@ public class ShooterSubsystem extends HBRSubsystem {
 		frontShooterMotor.configEncoderCodesPerRev(ENCODER_COUNTS_PER_REVOLUTION);
 		frontShooterMotor.setProfile(0);
 
-		topP = 20;
-    	topI = 0;
-		topD = 30;
-		topF = 3.8;
+		backP = 10;
+    	backI = 0;
+		backD = 70;
+		backF = 3.3;
 		
-    	backShooterMotor1.setP(topP);
-    	backShooterMotor1.setI(topI);
-    	backShooterMotor1.setD(topD);
-    	backShooterMotor1.setF(topF);
+    	backShooterMotor1.setP(backP);
+    	backShooterMotor1.setI(backI);
+    	backShooterMotor1.setD(backD);
+    	backShooterMotor1.setF(backF);
 
-    	bottomP = 20;
-    	bottomI = 0;
-    	bottomD = 35;
-    	bottomF = 4;
+    	frontP = 8;
+    	frontI = 0;
+    	frontD = 70;
+    	frontF = 5.3;
     	
-    	frontShooterMotor.setP(bottomP);
-    	frontShooterMotor.setI(bottomI);
-    	frontShooterMotor.setD(bottomD);
-    	frontShooterMotor.setF(bottomF);
+    	frontShooterMotor.setP(frontP);
+    	frontShooterMotor.setI(frontI);
+    	frontShooterMotor.setD(frontD);
+    	frontShooterMotor.setF(frontF);
     }
     
     public static ShooterSubsystem getInstance(){

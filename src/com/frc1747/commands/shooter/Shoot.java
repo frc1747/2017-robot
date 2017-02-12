@@ -15,7 +15,7 @@ public class Shoot extends Command {
 	private ShooterSubsystem shooter;
 	private ConveyorSubsystem conveyor;
 	private ShooterGateSubsystem shooterGate;
-	private int counter;
+	private int counter = 0;
 	private long gateTime;
 	private long startTime;
 	private long endTime;
@@ -33,6 +33,8 @@ public class Shoot extends Command {
     	SmartDashboard.putNumber("Front Shooter Setpoint", 55);
     	SmartDashboard.putNumber("Back Shooter Setpoint", 70);
     	SmartDashboard.putNumber("Shooter Gate Time", gateTime);
+    	
+    	//setInterruptible(false);
     }
 
     protected void initialize() {
@@ -64,13 +66,12 @@ public class Shoot extends Command {
 	    		
 	    		conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
 	    		startTime = System.currentTimeMillis();
-	    		counter += 1;
+	    		counter++;
 	    		
 	    	}
 	    	else {
 	    		conveyor.setMotorPower(0.0);
 	    	}
-//	    	conveyor.setSetpoint(0.0);
     	}
     }
 

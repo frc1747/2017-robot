@@ -21,7 +21,7 @@ public class DriveSubsystem extends HBRSubsystem {
 
 	private final double WHEEL_DIAMETER = 4/12; //in feet
 	private final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI; 
-	private final double ENCODER_COUNTS_PER_REVOLUTION = 4;
+	private final double ENCODER_COUNTS_PER_REVOLUTION = 360;
 	private final double ENCODER_REFRESH_TIME = .1; //in seconds, motor speed is recorded over intervals of this
 	private final double LEFT_KP = 0, LEFT_KI = 0, LEFT_KD = 0, LEFT_KF = 0;
 	private final double RIGHT_KP = 0, RIGHT_KI = 0, RIGHT_KD = 0, RIGHT_KF = 0;
@@ -149,7 +149,7 @@ public class DriveSubsystem extends HBRSubsystem {
 			//TODO: not necessarily motor1
 			motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 			//TODO: motor1.reverseSensor(isInverted);
-			//TODO: motor1.configEncoderCodesPerRev(encoderCounts);
+			motor1.configEncoderCodesPerRev(1);
 			motor1.configNominalOutputVoltage(+0.0f, -0.0f);
 			//TODO: possibly +12.0f, -0.0f
 			motor1.configPeakOutputVoltage(+0.0f, -12.0f);
@@ -161,10 +161,6 @@ public class DriveSubsystem extends HBRSubsystem {
 			motor1.setI(this.Ki = Ki);
 			motor1.setD(this.Kd = Kd);
 			motor1.setF(this.Kf = Kf);
-		}
-		
-		public void setEncoderCount(double encCount) {
-			// TODO: Add Encoder Count Implementation
 		}
 		
 		public void enablePID() {

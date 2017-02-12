@@ -52,8 +52,8 @@ public class ConveyorSubsystem extends HBRSubsystem {
 	}
 	
 	public void setMotorPower(double power) {		
-		motor1.set(power);
-		motor2.set(power);
+		//motor1.set(power);
+		//motor2.set(power);
 	}
 	
 	public double getSpeed() {

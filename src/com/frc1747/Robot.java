@@ -13,6 +13,7 @@ import com.frc1747.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import lib.frc1747.controller.Controller;
 
@@ -20,6 +21,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
+//		SendableChooser autoChooser = new SendableChooser();
+//		autoChooser.addDefault("Position 1", object);
 		(new UpdateDashboard()).start();
 		initSubsystems();
 		SmartDashboard.putNumber("Auton Shoot Time", 5000);

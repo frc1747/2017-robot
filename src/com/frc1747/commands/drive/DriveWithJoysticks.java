@@ -23,7 +23,7 @@ public class DriveWithJoysticks extends Command {
 	
     public DriveWithJoysticks() {
     	requires(drive = DriveSubsystem.getInstance());
-    	requires(shifter = ShifterSubsystem.getInstance());
+//    	requires(shifter = ShifterSubsystem.getInstance());
     }
 
     protected void initialize() {
@@ -41,11 +41,11 @@ public class DriveWithJoysticks extends Command {
     		drive.driveArcadeMode(leftVert, rightHoriz);
     	//}
     	
-    	if(shifter.shouldShiftUp()){
-    		//shifter.setTransmission(shifter.HIGH_GEAR);
-    	} else{
-    		//shifter.setTransmission(shifter.LOW_GEAR);
-    	}
+//    	if(shifter.shouldShiftUp()){
+//    		//shifter.setTransmission(shifter.HIGH_GEAR);
+//    	} else{
+//    		//shifter.setTransmission(shifter.LOW_GEAR);
+//    	}
     }
 
     protected boolean isFinished() {
