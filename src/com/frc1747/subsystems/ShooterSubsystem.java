@@ -9,8 +9,6 @@ import com.frc1747.commands.MotorTest;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import lib.frc1747.subsystems.HBRSubsystem;
 
-
-
 public class ShooterSubsystem extends HBRSubsystem {
 	private final double READ_TIME = 0.1;
 	private final double SHOOTER_DIAMETER = 1.6 / 12.0; //in feet

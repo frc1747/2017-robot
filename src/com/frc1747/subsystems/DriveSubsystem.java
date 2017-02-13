@@ -54,8 +54,10 @@ public class DriveSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
 		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
 		
-		SmartDashboard.putNumber("Right Velocity (ft/s)", getRightFeetPerSecond());
-		SmartDashboard.putNumber("Left Velocity (ft/s)", getLeftFeetPerSecond());
+		SmartDashboard.putNumber("Left Drive RPS", getLeftSpeed());
+		SmartDashboard.putNumber("Right Drive RPS", getRightSpeed());
+		SmartDashboard.putNumber("Right Drive Surface Speed", getRightFeetPerSecond());
+		SmartDashboard.putNumber("Left Drive Surface Speed", getLeftFeetPerSecond());
 	}
 	
 	public void setPower(double leftPower, double rightPower) {
@@ -83,8 +85,8 @@ public class DriveSubsystem extends HBRSubsystem {
 		left.setSetpoint(leftSpeed);
 	}
 
-	public double getVelocity(){
-		return (right.getVelocity()+left.getVelocity())/2;
+	public double getSpeed(){
+		return (right.getSpeed() + left.getSpeed()) / 2;
 	}
 	
 	public double getForwardAcceleration(){
@@ -115,21 +117,21 @@ public class DriveSubsystem extends HBRSubsystem {
 	}
 	
 	public double getLeftFeetPerSecond(){
-		return getLeftVelocity() * WHEEL_CIRCUMFERENCE /
+		return getLeftSpeed() * WHEEL_CIRCUMFERENCE /
 				(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME);
 	}
 	
 	public double getRightFeetPerSecond(){
-		return getRightVelocity() * WHEEL_CIRCUMFERENCE /
+		return getRightSpeed() * WHEEL_CIRCUMFERENCE /
 				(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME);
 	}
 	
-	public double getLeftVelocity(){
-		return left.getVelocity();
+	public double getLeftSpeed(){
+		return left.getSpeed();
 	}
 	
-	public double getRightVelocity(){
-		return right.getVelocity();
+	public double getRightSpeed(){
+		return right.getSpeed();
 	}
 	
 	private class DriveSide {
@@ -182,8 +184,8 @@ public class DriveSubsystem extends HBRSubsystem {
 			motor1.set(speed * MULTIPLIER);
 		}
 		
-		public int getVelocity() {
-			return motor1.getEncVelocity();
+		public double getSpeed() {
+			return motor1.getSpeed();
 		}
 		
 	}

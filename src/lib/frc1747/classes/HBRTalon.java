@@ -34,32 +34,69 @@ public class HBRTalon extends CANTalon {
 		super.reverseSensor(flip);
 	}
 	
+	/**
+	 * Get the speed of the device (units per second)
+	 * If scaling is used, this method will return the scaled units per second.
+	 * @return scaled units per second
+	 */
 	@Override
 	public double getSpeed() {
 		double speed = super.getSpeed() / (scaling / READ_TIME); 
 		return speed;
 	}
 	
+	/**
+	 * Refer to CTRE javadocs if used with non-SPEED and non-POSITION modes.
+	 * In position mode, set the param as the scaled INPUT shaft revolutions.
+	 * In speed mode, set the param as the scaled INPUT shaft revolutions per SECOND
+	 * @param outputValue the desired output of the Talon (depends on the current Talon Control Mode)
+	 */
 	@Override
-	public void set(double input) {
+	public void set(double outputValue) {
 		if(super.getControlMode() == TalonControlMode.Speed) {
-			input *= (scaling / READ_TIME);
+			outputValue *= (scaling / READ_TIME);
 		}
 		else if(super.getControlMode() == TalonControlMode.Position) {
-			input *= scaling; // fix this
+			outputValue *= scaling; // fix this
 		}
-		super.set(input);
+		super.set(outputValue);
 	}
 
+	/**
+	   * Set the scaling of the encoder.
+	   * @param scaling the encoder CYCLES per revolution of the INPUT shaft
+	   */
 	public void setScaling(double scaling) {
 		this.scaling = scaling;
 	}
 	
+	/**
+	 * Gets the currently set scaling value. If scaling is not currently set, a 1 will be returned.
+	 * @return scaling the encoder CYCLES per revolution of the INPUT shaft
+	 */
 	public double getScaling() {
 		return scaling;
 	}
 
+	/**
+	 * Returns whether or not the sensor is reversed.
+	 * @return sensorReversed True if the sensor is reversed. False if the sensor is not reversed.
+	 */
 	public boolean getSensorReversed() {
 		return sensorReversed;
+	}
+	
+	/**
+	 * Sets PIDF constants on the Talon.
+	 * @param kP Proportion constant
+	 * @param kI Integral constant
+	 * @param kD Derivative constant
+	 * @param kF Feed Forward constant
+	 */
+	public void setPIDF(double kP, double kI, double kD, double kF){
+		super.setP(kP);
+		super.setI(kI);
+		super.setD(kD);
+		super.setF(kF);
 	}
 }

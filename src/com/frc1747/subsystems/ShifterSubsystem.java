@@ -46,7 +46,7 @@ public class ShifterSubsystem extends HBRSubsystem {
 			if (drive.getForwardAcceleration() >= LOWER_THRESHOLD && drive.getForwardAcceleration() <= UPPER_THRESHOLD) {
 				return getGear();
 			}
-			else if(drive.getForwardAcceleration() >= slope*drive.getVelocity() + SHIFT_ACCELERATION_HIGH) {
+			else if(drive.getForwardAcceleration() >= slope*drive.getSpeed() + SHIFT_ACCELERATION_HIGH) {
 				return HIGH_GEAR;
 			} else {
 				return LOW_GEAR;
