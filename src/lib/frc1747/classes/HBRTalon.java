@@ -47,8 +47,8 @@ public class HBRTalon extends CANTalon {
 	
 	/**
 	 * Refer to CTRE javadocs if used with non-SPEED and non-POSITION modes.
-	 * In position mode, set the param as the scaled INPUT shaft revolutions.
-	 * In speed mode, set the param as the scaled INPUT shaft revolutions per SECOND
+	 * In position mode, set the param as the desired scaled units.
+	 * In speed mode, set the param as the scaled units per SECOND.
 	 * @param outputValue the desired output of the Talon (depends on the current Talon Control Mode)
 	 */
 	@Override
@@ -64,7 +64,7 @@ public class HBRTalon extends CANTalon {
 
 	/**
 	   * Set the scaling of the encoder.
-	   * @param scaling the encoder CYCLES per revolution of the INPUT shaft
+	   * @param scaling the value to be used when scaling the Talon's native units
 	   */
 	public void setScaling(double scaling) {
 		this.scaling = scaling;
@@ -72,7 +72,7 @@ public class HBRTalon extends CANTalon {
 	
 	/**
 	 * Gets the currently set scaling value. If scaling is not currently set, a 1 will be returned.
-	 * @return scaling the encoder CYCLES per revolution of the INPUT shaft
+	 * @return scaling the value used for scaling the Talon's native units
 	 */
 	public double getScaling() {
 		return scaling;
