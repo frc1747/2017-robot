@@ -66,16 +66,17 @@ public class ShifterSubsystem extends HBRSubsystem {
 	public boolean getGear(){
 		return shifter.get();
 	}
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-
+	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+    	
     }
 	@Override
 	public void updateDashboard() {
-		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void debug() {
 		
 	}
 }

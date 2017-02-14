@@ -50,5 +50,10 @@ public class ShooterGateSubsystem extends HBRSubsystem {
 	public void updateDashboard() {
 		
 	}
+
+	@Override
+	public void debug() {
+		
+	}
 }
 

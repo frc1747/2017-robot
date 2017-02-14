@@ -83,6 +83,12 @@ public class ConveyorSubsystem extends HBRSubsystem {
 
 	@Override
 	public void updateDashboard() {
+		
+	}
+
+	@Override
+	public void debug() {
+		
 		SmartDashboard.putNumber("Conveyer Speed", getSpeed());
 	}
 }

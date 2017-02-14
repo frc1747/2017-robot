@@ -154,6 +154,11 @@ public class ShooterSubsystem extends HBRSubsystem {
 	@Override
 	public void updateDashboard() {
 		
+	}
+	
+	@Override
+	public void debug() {
+		
 		SmartDashboard.putNumber("Back Shooter Speed", getBackRPS());
 		SmartDashboard.putNumber("Back Shooter Surface Speed", getBackFeetPerSecond());
 		SmartDashboard.putNumber("Back Shooter Position", getBackPosition());

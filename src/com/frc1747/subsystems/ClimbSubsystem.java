@@ -39,7 +39,11 @@ public class ClimbSubsystem extends HBRSubsystem {
 
 	@Override
 	public void updateDashboard() {
-		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void debug() {
 		
 	}
 

@@ -68,6 +68,12 @@ public class CollectorSubsystem extends HBRSubsystem {
 
 	@Override
 	public void updateDashboard() {
+		
+	}
+
+	@Override
+	public void debug() {
+		
 	}
 }
 
