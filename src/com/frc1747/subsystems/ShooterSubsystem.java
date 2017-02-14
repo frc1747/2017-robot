@@ -6,6 +6,7 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import lib.frc1747.classes.HBRTalon;
 import lib.frc1747.pid.PIDValues;
 import lib.frc1747.subsystems.HBRSubsystem;
 
@@ -26,33 +27,36 @@ public class ShooterSubsystem extends HBRSubsystem {
 
 	private double frontSetpoint = 0.0, backSetpoint = 0.0, avg_speed = 0;
 
-	private CANTalon backShooterMotor1, backShooterMotor2, frontShooterMotor;
+	private HBRTalon backShooterMotor1, frontShooterMotor;
+	private CANTalon backShooterMotor2;
 	
 	private static ShooterSubsystem instance;
 	
     private ShooterSubsystem() {
     	
     	// Configure Back Shooter Motor 1
-    	backShooterMotor1 = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR1);
+    	backShooterMotor1 = new HBRTalon(RobotMap.BACK_SHOOTER_MOTOR1);
     	backShooterMotor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		backShooterMotor1.reverseSensor(true);
 		backShooterMotor1.configNominalOutputVoltage(+0.0f, -0.0f);
 		backShooterMotor1.configPeakOutputVoltage(+12.0f, -12.0f);
-		backShooterMotor1.configEncoderCodesPerRev(ENCODER_COUNTS_PER_REVOLUTION);
+		backShooterMotor1.configEncoderCodesPerRev(1);
 		backShooterMotor1.setProfile(0);
+		backShooterMotor1.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
 		
 		// Configure Back Shooter Motor 2
     	backShooterMotor2 = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR2);
 		backShooterMotor2.setInverted(true);
 		
 		// Configure Front Shooter Motor
-    	frontShooterMotor = new CANTalon(RobotMap.FRONT_SHOOTER_MOTOR);
+    	frontShooterMotor = new HBRTalon(RobotMap.FRONT_SHOOTER_MOTOR);
     	frontShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontShooterMotor.reverseSensor(true);
 		frontShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
 		frontShooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
-		frontShooterMotor.configEncoderCodesPerRev(ENCODER_COUNTS_PER_REVOLUTION);
+		frontShooterMotor.configEncoderCodesPerRev(1);
 		frontShooterMotor.setProfile(0);
+		frontShooterMotor.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
 
 		// Set PIDF Constants for Back Shooter Motors
 		backShooterMotor1.setPID(backPID.P, backPID.I, backPID.D);
@@ -93,8 +97,8 @@ public class ShooterSubsystem extends HBRSubsystem {
     	frontSetpoint = frontSpeed;
     	backSetpoint = backSpeed;
     	
-    	backSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
-    	frontSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
+    	//backSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
+    	//frontSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
     	
     	backShooterMotor1.set(backSpeed);
     	backShooterMotor2.set(backShooterMotor1.getDeviceID());
@@ -117,11 +121,11 @@ public class ShooterSubsystem extends HBRSubsystem {
     }
     
     public double getBackRPS(){
-    	return backShooterMotor1.getSpeed() / (ENCODER_COUNTS_PER_REVOLUTION / READ_TIME);
+    	return backShooterMotor1.getSpeed() /*/ (ENCODER_COUNTS_PER_REVOLUTION / READ_TIME)*/;
     }
     
     public double getFrontRPS() {
-    	return frontShooterMotor.getSpeed() / (ENCODER_COUNTS_PER_REVOLUTION / READ_TIME);
+    	return frontShooterMotor.getSpeed() /*/ (ENCODER_COUNTS_PER_REVOLUTION / READ_TIME)*/;
     }
     
     public double getBackPosition() {
