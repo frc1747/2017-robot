@@ -29,9 +29,10 @@ public class Shoot extends Command {
     	requires(conveyor);
     	requires(shooter);
     	requires(shooterGate);
-
-    	SmartDashboard.putNumber("Front Shooter Setpoint", 55);
-    	SmartDashboard.putNumber("Back Shooter Setpoint", 70);
+    	
+    	//good setpoint is back: 80 front: 35
+    	SmartDashboard.putNumber("Front Shooter Setpoint", 35);
+    	SmartDashboard.putNumber("Back Shooter Setpoint", 80);
     	SmartDashboard.putNumber("Shooter Gate Time", gateTime);
     	
     	//setInterruptible(false);

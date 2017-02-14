@@ -26,13 +26,13 @@ public class ShooterGateSubsystem extends HBRSubsystem {
 		
 	}
 	public void setSolenoid1(boolean solenoidState){
-		//solenoid1.set(solenoidState);
+		solenoid1.set(solenoidState);
 	}
 	public void setSolenoid2(boolean solenoidState){
-		//solenoid2.set(solenoidState);
+		solenoid2.set(solenoidState);
 	}
 	public void setSolenoid3(boolean solenoidState){
-		//solenoid3.set(solenoidState);
+		solenoid3.set(solenoidState);
 	}
 	
 	public static ShooterGateSubsystem getInstance(){

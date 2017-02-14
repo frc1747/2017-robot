@@ -14,12 +14,14 @@ public class ShooterSubsystem extends HBRSubsystem {
 	private final double SHOOTER_DIAMETER = 1.6 / 12.0; //in feet
 	private final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI; 
 	private final int ENCODER_COUNTS_PER_REVOLUTION = 6; // 6 cycles per 1 rev of shooter roller
-	private final int SHOOTER_TOLERANCE = 10;
+	private final int SHOOTER_TOLERANCE = 3;
 
 	CANTalon backShooterMotor1, backShooterMotor2, frontShooterMotor;
 	double backP, backI, backD, backF;
 	double frontP, frontI, frontD, frontF;
 	private static ShooterSubsystem instance;
+	
+	
 	private double frontSetpoint = 0.0;
 	private double backSetpoint = 0.0;
 	

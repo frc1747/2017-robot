@@ -14,7 +14,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
 	private CANTalon motor1;
 	private CANTalon motor2;
 	private static ConveyorSubsystem instance;
-	public final double CONVEYOR_POWER = 0.85; //TODO: use actual power
+	public final double CONVEYOR_POWER = 0.85; 
 	private final int ENCODER_COUNTS_PER_REVOLUTION = 120;
 	private final int READ_TIME = 10;
 	double kP, kI, kD, kF;
@@ -52,8 +52,8 @@ public class ConveyorSubsystem extends HBRSubsystem {
 	}
 	
 	public void setMotorPower(double power) {		
-		//motor1.set(power);
-		//motor2.set(power);
+		motor1.set(power);
+		motor2.set(power);
 	}
 	
 	public double getSpeed() {
