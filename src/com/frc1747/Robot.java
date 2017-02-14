@@ -1,6 +1,5 @@
 package com.frc1747;
 
-import com.frc1747.commands.MotorTest;
 import com.frc1747.commands.UpdateDashboard;
 import com.frc1747.subsystems.ClimbSubsystem;
 import com.frc1747.subsystems.CollectorSubsystem;
@@ -13,9 +12,7 @@ import com.frc1747.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import lib.frc1747.controller.Controller;
 
 public class Robot extends IterativeRobot {
 

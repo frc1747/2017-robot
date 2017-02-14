@@ -1,23 +1,19 @@
 package com.frc1747.commands;
 
-import com.frc1747.OI;
-import com.frc1747.subsystems.DriveSubsystem;
-import com.frc1747.subsystems.ShooterSubsystem;
+import com.frc1747.subsystems.ClimbSubsystem;
 import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
+import com.frc1747.subsystems.DriveSubsystem;
+import com.frc1747.subsystems.ShifterSubsystem;
+import com.frc1747.subsystems.ShooterGateSubsystem;
+import com.frc1747.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import lib.frc1747.controller.Logitech;
 
-/**
- *
- */
 public class UpdateDashboard extends Command {
 
     Timer timer;
-    OI oi;
 	
 	public UpdateDashboard() {
     	timer = new Timer();
@@ -32,10 +28,13 @@ public class UpdateDashboard extends Command {
     protected void execute() {
     	
     	if(timer.get() > 0.1){
-	    	DriveSubsystem.getInstance().updateDashboard();
-	    	ShooterSubsystem.getInstance().updateDashboard();
-	    	ConveyorSubsystem.getInstance().updateDashboard();
-	    	CollectorSubsystem.getInstance().updateDashboard();
+	    	ClimbSubsystem.getInstance().updateDashboard();
+			CollectorSubsystem.getInstance().updateDashboard();
+			ConveyorSubsystem.getInstance().updateDashboard();
+			DriveSubsystem.getInstance().updateDashboard();
+			ShooterSubsystem.getInstance().updateDashboard();
+			ShooterGateSubsystem.getInstance().updateDashboard();
+			ShifterSubsystem.getInstance().updateDashboard();
 	    	timer.reset();
     	}
     }
@@ -45,8 +44,10 @@ public class UpdateDashboard extends Command {
     }
 
     protected void end() {
+    	
     }
 
     protected void interrupted() {
+    	
     }
 }

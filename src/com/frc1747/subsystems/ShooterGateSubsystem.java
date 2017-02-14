@@ -3,16 +3,14 @@ package com.frc1747.subsystems;
 import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import lib.frc1747.subsystems.HBRSubsystem;
 
 /**
  *
  */
 public class ShooterGateSubsystem extends HBRSubsystem {
-	private Solenoid solenoid1;
-	private Solenoid solenoid2;
-	private Solenoid solenoid3; 
+	
+	private Solenoid [] solenoids = new Solenoid[3];
 	
 	private static ShooterGateSubsystem instance;
 	
@@ -20,35 +18,36 @@ public class ShooterGateSubsystem extends HBRSubsystem {
 	public final static boolean GATE_OPEN = false;
 	
 	public ShooterGateSubsystem() {
-		solenoid1 = new Solenoid(RobotMap.SHOOTER_SOLENOID1);
-		solenoid2 = new Solenoid(RobotMap.SHOOTER_SOLENOID2);
-		solenoid3 = new Solenoid(RobotMap.SHOOTER_SOLENOID3);
-		
+		solenoids[0] = new Solenoid(RobotMap.SHOOTER_SOLENOID1);
+		solenoids[1] = new Solenoid(RobotMap.SHOOTER_SOLENOID2);
+		solenoids[2] = new Solenoid(RobotMap.SHOOTER_SOLENOID3);
 	}
-	public void setSolenoid1(boolean solenoidState){
-		solenoid1.set(solenoidState);
+	
+	/**
+	 * Set the state of a solenoid
+	 * @param solNum Solenoid number where solNum > 0
+	 * @param solenoidState true (Close), false (Open)
+	 */
+	public void setSolenoid(int solNum, boolean solenoidState) {
+		solenoids[solNum - 1].set(solenoidState);
 	}
-	public void setSolenoid2(boolean solenoidState){
-		solenoid2.set(solenoidState);
-	}
-	public void setSolenoid3(boolean solenoidState){
-		solenoid3.set(solenoidState);
+	
+	public void setAllSolenoids(boolean solenoidState) {
+		setSolenoid(1, solenoidState);
+		setSolenoid(2, solenoidState);
+		setSolenoid(3, solenoidState);
 	}
 	
 	public static ShooterGateSubsystem getInstance(){
-		if (instance == null){
-			instance = new ShooterGateSubsystem();
-		}
-		return instance;
+		return instance == null ? instance = new ShooterGateSubsystem() : instance;
 	}
 	
     public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
+    	
     }
+    
 	@Override
 	public void updateDashboard() {
-		// TODO Auto-generated method stub
 		
 	}
 }

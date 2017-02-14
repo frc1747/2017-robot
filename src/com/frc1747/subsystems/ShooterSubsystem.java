@@ -4,97 +4,95 @@ import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
-import com.frc1747.commands.MotorTest;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import lib.frc1747.pid.PIDValues;
 import lib.frc1747.subsystems.HBRSubsystem;
 
 public class ShooterSubsystem extends HBRSubsystem {
-	private final double READ_TIME = 0.1;
-	private final double SHOOTER_DIAMETER = 1.6 / 12.0; //in feet
-	private final double SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI; 
-	private final int ENCODER_COUNTS_PER_REVOLUTION = 6; // 6 cycles per 1 rev of shooter roller
-	private final int SHOOTER_TOLERANCE = 3;
+	
+	private final double 
+		READ_TIME = 0.1,
+		SHOOTER_DIAMETER = 1.6 / 12.0, //in feet
+		SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI; 
+		
+	private final int 
+		ENCODER_COUNTS_PER_REVOLUTION = 6, // 6 cycles per 1 rev of shooter roller
+		SHOOTER_TOLERANCE = 3,
+		SHOOTER_POWER = 0; //TODO: put actual value
+		
+	private final PIDValues backPID = new PIDValues(10, 0, 70, 3.3);
+	private final PIDValues frontPID = new PIDValues(8, 0, 70, 5.3);
 
-	CANTalon backShooterMotor1, backShooterMotor2, frontShooterMotor;
-	double backP, backI, backD, backF;
-	double frontP, frontI, frontD, frontF;
+	private double frontSetpoint = 0.0, backSetpoint = 0.0, avg_speed = 0;
+
+	private CANTalon backShooterMotor1, backShooterMotor2, frontShooterMotor;
+	
 	private static ShooterSubsystem instance;
 	
-	
-	private double frontSetpoint = 0.0;
-	private double backSetpoint = 0.0;
-	
-	public final double SHOOTER_POWER = 0; //TODO: put actual value
-	
-    private ShooterSubsystem(){
-    	backShooterMotor1 = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR1);
-    	backShooterMotor2 = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR2);
-    	frontShooterMotor = new CANTalon(RobotMap.FRONT_SHOOTER_MOTOR);
+    private ShooterSubsystem() {
     	
-		backShooterMotor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+    	// Configure Back Shooter Motor 1
+    	backShooterMotor1 = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR1);
+    	backShooterMotor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		backShooterMotor1.reverseSensor(true);
 		backShooterMotor1.configNominalOutputVoltage(+0.0f, -0.0f);
 		backShooterMotor1.configPeakOutputVoltage(+12.0f, -12.0f);
 		backShooterMotor1.configEncoderCodesPerRev(ENCODER_COUNTS_PER_REVOLUTION);
 		backShooterMotor1.setProfile(0);
+		
+		// Configure Back Shooter Motor 2
+    	backShooterMotor2 = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR2);
 		backShooterMotor2.setInverted(true);
 		
-		frontShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+		// Configure Front Shooter Motor
+    	frontShooterMotor = new CANTalon(RobotMap.FRONT_SHOOTER_MOTOR);
+    	frontShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontShooterMotor.reverseSensor(true);
 		frontShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
 		frontShooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
 		frontShooterMotor.configEncoderCodesPerRev(ENCODER_COUNTS_PER_REVOLUTION);
 		frontShooterMotor.setProfile(0);
 
-		backP = 10;
-    	backI = 0;
-		backD = 70;
-		backF = 3.3;
-		
-    	backShooterMotor1.setP(backP);
-    	backShooterMotor1.setI(backI);
-    	backShooterMotor1.setD(backD);
-    	backShooterMotor1.setF(backF);
-
-    	frontP = 8;
-    	frontI = 0;
-    	frontD = 70;
-    	frontF = 5.3;
+		// Set PIDF Constants for Back Shooter Motors
+		backShooterMotor1.setPID(backPID.P, backPID.I, backPID.D);
+    	backShooterMotor1.setF(backPID.F);
     	
-    	frontShooterMotor.setP(frontP);
-    	frontShooterMotor.setI(frontI);
-    	frontShooterMotor.setD(frontD);
-    	frontShooterMotor.setF(frontF);
+		// Set PIDF Constants for Front Shooter Motor
+    	frontShooterMotor.setPID(frontPID.P, frontPID.I, frontPID.D);
+    	frontShooterMotor.setF(frontPID.F);
     }
     
-    public static ShooterSubsystem getInstance(){
-		if (instance == null){
-			instance = new ShooterSubsystem();
-		}
-		return instance;
+    public static ShooterSubsystem getInstance() {
+		
+    	return instance == null ? instance = new ShooterSubsystem() : instance;
 	}
     
-    public void enablePID(){
+    public void enablePID() {
+    	
     	backShooterMotor1.changeControlMode(TalonControlMode.Speed);
     	frontShooterMotor.changeControlMode(TalonControlMode.Speed);
     	backShooterMotor2.changeControlMode(TalonControlMode.Follower);
     	backShooterMotor2.reverseOutput(true);
     }
     
-    public void disablePID(){
+    public void disablePID() {
+    	
     	backShooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
     	frontShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
     	backShooterMotor2.reverseOutput(true);
     }
     
-    public boolean isAtTarget() {
+    public boolean onTarget() {
+    	
     	return Math.abs(getBackRPS() - backSetpoint) < SHOOTER_TOLERANCE;
     }
     
     public void setSetpoint(double backSpeed, double frontSpeed){
+    	
     	frontSetpoint = frontSpeed;
     	backSetpoint = backSpeed;
+    	
     	backSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
     	frontSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
     	
@@ -104,13 +102,16 @@ public class ShooterSubsystem extends HBRSubsystem {
     }
     
     public void setBackPower(double power){
+    	
     	backShooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
-    	backShooterMotor1.set(power);
     	backShooterMotor2.changeControlMode(TalonControlMode.PercentVbus);
+
+    	backShooterMotor1.set(power);
     	backShooterMotor2.set(power);
     }
     
     public void setFrontPower(double power){
+    	
     	frontShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
     	frontShooterMotor.set(power);
     }
@@ -149,16 +150,15 @@ public class ShooterSubsystem extends HBRSubsystem {
     public double getBackVoltage() {
     	return backShooterMotor1.getOutputVoltage();
     }
-    
-    double avg_speed = 0;
 
 	@Override
 	public void updateDashboard() {
+		
 		SmartDashboard.putNumber("Back Shooter Speed", getBackRPS());
 		SmartDashboard.putNumber("Back Shooter Surface Speed", getBackFeetPerSecond());
 		SmartDashboard.putNumber("Back Shooter Position", getBackPosition());
 		SmartDashboard.putNumber("Front Shooter Voltage", getFrontVoltage());		
-		SmartDashboard.putBoolean("Back at Target", isAtTarget());
+		SmartDashboard.putBoolean("Back at Target", onTarget());
 		avg_speed = avg_speed * .9 + getFrontRPS() * .1;
 		SmartDashboard.putNumber("Front Shooter Filter Speed", avg_speed);
 		SmartDashboard.putNumber("Front Shooter Speed", getFrontRPS());

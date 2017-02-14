@@ -74,15 +74,18 @@ public class MotionProfileFollower extends TimerTask {
 		
 		// Calculate the Output Value
 		double output = 0;
-		double feed = feedback.getFeedback();
+		double position = feedback.getFeedback();
+		double velo = feedback.getVelocityFeedback();
 		
-		output += pid.P * feed; 			// P Term
-		output += pid.I * (sum += feed);	// I Term
-		output += pid.D * (feed - last);  // D Term
+		output += pid.P * (setPoint - position); // P Term
+		output += pid.I * (sum += position);	// I Term
+		output += pid.D * velo;    // D Term
 		
-		output += pid.V;	// V Term
-		output += pid.A;	// A Term
+	//	output += pid.V;	// V Term
+	//	output += pid.A;	// A Term
 		
-		last = feed; // Set feedback to last feed back
+		last = position; // Set feedback to last feed back
+		
+		feedback.setOutput(output);
 	}
 }
