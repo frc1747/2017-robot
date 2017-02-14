@@ -1,8 +1,8 @@
 
 package com.frc1747;
 
-import com.frc1747.commands.AutoAllign;
-import com.frc1747.commands.AutoShoot;
+import com.frc1747.commands.auton.AutoAllign;
+import com.frc1747.commands.auton.AutoShoot;
 import com.frc1747.commands.collector.Extend;
 import com.frc1747.commands.collector.Retract;
 import com.frc1747.commands.collector.TakeIn;
@@ -28,12 +28,38 @@ public class OI {
 		
 	private OI() {
 		
-		System.out.println("OI Create");
+		/** Please read this
+		 *
+		 *  whileHeld is not the correct implementation of having something
+		 *  run while you are pressing a button. If you look at the documentation
+		 *  for whileHeld(), it calls the command's start() method repeatedly. This
+		 *  could explain some strange behavior.
+		 *  
+		 *  my suggestion: have a command that starts such a command using
+		 *  .whenPressed(Command arg);
+		 *  but once you are let go, do
+		 *  .whenReleased(Command arg);
+		 *  for the whenRelease command, you would make a new command that
+		 *  cancels a certain command.
+		 *  
+		 *  It would be something like this:
+		 *  .whenPressed(conveyIn = new ConveyIn());
+		 *  .whenReleased(new CancelCommand(conveyIn));
+		 *  
+		 */
+		
 		driver = new Logitech(RobotMap.DRIVER);
 		operator = new Xbox(RobotMap.OPERATOR);
 		
+		createDriver();
+		createOperator();
+		createDashboard();
+	}
+	
+	private void createDriver() {
+		
 		dPad = new POVButton(driver, Logitech.UP);
-
+		
 		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.A).whileHeld(new ConveyOut());
 		driver.getButton(Logitech.RB).whileHeld(new Shoot());
@@ -45,6 +71,9 @@ public class OI {
 		driver.getButton(Logitech.X).whileHeld(new TakeOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
+	}
+	
+	private void createOperator() {
 		
 		operator.getButton(Xbox.LT).whileHeld(new ConveyIn());
 		operator.getButton(Xbox.RT).whileHeld(new ConveyOut());
@@ -56,7 +85,11 @@ public class OI {
 		operator.getButton(Xbox.RB).whileHeld(new TakeOut());
 		operator.getButton(Xbox.A).whileHeld(new AutoShoot());
 //		operator.getButton(Xbox.BACK).whenPressed(new ShiftDown());
-//		operator.getButton(Xbox.START).whenPressed(new ShiftUp());		
+//		operator.getButton(Xbox.START).whenPressed(new ShiftUp());	
+	}
+	
+	private void createDashboard() {
+		
 	}
 	
 	public static OI getInstance(){

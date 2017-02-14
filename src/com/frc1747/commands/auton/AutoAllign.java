@@ -1,4 +1,4 @@
-package com.frc1747.commands;
+package com.frc1747.commands.auton;
 
 import com.frc1747.subsystems.DriveSubsystem;
 
