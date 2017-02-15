@@ -10,17 +10,14 @@ public class HBRTalon extends CANTalon {
 
 	public HBRTalon(int deviceNumber) {
 		super(deviceNumber);
-		this.configEncoderCodesPerRev(1);
 	}
 
 	public HBRTalon(int deviceNumber, int controlPeriodMs) {
 		super(deviceNumber, controlPeriodMs);
-		this.configEncoderCodesPerRev(1);
 	}
 
 	public HBRTalon(int deviceNumber, int controlPeriodMs, int enablePeriodMs) {
 		super(deviceNumber, controlPeriodMs, enablePeriodMs);
-		this.configEncoderCodesPerRev(1);
 	}
 
 	@Override
@@ -41,10 +38,13 @@ public class HBRTalon extends CANTalon {
 	 */
 	@Override
 	public double getSpeed() {
-		double speed = super.getSpeed() / (scaling * scaling / READ_TIME); 
+		double speed = super.getSpeed() / (READ_TIME * scaling * 4); 
 		return speed;
 	}
-	
+	@Override
+	public double getPosition(){
+		return super.getPosition() / (scaling * 4);
+	}
 	/**
 	 * Refer to CTRE javadocs if used with non-SPEED and non-POSITION modes.
 	 * In position mode, set the param as the desired scaled units.
@@ -54,10 +54,10 @@ public class HBRTalon extends CANTalon {
 	@Override
 	public void set(double outputValue) {
 		if(super.getControlMode() == TalonControlMode.Speed) {
-			outputValue *= (scaling * scaling / READ_TIME);
+			outputValue *= (scaling * READ_TIME * 4);
 		}
 		else if(super.getControlMode() == TalonControlMode.Position) {
-			outputValue *= scaling * scaling; // fix this
+			outputValue *= scaling * 4; // fix this
 		}
 		super.set(outputValue);
 	}

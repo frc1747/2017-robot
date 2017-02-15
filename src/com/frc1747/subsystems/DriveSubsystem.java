@@ -24,7 +24,6 @@ public class DriveSubsystem extends HBRSubsystem {
 	private final double WHEEL_DIAMETER = 4/12; //in feet
 	private final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI; 
 	private final double ENCODER_COUNTS_PER_REVOLUTION = 360;
-	private final double ENCODER_REFRESH_TIME = .1; //in seconds, motor speed is recorded over intervals of this
 	private final double LEFT_KP = 0, LEFT_KI = 0, LEFT_KD = 0, LEFT_KF = 0;
 	private final double RIGHT_KP = 0, RIGHT_KI = 0, RIGHT_KD = 0, RIGHT_KF = 0;
 	
@@ -153,24 +152,23 @@ public class DriveSubsystem extends HBRSubsystem {
 	
 	private class DriveSide {
 		
-		private CANTalon motor1, motor2;
+		private HBRTalon motor1, motor2;
 		
 		double Kp = 0, Ki = 0, Kd = 0, Kf = 0;
 		
 		private DriveSide(int motorPort1, int motorPort2, boolean isInverted) {
 			
-			motor1 = new CANTalon(motorPort1);
-			motor2 = new CANTalon(motorPort2);
+			motor1 = new HBRTalon(motorPort1);
+			motor2 = new HBRTalon(motorPort2);
 			
 			motor1.setInverted(isInverted);
 			motor2.setInverted(isInverted);
-			//motor1.setScaling(ENCODER_REFRESH_TIME*ENCODER_COUNTS_PER_REVOLUTION);
-			//motor2.setScaling(ENCODER_REFRESH_TIME*ENCODER_COUNTS_PER_REVOLUTION);
+			motor1.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
+			motor2.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
 			
 			//TODO: not necessarily motor1
 			motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-			//TODO: motor1.reverseSensor(isInverted);
-			motor1.configEncoderCodesPerRev(1);
+			//TODO: motor1.reverseSensor(isInverted);		
 			motor1.configNominalOutputVoltage(+0.0f, -0.0f);
 			//TODO: possibly +12.0f, -0.0f
 			motor1.configPeakOutputVoltage(+0.0f, -12.0f);

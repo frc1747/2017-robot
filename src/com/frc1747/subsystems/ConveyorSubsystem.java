@@ -32,7 +32,6 @@ public class ConveyorSubsystem extends HBRSubsystem {
 		motor1.reverseSensor(false);
 		motor1.configNominalOutputVoltage(+0.0f, -0.0f);
 		motor1.configPeakOutputVoltage(+12.0f, -12.0f);
-		motor1.configEncoderCodesPerRev(1);
 		motor1.setProfile(0);
 		motor1.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
 		

@@ -13,7 +13,6 @@ import lib.frc1747.subsystems.HBRSubsystem;
 public class ShooterSubsystem extends HBRSubsystem {
 	
 	private final double 
-		READ_TIME = 0.1,
 		SHOOTER_DIAMETER = 1.6 / 12.0, //in feet
 		SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI; 
 		
@@ -40,7 +39,6 @@ public class ShooterSubsystem extends HBRSubsystem {
 		backShooterMotor1.reverseSensor(true);
 		backShooterMotor1.configNominalOutputVoltage(+0.0f, -0.0f);
 		backShooterMotor1.configPeakOutputVoltage(+12.0f, -12.0f);
-		backShooterMotor1.configEncoderCodesPerRev(1);
 		backShooterMotor1.setProfile(0);
 		backShooterMotor1.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
 		
@@ -54,7 +52,6 @@ public class ShooterSubsystem extends HBRSubsystem {
 		frontShooterMotor.reverseSensor(true);
 		frontShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
 		frontShooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
-		frontShooterMotor.configEncoderCodesPerRev(1);
 		frontShooterMotor.setProfile(0);
 		frontShooterMotor.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
 
@@ -176,5 +173,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Front Shooter Position", getFrontPosition());
 		SmartDashboard.putNumber("Back Shooter Voltage", getBackVoltage());
 //		SmartDashboard.putNumber("Bottom Shooter Speed (ft/s)", getBottomFeetPerSecond());
+		SmartDashboard.putNumber("Front Shooter Position", getFrontPosition());
+		SmartDashboard.putNumber("Back Shooter Position", getBackPosition());
 	}
 }
