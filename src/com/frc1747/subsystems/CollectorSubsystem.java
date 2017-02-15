@@ -1,6 +1,5 @@
 package com.frc1747.subsystems;
 
-import com.ctre.CANTalon;
 import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.Solenoid;
