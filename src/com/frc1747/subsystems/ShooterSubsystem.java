@@ -6,8 +6,8 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import lib.frc1747.classes.HBRTalon;
 import lib.frc1747.pid.PIDValues;
+import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 
 public class ShooterSubsystem extends HBRSubsystem {

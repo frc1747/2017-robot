@@ -1,11 +1,11 @@
 package lib.frc1747.controller;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import lib.frc1747.controller.button.JoystickButton;
 
 public abstract class Controller {
 	
-	Joystick stick;
+	private Joystick stick;
 
 	JoystickButton xButton, aButton, bButton, yButton, 
 	leftBumper, rightBumper, leftTrigger, rightTrigger, start, back;
@@ -29,9 +29,8 @@ public abstract class Controller {
 	
 		stick = new Joystick(port);
 		
-		buttons[LB] = new JoystickButton(stick, LB);
-		buttons[RB] = new JoystickButton(stick, RB);
-		
+		buttons[LB] = new JoystickButton(getStick(), LB);
+		buttons[RB] = new JoystickButton(getStick(), RB);
 	}
 		
 	public JoystickButton getButton(int buttonName) {
@@ -40,7 +39,7 @@ public abstract class Controller {
 
 	public double getAxis(int axisName) {
 		
-		double stickVal = stick.getRawAxis(axisName);
+		double stickVal = getStick().getRawAxis(axisName);
 		
 		if(stickVal < DEADZONE && stickVal > -DEADZONE) {
 			stickVal = 0;
@@ -55,7 +54,10 @@ public abstract class Controller {
 	
 	public boolean getDPADButton(int Angle){
 		
-		return Angle == stick.getPOV();
+		return Angle == getStick().getPOV();
 	}
 
+	public Joystick getStick() {
+		return stick;
+	}
 }

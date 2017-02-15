@@ -1,4 +1,4 @@
-package lib.frc1747.classes;
+package lib.frc1747.speed_controller;
 
 import com.ctre.CANTalon;
 

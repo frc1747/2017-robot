@@ -10,7 +10,7 @@ import com.frc1747.RobotMap;
 import com.frc1747.commands.drive.DriveWithJoysticks;
 import com.kauailabs.navx.frc.AHRS;
 
-import lib.frc1747.classes.HBRTalon;
+import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 
 public class DriveSubsystem extends HBRSubsystem {

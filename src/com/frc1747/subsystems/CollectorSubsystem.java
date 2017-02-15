@@ -4,7 +4,7 @@ import com.ctre.CANTalon;
 import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.Solenoid;
-import lib.frc1747.classes.HBRTalon;
+import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 
 /**

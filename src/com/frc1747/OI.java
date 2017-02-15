@@ -14,8 +14,8 @@ import com.frc1747.commands.shifter.ShiftUp;
 import com.frc1747.commands.shooter.Shoot;
 
 import lib.frc1747.controller.Logitech;
-import lib.frc1747.controller.POVButton;
 import lib.frc1747.controller.Xbox;
+import lib.frc1747.controller.button.POVButton;
 
 public class OI {
 	

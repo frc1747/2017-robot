@@ -1,7 +1,6 @@
 package lib.frc1747.controller;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import lib.frc1747.controller.button.JoystickButton;
 
 public class Logitech extends Controller{
 	
@@ -10,13 +9,13 @@ public class Logitech extends Controller{
 	public Logitech(int port){
 		super(port);
 		
-		buttons[X] = new JoystickButton(stick, X);
-		buttons[A] = new JoystickButton(stick, A);
-		buttons[B] = new JoystickButton(stick, B);
-		buttons[Y] = new JoystickButton(stick, Y);
-		buttons[LT] = new JoystickButton(stick, LT);
-		buttons[RT] = new JoystickButton(stick, RT);
-		buttons[START] = new JoystickButton(stick, START);
-		buttons[BACK] = new JoystickButton(stick, BACK);
+		buttons[X] = new JoystickButton(getStick(), X);
+		buttons[A] = new JoystickButton(getStick(), A);
+		buttons[B] = new JoystickButton(getStick(), B);
+		buttons[Y] = new JoystickButton(getStick(), Y);
+		buttons[LT] = new JoystickButton(getStick(), LT);
+		buttons[RT] = new JoystickButton(getStick(), RT);
+		buttons[START] = new JoystickButton(getStick(), START);
+		buttons[BACK] = new JoystickButton(getStick(), BACK);
 	}
 }
