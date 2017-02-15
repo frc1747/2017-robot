@@ -59,10 +59,13 @@ public class ShooterSubsystem extends HBRSubsystem {
 		frontShooterMotor.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
 
 		// Set PIDF Constants for Back Shooter Motors
-    	backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
-    	
-		// Set PIDF Constants for Front Shooter Motor
-    	frontShooterMotor.setPIDF(frontPID.P, frontPID.I, frontPID.D, frontPID.F);
+    	//backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
+    	backShooterMotor1.setPID(backPID.P, backPID.I, backPID.D);
+		backShooterMotor1.setF(backPID.F);
+    	// Set PIDF Constants for Front Shooter Motor
+    	//frontShooterMotor.setPIDF(frontPID.P, frontPID.I, frontPID.D, frontPID.F);
+		frontShooterMotor.setPID(frontPID.P, frontPID.I, frontPID.D);
+		frontShooterMotor.setF(frontPID.F);
     }
     
     public static ShooterSubsystem getInstance() {
@@ -95,8 +98,8 @@ public class ShooterSubsystem extends HBRSubsystem {
     	frontSetpoint = frontSpeed;
     	backSetpoint = backSpeed;
     	
-    	//backSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
-    	//frontSpeed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
+    	//backSpeed *= ENCODER_COUNTS_PER_REVOLUTION * ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
+    	//frontSpeed *= ENCODER_COUNTS_PER_REVOLUTION * ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
     	
     	backShooterMotor1.set(backSpeed);
     	backShooterMotor2.set(backShooterMotor1.getDeviceID());
@@ -119,11 +122,11 @@ public class ShooterSubsystem extends HBRSubsystem {
     }
     
     public double getBackRPS(){
-    	return backShooterMotor1.getSpeed() /*/ (ENCODER_COUNTS_PER_REVOLUTION / READ_TIME)*/;
+    	return backShooterMotor1.getSpeed();
     }
     
     public double getFrontRPS() {
-    	return frontShooterMotor.getSpeed() /*/ (ENCODER_COUNTS_PER_REVOLUTION / READ_TIME)*/;
+    	return frontShooterMotor.getSpeed();
     }
     
     public double getBackPosition() {
@@ -155,12 +158,6 @@ public class ShooterSubsystem extends HBRSubsystem {
 
 	@Override
 	public void updateDashboard() {
-		
-	}
-	
-	@Override
-	public void debug() {
-		
 		SmartDashboard.putNumber("Back Shooter Speed", getBackRPS());
 		SmartDashboard.putNumber("Back Shooter Surface Speed", getBackFeetPerSecond());
 		SmartDashboard.putNumber("Back Shooter Position", getBackPosition());
@@ -173,5 +170,10 @@ public class ShooterSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Front Shooter Position", getFrontPosition());
 		SmartDashboard.putNumber("Back Shooter Voltage", getBackVoltage());
 //		SmartDashboard.putNumber("Bottom Shooter Speed (ft/s)", getBottomFeetPerSecond());
+	}
+	
+	@Override
+	public void debug() {
+		
 	}
 }

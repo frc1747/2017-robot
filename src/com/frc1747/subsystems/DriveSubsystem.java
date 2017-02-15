@@ -53,12 +53,6 @@ public class DriveSubsystem extends HBRSubsystem {
 
 	@Override
 	public void updateDashboard() {
-		
-	}
-	
-	@Override
-	public void debug() {
-
 		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
 		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
 		
@@ -66,6 +60,13 @@ public class DriveSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Right Drive RPS", getRightSpeed());
 		SmartDashboard.putNumber("Right Drive Surface Speed", getRightFeetPerSecond());
 		SmartDashboard.putNumber("Left Drive Surface Speed", getLeftFeetPerSecond());
+		SmartDashboard.putNumber("Left Drive Position", (getLeftPosition() / 438.5) *4);
+	}
+	
+	@Override
+	public void debug() {
+
+
 	}
 
 	
@@ -143,21 +144,28 @@ public class DriveSubsystem extends HBRSubsystem {
 		return right.getSpeed();
 	}
 	
+	public double getRightPosition(){
+		return right.getPosition();
+	}
+	public double getLeftPosition(){
+		return left.getPosition();
+	}
+	
 	private class DriveSide {
 		
-		private HBRTalon motor1, motor2;
+		private CANTalon motor1, motor2;
 		
 		double Kp = 0, Ki = 0, Kd = 0, Kf = 0;
 		
 		private DriveSide(int motorPort1, int motorPort2, boolean isInverted) {
 			
-			motor1 = new HBRTalon(motorPort1);
-			motor2 = new HBRTalon(motorPort2);
+			motor1 = new CANTalon(motorPort1);
+			motor2 = new CANTalon(motorPort2);
 			
 			motor1.setInverted(isInverted);
 			motor2.setInverted(isInverted);
-			motor1.setScaling(ENCODER_REFRESH_TIME*ENCODER_COUNTS_PER_REVOLUTION);
-			motor2.setScaling(ENCODER_REFRESH_TIME*ENCODER_COUNTS_PER_REVOLUTION);
+			//motor1.setScaling(ENCODER_REFRESH_TIME*ENCODER_COUNTS_PER_REVOLUTION);
+			//motor2.setScaling(ENCODER_REFRESH_TIME*ENCODER_COUNTS_PER_REVOLUTION);
 			
 			//TODO: not necessarily motor1
 			motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -197,6 +205,11 @@ public class DriveSubsystem extends HBRSubsystem {
 		
 		public double getSpeed() {
 			return motor1.getSpeed();
+		}
+		public double getPosition(){
+			
+			return motor1.getPosition();
+			
 		}
 		
 	}

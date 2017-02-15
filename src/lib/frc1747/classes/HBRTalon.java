@@ -41,7 +41,7 @@ public class HBRTalon extends CANTalon {
 	 */
 	@Override
 	public double getSpeed() {
-		double speed = super.getSpeed() / (scaling / READ_TIME); 
+		double speed = super.getSpeed() / (scaling * scaling / READ_TIME); 
 		return speed;
 	}
 	
@@ -54,10 +54,10 @@ public class HBRTalon extends CANTalon {
 	@Override
 	public void set(double outputValue) {
 		if(super.getControlMode() == TalonControlMode.Speed) {
-			outputValue *= (scaling / READ_TIME);
+			outputValue *= (scaling * scaling / READ_TIME);
 		}
 		else if(super.getControlMode() == TalonControlMode.Position) {
-			outputValue *= scaling; // fix this
+			outputValue *= scaling * scaling; // fix this
 		}
 		super.set(outputValue);
 	}
