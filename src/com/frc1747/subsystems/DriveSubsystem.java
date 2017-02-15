@@ -9,6 +9,8 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
 import com.frc1747.commands.drive.DriveWithJoysticks;
 import com.kauailabs.navx.frc.AHRS;
+
+import lib.frc1747.classes.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 
 public class DriveSubsystem extends HBRSubsystem {
@@ -124,13 +126,13 @@ public class DriveSubsystem extends HBRSubsystem {
 	}
 	
 	public double getLeftFeetPerSecond(){
-		return getLeftSpeed() * WHEEL_CIRCUMFERENCE /
-				(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME);
+		return getLeftSpeed() * WHEEL_CIRCUMFERENCE /*/
+				(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME)*/;
 	}
 	
 	public double getRightFeetPerSecond(){
-		return getRightSpeed() * WHEEL_CIRCUMFERENCE /
-				(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME);
+		return getRightSpeed() * WHEEL_CIRCUMFERENCE /*/
+				(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME)*/;
 	}
 	
 	public double getLeftSpeed(){
@@ -143,17 +145,19 @@ public class DriveSubsystem extends HBRSubsystem {
 	
 	private class DriveSide {
 		
-		private CANTalon motor1, motor2;
+		private HBRTalon motor1, motor2;
 		
 		double Kp = 0, Ki = 0, Kd = 0, Kf = 0;
 		
 		private DriveSide(int motorPort1, int motorPort2, boolean isInverted) {
 			
-			motor1 = new CANTalon(motorPort1);
-			motor2 = new CANTalon(motorPort2);
+			motor1 = new HBRTalon(motorPort1);
+			motor2 = new HBRTalon(motorPort2);
 			
 			motor1.setInverted(isInverted);
 			motor2.setInverted(isInverted);
+			motor1.setScaling(ENCODER_REFRESH_TIME*ENCODER_COUNTS_PER_REVOLUTION);
+			motor2.setScaling(ENCODER_REFRESH_TIME*ENCODER_COUNTS_PER_REVOLUTION);
 			
 			//TODO: not necessarily motor1
 			motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);

@@ -59,12 +59,10 @@ public class ShooterSubsystem extends HBRSubsystem {
 		frontShooterMotor.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
 
 		// Set PIDF Constants for Back Shooter Motors
-		backShooterMotor1.setPID(backPID.P, backPID.I, backPID.D);
-    	backShooterMotor1.setF(backPID.F);
+    	backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
     	
 		// Set PIDF Constants for Front Shooter Motor
-    	frontShooterMotor.setPID(frontPID.P, frontPID.I, frontPID.D);
-    	frontShooterMotor.setF(frontPID.F);
+    	frontShooterMotor.setPIDF(frontPID.P, frontPID.I, frontPID.D, frontPID.F);
     }
     
     public static ShooterSubsystem getInstance() {

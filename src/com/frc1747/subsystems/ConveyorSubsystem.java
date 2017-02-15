@@ -6,6 +6,7 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import lib.frc1747.classes.HBRTalon;
 import lib.frc1747.pid.PIDValues;
 import lib.frc1747.subsystems.HBRSubsystem;
 
@@ -16,7 +17,8 @@ public class ConveyorSubsystem extends HBRSubsystem {
 		ENCODER_COUNTS_PER_REVOLUTION = 120,
 		READ_TIME = 10;
 	
-	private CANTalon motor1, motor2;
+	private HBRTalon motor1;
+	private CANTalon motor2;
 	private PIDValues pidValues = new PIDValues(0, 0, 0, 0);
 	
 	private static ConveyorSubsystem instance;
@@ -24,14 +26,15 @@ public class ConveyorSubsystem extends HBRSubsystem {
 	private ConveyorSubsystem() {
 		
 		// Configure Motor 1
-		motor1 = new CANTalon(RobotMap.CONVEYOR_MOTOR1);
+		motor1 = new HBRTalon(RobotMap.CONVEYOR_MOTOR1);
     	motor1.setInverted(RobotMap.CONVEYOR_INVERTED1);
 		motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		motor1.reverseSensor(false);
 		motor1.configNominalOutputVoltage(+0.0f, -0.0f);
 		motor1.configPeakOutputVoltage(+12.0f, -12.0f);
-		motor1.configEncoderCodesPerRev(ENCODER_COUNTS_PER_REVOLUTION);
+		motor1.configEncoderCodesPerRev(1);
 		motor1.setProfile(0);
+		motor1.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
 		
 		// Configure Motor 2
 		motor2 = new CANTalon(RobotMap.CONVEYOR_MOTOR2);
@@ -75,7 +78,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
     }
     
     public void setSetpoint(double speed){
-    	speed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
+    	//speed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
     	motor1.set(speed);
     	motor2.set(motor1.getDeviceID());
     }
