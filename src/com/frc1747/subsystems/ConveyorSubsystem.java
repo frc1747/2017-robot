@@ -90,7 +90,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
 
 	@Override
 	public void updateDashboard() {
-		
+		super.updateDashboard();
 	}
 
 	@Override

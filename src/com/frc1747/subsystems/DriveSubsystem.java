@@ -53,6 +53,12 @@ public class DriveSubsystem extends HBRSubsystem {
 
 	@Override
 	public void updateDashboard() {
+		super.updateDashboard();
+	}
+	
+	@Override
+	public void debug() {
+
 		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
 		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
 		
@@ -61,12 +67,6 @@ public class DriveSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Right Drive Surface Speed", getRightFeetPerSecond());
 		SmartDashboard.putNumber("Left Drive Surface Speed", getLeftFeetPerSecond());
 		SmartDashboard.putNumber("Left Drive Position", (getLeftPosition() / 438.5) *4);
-	}
-	
-	@Override
-	public void debug() {
-
-
 	}
 
 	

@@ -39,7 +39,7 @@ public class ClimbSubsystem extends HBRSubsystem {
 
 	@Override
 	public void updateDashboard() {
-		
+		super.updateDashboard();
 	}
 
 	@Override
