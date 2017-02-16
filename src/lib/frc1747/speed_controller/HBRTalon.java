@@ -38,12 +38,12 @@ public class HBRTalon extends CANTalon {
 	 */
 	@Override
 	public double getSpeed() {
-		double speed = super.getSpeed() / (READ_TIME * scaling * 4); 
+		double speed = super.getSpeed() / (READ_TIME * scaling); 
 		return speed;
 	}
 	@Override
 	public double getPosition(){
-		return super.getPosition() / (scaling * 4);
+		return super.getPosition() / (scaling);
 	}
 	/**
 	 * Refer to CTRE javadocs if used with non-SPEED and non-POSITION modes.
@@ -54,17 +54,19 @@ public class HBRTalon extends CANTalon {
 	@Override
 	public void set(double outputValue) {
 		if(super.getControlMode() == TalonControlMode.Speed) {
-			outputValue *= (scaling * READ_TIME * 4);
+			outputValue *= (scaling * READ_TIME);
 		}
 		else if(super.getControlMode() == TalonControlMode.Position) {
-			outputValue *= scaling * 4; // fix this
+			outputValue *= scaling; // fix this
 		}
 		super.set(outputValue);
 	}
 
 	/**
-	   * Set the scaling of the encoder.
-	   * @param scaling the value to be used when scaling the Talon's native units
+	   * Scales from native units to desired units, for example:
+	   * <p> getPosition returns super.getPosition() / (scaling = ENCODER_CYCLES_PER_REVOLUTION * 4), where 4 is the number of edges on the encoder.
+	   * Example2: If the encoder has 100 edges for every 1 foot of travel, scaling would equal 1/100.
+	   * @param scaling the value to be used when scaling the Talon's native units.
 	   */
 	public void setScaling(double scaling) {
 		this.scaling = scaling;

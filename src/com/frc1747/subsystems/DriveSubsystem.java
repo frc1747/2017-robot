@@ -16,14 +16,14 @@ import lib.frc1747.subsystems.HBRSubsystem;
 public class DriveSubsystem extends HBRSubsystem {
 
 	// CONSTANTS
-	private final int MULTIPLIER = 100;
+	private final double ENCODER_SCALING_CONSTANT = 4.019156214366;
 	
 	public final boolean HIGH_GEAR = true;
 	public final boolean LOW_GEAR = false;
 
 	private final double WHEEL_DIAMETER = 4/12; //in feet
 	private final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI; 
-	private final double ENCODER_COUNTS_PER_REVOLUTION = 360;
+	//private final double ENCODER_COUNTS_PER_REVOLUTION = 360;
 	private final double LEFT_KP = 0, LEFT_KI = 0, LEFT_KD = 0, LEFT_KF = 0;
 	private final double RIGHT_KP = 0, RIGHT_KI = 0, RIGHT_KD = 0, RIGHT_KF = 0;
 	
@@ -163,8 +163,13 @@ public class DriveSubsystem extends HBRSubsystem {
 			
 			motor1.setInverted(isInverted);
 			motor2.setInverted(isInverted);
-			motor1.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
-			motor2.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
+			
+			motor1.reverseSensor(!isInverted);
+			motor2.reverseSensor(!isInverted);
+			
+			
+			motor1.setScaling(ENCODER_SCALING_CONSTANT);
+			motor2.setScaling(ENCODER_SCALING_CONSTANT);
 			
 			//TODO: not necessarily motor1
 			motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -198,7 +203,7 @@ public class DriveSubsystem extends HBRSubsystem {
 		}
 		
 		public void setSetpoint(double speed) {
-			motor1.set(speed * MULTIPLIER);
+			motor1.set(speed);
 		}
 		
 		public double getSpeed() {

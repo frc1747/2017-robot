@@ -31,7 +31,7 @@ public class CollectorSubsystem extends HBRSubsystem {
 		
 		motor = new HBRTalon(RobotMap.INTAKE_MOTOR);
 		motor.setInverted(RobotMap.INTAKE_INVERTED);
-		motor.setScaling(ENCODER_COUNTS_PER_REVOLUTION*ENCODER_REFRESH_TIME);
+		motor.setScaling(4 * ENCODER_COUNTS_PER_REVOLUTION);
 		
 		intakeSolenoid = new Solenoid(RobotMap.INTAKE_SOLENOID);
 	}

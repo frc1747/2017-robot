@@ -69,7 +69,7 @@ public class Shoot extends Command {
 	    		
 	    	}
 	    	else {
-	    		conveyor.setMotorPower(0.0);
+//	    		conveyor.setMotorPower(0.0);
 	    	}
     	}
     }

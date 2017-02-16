@@ -33,7 +33,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
 		motor1.configNominalOutputVoltage(+0.0f, -0.0f);
 		motor1.configPeakOutputVoltage(+12.0f, -12.0f);
 		motor1.setProfile(0);
-		motor1.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
+		motor1.setScaling(4 * ENCODER_COUNTS_PER_REVOLUTION);
 		
 		// Configure Motor 2
 		motor2 = new CANTalon(RobotMap.CONVEYOR_MOTOR2);

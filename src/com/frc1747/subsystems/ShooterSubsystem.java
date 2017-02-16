@@ -14,15 +14,15 @@ public class ShooterSubsystem extends HBRSubsystem {
 	
 	private final double 
 		SHOOTER_DIAMETER = 1.6 / 12.0, //in feet
-		SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI; 
+		SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI;
 		
 	private final int 
 		ENCODER_COUNTS_PER_REVOLUTION = 6, // 6 cycles per 1 rev of shooter roller
 		SHOOTER_TOLERANCE = 3,
 		SHOOTER_POWER = 0; //TODO: put actual value
 		
-	private final PIDValues backPID = new PIDValues(10, 0, 70, 3.3);
-	private final PIDValues frontPID = new PIDValues(8, 0, 70, 5.3);
+	private final PIDValues backPID = new PIDValues(18, 0, 250, 3.5);
+	private final PIDValues frontPID = new PIDValues(15, 0, 90, 5.8);
 
 	private double frontSetpoint = 0.0, backSetpoint = 0.0, avg_speed = 0;
 
@@ -40,7 +40,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 		backShooterMotor1.configNominalOutputVoltage(+0.0f, -0.0f);
 		backShooterMotor1.configPeakOutputVoltage(+12.0f, -12.0f);
 		backShooterMotor1.setProfile(0);
-		backShooterMotor1.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
+		backShooterMotor1.setScaling(4 * ENCODER_COUNTS_PER_REVOLUTION);
 		
 		// Configure Back Shooter Motor 2
     	backShooterMotor2 = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR2);
@@ -53,7 +53,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 		frontShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
 		frontShooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
 		frontShooterMotor.setProfile(0);
-		frontShooterMotor.setScaling(ENCODER_COUNTS_PER_REVOLUTION);
+		frontShooterMotor.setScaling(4 * ENCODER_COUNTS_PER_REVOLUTION);
 
 		// Set PIDF Constants for Back Shooter Motors
     	//backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
@@ -160,6 +160,8 @@ public class ShooterSubsystem extends HBRSubsystem {
 	
 	@Override
 	public void debug() {
+		SmartDashboard.putNumber("Back Shooter Output Voltage", getBackVoltage());
+		SmartDashboard.putNumber("Front Shooter Output Voltage", getFrontVoltage());
 
 		SmartDashboard.putNumber("Back Shooter Speed", getBackRPS());
 		SmartDashboard.putNumber("Back Shooter Surface Speed", getBackFeetPerSecond());
