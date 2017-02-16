@@ -14,10 +14,12 @@ public class ShooterSubsystem extends HBRSubsystem {
 	
 	private final double 
 		SHOOTER_DIAMETER = 1.6 / 12.0, //in feet
-		SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI;
+		SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI,
+		ENCODER_EDGES_PER_INPUT_REVOLUTION = 12.0, // 6 cycles per 1 rev of shooter roller
+		GEAR_RATIO = 2.0,
+		ENCODER_EDGES_PER_OUTPUT_REVOLUTION = ENCODER_EDGES_PER_INPUT_REVOLUTION * GEAR_RATIO;
 		
 	private final int 
-		ENCODER_COUNTS_PER_REVOLUTION = 6, // 6 cycles per 1 rev of shooter roller
 		SHOOTER_TOLERANCE = 3,
 		SHOOTER_POWER = 0; //TODO: put actual value
 		
@@ -40,7 +42,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 		backShooterMotor1.configNominalOutputVoltage(+0.0f, -0.0f);
 		backShooterMotor1.configPeakOutputVoltage(+12.0f, -12.0f);
 		backShooterMotor1.setProfile(0);
-		backShooterMotor1.setScaling(4 * ENCODER_COUNTS_PER_REVOLUTION);
+		backShooterMotor1.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
 		
 		// Configure Back Shooter Motor 2
     	backShooterMotor2 = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR2);
@@ -53,7 +55,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 		frontShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
 		frontShooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
 		frontShooterMotor.setProfile(0);
-		frontShooterMotor.setScaling(4 * ENCODER_COUNTS_PER_REVOLUTION);
+		frontShooterMotor.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
 
 		// Set PIDF Constants for Back Shooter Motors
     	//backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
