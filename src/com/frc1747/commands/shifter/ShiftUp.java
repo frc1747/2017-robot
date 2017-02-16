@@ -1,6 +1,5 @@
 package com.frc1747.commands.shifter;
 
-import com.frc1747.subsystems.DriveSubsystem;
 import com.frc1747.subsystems.ShifterSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;

@@ -18,11 +18,11 @@ public class Retract extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	collector.setPosition(collector.RETRACT_POSITION);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	collector.setPosition(collector.RETRACT_POSITION);
     }
 
     // Make this return true when this Command no longer needs to run execute()

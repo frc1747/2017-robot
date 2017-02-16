@@ -18,12 +18,11 @@ public class Extend extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("init extend");
+    	collector.setPosition(collector.EXTEND_POSITION);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	collector.setPosition(collector.EXTEND_POSITION);
     }
 
     // Make this return true when this Command no longer needs to run execute()

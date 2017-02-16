@@ -1,9 +1,7 @@
 package com.frc1747.subsystems;
 
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
@@ -35,8 +33,8 @@ public class DriveSubsystem extends HBRSubsystem {
 	private DriveSubsystem() {
 
 		// TODO: Determine which side is inverted
-		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, RobotMap.LEFT_DRIVE_INVERTED);
-		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, RobotMap.RIGHT_DRIVE_INVERTED);
+		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, RobotMap.LEFT_DRIVE_INVERTED, RobotMap.LEFT_DRIVE_SENSOR_REVERSED);
+		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, RobotMap.RIGHT_DRIVE_INVERTED, RobotMap.RIGHT_DRIVE_SENSOR_REVERSED);
 		left.setPIDF(LEFT_KP, LEFT_KI, LEFT_KD, LEFT_KF);
 		right.setPIDF(RIGHT_KP, RIGHT_KI, RIGHT_KD, RIGHT_KF);
 		gyro = new AHRS(SPI.Port.kMXP);
@@ -154,9 +152,9 @@ public class DriveSubsystem extends HBRSubsystem {
 		
 		private HBRTalon motor1, motor2;
 		
-		double Kp = 0, Ki = 0, Kd = 0, Kf = 0;
+		private double Kp = 0, Ki = 0, Kd = 0, Kf = 0;
 		
-		private DriveSide(int motorPort1, int motorPort2, boolean isInverted) {
+		private DriveSide(int motorPort1, int motorPort2, boolean isInverted, boolean sensorReversed) {
 			
 			motor1 = new HBRTalon(motorPort1);
 			motor2 = new HBRTalon(motorPort2);
@@ -164,12 +162,8 @@ public class DriveSubsystem extends HBRSubsystem {
 			motor1.setInverted(isInverted);
 			motor2.setInverted(isInverted);
 			
-			motor1.reverseSensor(!isInverted);
-			motor2.reverseSensor(!isInverted);
-			
-			
+			motor1.reverseSensor(sensorReversed);
 			motor1.setScaling(ENCODER_SCALING_CONSTANT);
-			motor2.setScaling(ENCODER_SCALING_CONSTANT);
 			
 			//TODO: not necessarily motor1
 			motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);

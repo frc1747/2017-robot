@@ -11,6 +11,8 @@ public class RobotMap {
 	public static final int RIGHT_DRIVE_MOTOR2 = 22;
 	public static final boolean LEFT_DRIVE_INVERTED = false;
 	public static final boolean RIGHT_DRIVE_INVERTED = true;
+	public static final boolean LEFT_DRIVE_SENSOR_REVERSED = false;
+	public static final boolean RIGHT_DRIVE_SENSOR_REVERSED = false;
 	
 	public static final int CLIMBER_MOTOR1 = 1;
 	public static final int CLIMBER_MOTOR2 = 2;
@@ -33,10 +35,11 @@ public class RobotMap {
 	public static final boolean BACK_SHOOTER2_INVERTED = false;
 	
 	public static final int SHIFT_SOLENOID = 0;
-	public static final int INTAKE_SOLENOID = 1;
-	public static final int HOPPER_SOLENOID = 2;
+	public static final int INTAKE_SOLENOID_PORT_1 = 1;
+	public static final int INTAKE_SOLENOID_PORT_2 = 2;
 	
-	public static final int SHOOTER_SOLENOID1 = 3;
-	public static final int SHOOTER_SOLENOID2 = 4;
-	public static final int SHOOTER_SOLENOID3 = 5;	
+	public static final int GATE_SOLENOID1_PORT_1 = 3;
+	public static final int GATE_SOLENOID1_PORT_2 = 4;
+	public static final int GATE_SOLENOID2_PORT_1 = 5;
+	public static final int GATE_SOLENOID2_PORT_2 = 6;	
 }

@@ -58,13 +58,13 @@ public class ShooterSubsystem extends HBRSubsystem {
 		frontShooterMotor.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
 
 		// Set PIDF Constants for Back Shooter Motors
-    	//backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
-    	backShooterMotor1.setPID(backPID.P, backPID.I, backPID.D);
-		backShooterMotor1.setF(backPID.F);
+    	backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
+    	//backShooterMotor1.setPID(backPID.P, backPID.I, backPID.D);
+		//backShooterMotor1.setF(backPID.F);
     	// Set PIDF Constants for Front Shooter Motor
-    	//frontShooterMotor.setPIDF(frontPID.P, frontPID.I, frontPID.D, frontPID.F);
-		frontShooterMotor.setPID(frontPID.P, frontPID.I, frontPID.D);
-		frontShooterMotor.setF(frontPID.F);
+    	frontShooterMotor.setPIDF(frontPID.P, frontPID.I, frontPID.D, frontPID.F);
+		//frontShooterMotor.setPID(frontPID.P, frontPID.I, frontPID.D);
+		//frontShooterMotor.setF(frontPID.F);
     }
     
     public static ShooterSubsystem getInstance() {
@@ -89,7 +89,8 @@ public class ShooterSubsystem extends HBRSubsystem {
     
     public boolean onTarget() {
     	
-    	return Math.abs(getBackRPS() - backSetpoint) < SHOOTER_TOLERANCE;
+    	return Math.abs(getBackRPS() - backSetpoint) < SHOOTER_TOLERANCE &&
+    			Math.abs(getFrontRPS() - frontSetpoint) < SHOOTER_TOLERANCE;
     }
     
     public void setSetpoint(double backSpeed, double frontSpeed){

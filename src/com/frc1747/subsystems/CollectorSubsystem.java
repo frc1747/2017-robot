@@ -2,7 +2,8 @@ package com.frc1747.subsystems;
 
 import com.frc1747.RobotMap;
 
-import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 
@@ -18,12 +19,12 @@ public class CollectorSubsystem extends HBRSubsystem {
 		ENCODER_COUNTS_PER_REVOLUTION = 4,
 		ENCODER_REFRESH_TIME = .1; //in seconds, motor speed is recorded over intervals of this
 	
-	public final boolean
-		EXTEND_POSITION = true,
-		RETRACT_POSITION = false;
+	public final Value
+		EXTEND_POSITION = DoubleSolenoid.Value.kForward,
+		RETRACT_POSITION = DoubleSolenoid.Value.kReverse;
 	
 	private HBRTalon motor;
-	private Solenoid intakeSolenoid;
+	private DoubleSolenoid intakeSolenoid;
 	
 	private static CollectorSubsystem instance;
 	
@@ -33,7 +34,7 @@ public class CollectorSubsystem extends HBRSubsystem {
 		motor.setInverted(RobotMap.INTAKE_INVERTED);
 		motor.setScaling(4 * ENCODER_COUNTS_PER_REVOLUTION);
 		
-		intakeSolenoid = new Solenoid(RobotMap.INTAKE_SOLENOID);
+		intakeSolenoid = new DoubleSolenoid(RobotMap.INTAKE_SOLENOID_PORT_1, RobotMap.INTAKE_SOLENOID_PORT_2);
 	}
 	
 	public static CollectorSubsystem getInstance(){
@@ -47,14 +48,6 @@ public class CollectorSubsystem extends HBRSubsystem {
 		motor.set(power);
 	}
 	
-	public void IntakeUp(){
-		intakeSolenoid.set(true);
-	}
-	
-	public void IntakeDown(){
-		intakeSolenoid.set(false);
-	}
-	
 	public double getSpeed(){
 		return motor.getSpeed();
 	}
@@ -64,7 +57,7 @@ public class CollectorSubsystem extends HBRSubsystem {
 				/*/ (ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME)*/;
 	}
 	
-	public void setPosition(boolean position) {
+	public void setPosition(Value position) {
 		intakeSolenoid.set(position);
 	}
 

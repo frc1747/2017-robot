@@ -35,14 +35,13 @@ public class Shoot extends Command {
     	SmartDashboard.putNumber("Back Shooter Setpoint", 80);
     	SmartDashboard.putNumber("Shooter Gate Time", gateTime);
     	
-    	//setInterruptible(false);
     }
 
     protected void initialize() {
     	shooter.enablePID();
     	startTime = System.currentTimeMillis();
-      	shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 70),
-    			-SmartDashboard.getNumber("Front Shooter Setpoint", 55));
+      	shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 80),
+    			-SmartDashboard.getNumber("Front Shooter Setpoint", 35));
     }
 
     protected void execute() {
@@ -53,14 +52,11 @@ public class Shoot extends Command {
     		shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
     		
 	    	if(shooter.onTarget()) {
-	    		if (counter % 3 == 0) {
+	    		if (counter % 2 == 0) {
 	    			shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_OPEN);
 	    		}
-	    		else if (counter % 3 == 1) {
-	    			shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
-	    		}
 	    		else {
-	    			shooterGate.setSolenoid(3, ShooterGateSubsystem.GATE_OPEN);
+	    			shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
 	    		}
 	    		
 	    		conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
@@ -80,11 +76,12 @@ public class Shoot extends Command {
 
     protected void end() {
     	shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
-    	
+
     	shooter.disablePID();
     	shooter.setBackPower(0.0);
     	shooter.setFrontPower(0.0);
-       	conveyor.setMotorPower(0.0);
+       	
+    	conveyor.setMotorPower(0.0);
     }
 
     protected void interrupted() {

@@ -1,10 +1,8 @@
 package com.frc1747.commands.drive;
 
-import com.frc1747.OI;
 import com.frc1747.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
-import lib.frc1747.controller.Controller;
 
 /**
  *
