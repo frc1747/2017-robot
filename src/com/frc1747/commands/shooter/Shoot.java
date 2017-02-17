@@ -25,15 +25,17 @@ public class Shoot extends Command {
     	conveyor = ConveyorSubsystem.getInstance();
     	shooterGate = ShooterGateSubsystem.getInstance();
     	counter = 0;
-    	gateTime = 100;
+    	gateTime = 170;
+    	endTime = 115;
     	requires(conveyor);
     	requires(shooter);
     	requires(shooterGate);
     	
     	//good setpoint is back: 80 front: 35
-    	SmartDashboard.putNumber("Front Shooter Setpoint", 35);
+    	SmartDashboard.putNumber("Front Shooter Setpoint", 30);
     	SmartDashboard.putNumber("Back Shooter Setpoint", 80);
     	SmartDashboard.putNumber("Shooter Gate Time", gateTime);
+    	SmartDashboard.putNumber("Gate Open Time", endTime);
     	
     }
 
@@ -49,14 +51,19 @@ public class Shoot extends Command {
     	//shooter.setFrontPower(0.5);
     	if (System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Shooter Gate Time", gateTime)) {
 	    		
-    		shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
+    		//shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
+    		shooterGate.gatesClose();
     		
 	    	if(shooter.onTarget()) {
 	    		if (counter % 2 == 0) {
-	    			shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_OPEN);
+	    			if(shooter.onTarget()){
+	    				shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_CLOSE);
+	    			}
 	    		}
 	    		else {
-	    			shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
+	    			if(shooter.onTarget()){
+	    				shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
+	    			}
 	    		}
 	    		
 	    		conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
@@ -68,6 +75,11 @@ public class Shoot extends Command {
 //	    		conveyor.setMotorPower(0.0);
 	    	}
     	}
+    	
+    	if(System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Gate Open Time", endTime)){
+    		shooterGate.gatesClose();
+    	}
+    	
     }
 
     protected boolean isFinished() {
@@ -75,8 +87,8 @@ public class Shoot extends Command {
     }
 
     protected void end() {
-    	shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
-
+    	//shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
+    	shooterGate.gatesClose();
     	shooter.disablePID();
     	shooter.setBackPower(0.0);
     	shooter.setFrontPower(0.0);

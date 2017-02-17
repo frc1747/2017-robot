@@ -11,6 +11,8 @@ import com.frc1747.commands.conveyer.ConveyIn;
 import com.frc1747.commands.conveyer.ConveyOut;
 import com.frc1747.commands.shifter.ShiftDown;
 import com.frc1747.commands.shifter.ShiftUp;
+import com.frc1747.commands.shooter.CloseGates;
+import com.frc1747.commands.shooter.OpenGates;
 import com.frc1747.commands.shooter.Shoot;
 
 import lib.frc1747.controller.Logitech;
@@ -61,9 +63,9 @@ public class OI {
 		dPad = new POVButton(driver, Logitech.UP);
 		
 		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
-		driver.getButton(Logitech.A).whileHeld(new ConveyOut());
+		driver.getButton(Logitech.A).whileHeld(new CloseGates());
 		driver.getButton(Logitech.RB).whileHeld(new Shoot());
-		driver.getButton(Logitech.RT).whileHeld(new AutoAllign());
+		driver.getButton(Logitech.RT).whileHeld(new OpenGates());
 		//driver.getButton(Logitech.B).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.LT).whenPressed(new Extend());
 		driver.getButton(Logitech.LB).whenPressed(new Retract());

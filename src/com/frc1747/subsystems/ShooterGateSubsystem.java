@@ -17,6 +17,7 @@ public class ShooterGateSubsystem extends HBRSubsystem {
 	
 	public final static Value GATE_CLOSE = DoubleSolenoid.Value.kForward;
 	public final static Value GATE_OPEN = DoubleSolenoid.Value.kReverse;
+	public final static Value GATE_HOLD = DoubleSolenoid.Value.kOff;
 	
 	public ShooterGateSubsystem() {
 		solenoids[0] = new DoubleSolenoid(RobotMap.GATE_SOLENOID1_PORT_1, RobotMap.GATE_SOLENOID1_PORT_2);
@@ -39,6 +40,14 @@ public class ShooterGateSubsystem extends HBRSubsystem {
 	
 	public static ShooterGateSubsystem getInstance(){
 		return instance == null ? instance = new ShooterGateSubsystem() : instance;
+	}
+	public void gatesOpen(){
+		solenoids[1].set(GATE_OPEN);	
+		solenoids[0].set(GATE_CLOSE);
+	}
+	public void gatesClose(){
+		solenoids[1].set(GATE_CLOSE);	
+		solenoids[0].set(GATE_OPEN);
 	}
 	
     public void initDefaultCommand() {

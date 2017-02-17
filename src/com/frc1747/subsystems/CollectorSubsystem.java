@@ -21,7 +21,8 @@ public class CollectorSubsystem extends HBRSubsystem {
 	
 	public final Value
 		EXTEND_POSITION = DoubleSolenoid.Value.kForward,
-		RETRACT_POSITION = DoubleSolenoid.Value.kReverse;
+		RETRACT_POSITION = DoubleSolenoid.Value.kReverse,
+		HOLD_POSITION = DoubleSolenoid.Value.kOff;
 	
 	private HBRTalon motor;
 	private DoubleSolenoid intakeSolenoid;

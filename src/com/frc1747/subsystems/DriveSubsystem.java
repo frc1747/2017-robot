@@ -58,6 +58,9 @@ public class DriveSubsystem extends HBRSubsystem {
 
 		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
 		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
+		SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
+		SmartDashboard.putNumber("Gyro Roll", gyro.getRoll());
+		SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
 		
 		SmartDashboard.putNumber("Left Drive RPS", getLeftSpeed());
 		SmartDashboard.putNumber("Right Drive RPS", getRightSpeed());
