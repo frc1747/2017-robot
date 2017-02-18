@@ -18,13 +18,13 @@ public class ConveyIn extends Command{
 	
 	 // Called just before this Command runs the first time
     protected void initialize() {
-    	//conveyor.enablePID();
+    	conveyor.enablePID();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
-    	//conveyor.setSetpoint(0.0);
+    	//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
+    	conveyor.setSetpoint(400.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -34,7 +34,7 @@ public class ConveyIn extends Command{
 
     // Called once after isFinished returns true
     protected void end() {
-    	//conveyor.disablePID();
+    	conveyor.disablePID();
     	conveyor.setMotorPower(0.0);
     }
 

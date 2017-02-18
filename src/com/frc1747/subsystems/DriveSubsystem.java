@@ -2,6 +2,11 @@ package com.frc1747.subsystems;
 
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
@@ -30,6 +35,11 @@ public class DriveSubsystem extends HBRSubsystem {
 	
 	private static DriveSubsystem instance;
 	
+	private double oldXAccel = 0;
+	private double oldYAccel = 0;
+	private double oldZAccel = 0;
+	PrintWriter write;
+	
 	private DriveSubsystem() {
 
 		// TODO: Determine which side is inverted
@@ -38,6 +48,13 @@ public class DriveSubsystem extends HBRSubsystem {
 		left.setPIDF(LEFT_KP, LEFT_KI, LEFT_KD, LEFT_KF);
 		right.setPIDF(RIGHT_KP, RIGHT_KI, RIGHT_KD, RIGHT_KF);
 		gyro = new AHRS(SPI.Port.kMXP);
+		
+		try{
+			File accelValues = new File("/home/lvuser/AccelerationValues.csv");
+			write = new PrintWriter(new FileOutputStream(accelValues, true));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public static DriveSubsystem getInstance() {
@@ -61,6 +78,14 @@ public class DriveSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
 		SmartDashboard.putNumber("Gyro Roll", gyro.getRoll());
 		SmartDashboard.putNumber("Gyro Pitch", gyro.getPitch());
+		
+		oldXAccel = 0.8 * oldXAccel + 0.2 * gyro.getRawAccelX();
+		oldYAccel = 0.8 * oldYAccel + 0.2 * gyro.getRawAccelY();
+		oldZAccel = 0.8 * oldZAccel + 0.2 * gyro.getRawAccelZ();
+		write.println(oldYAccel);
+		SmartDashboard.putNumber("Accel X", oldXAccel);
+		SmartDashboard.putNumber("Accel Y", oldYAccel);
+		SmartDashboard.putNumber("Accel Z", oldZAccel);
 		
 		SmartDashboard.putNumber("Left Drive RPS", getLeftSpeed());
 		SmartDashboard.putNumber("Right Drive RPS", getRightSpeed());

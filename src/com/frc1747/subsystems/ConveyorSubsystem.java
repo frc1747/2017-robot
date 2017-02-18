@@ -14,12 +14,12 @@ public class ConveyorSubsystem extends HBRSubsystem {
 
 	public final double CONVEYOR_POWER = 0.85; 
 	private final int 
-		ENCODER_COUNTS_PER_REVOLUTION = 120,
+		ENCODER_COUNTS_PER_REVOLUTION = 1,
 		READ_TIME = 10;
 	
 	private HBRTalon motor1;
 	private CANTalon motor2;
-	private PIDValues pidValues = new PIDValues(0, 0, 0, 0);
+	private PIDValues pidValues = new PIDValues(12, 0, 120, 5.07);
 	
 	private static ConveyorSubsystem instance;
 
@@ -29,7 +29,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
 		motor1 = new HBRTalon(RobotMap.CONVEYOR_MOTOR1);
     	motor1.setInverted(RobotMap.CONVEYOR_INVERTED1);
 		motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		motor1.reverseSensor(false);
+		motor1.reverseSensor(true);
 		motor1.configNominalOutputVoltage(+0.0f, -0.0f);
 		motor1.configPeakOutputVoltage(+12.0f, -12.0f);
 		motor1.setProfile(0);
@@ -65,6 +65,10 @@ public class ConveyorSubsystem extends HBRSubsystem {
 		//return motor1.getSpeed() / (ENCODER_COUNTS_PER_REVOLUTION / READ_TIME);
 		return motor1.getSpeed();
 	}
+	
+	public double getVoltage() {
+		return motor1.getOutputVoltage();
+	}
     
     public void enablePID(){
     	motor1.changeControlMode(TalonControlMode.Speed);
@@ -80,6 +84,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
     	//speed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
     	motor1.set(speed);
     	motor2.set(motor1.getDeviceID());
+    	motor2.reverseOutput(true);
     }
 	
 	@Override
@@ -94,7 +99,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
 
 	@Override
 	public void debug() {
-		
+		SmartDashboard.putNumber("Conveyer Voltage", getVoltage());
 		SmartDashboard.putNumber("Conveyer Speed", getSpeed());
 	}
 }

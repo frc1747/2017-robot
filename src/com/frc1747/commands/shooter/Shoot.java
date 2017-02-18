@@ -41,9 +41,12 @@ public class Shoot extends Command {
 
     protected void initialize() {
     	shooter.enablePID();
+    	conveyor.enablePID();
+    	conveyor.setSetpoint(400.0);
     	startTime = System.currentTimeMillis();
       	shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 80),
     			-SmartDashboard.getNumber("Front Shooter Setpoint", 35));
+      	//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
     }
 
     protected void execute() {
@@ -66,7 +69,7 @@ public class Shoot extends Command {
 	    			}
 	    		}
 	    		
-	    		conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
+	    		//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
 	    		startTime = System.currentTimeMillis();
 	    		counter++;
 	    		
@@ -92,7 +95,7 @@ public class Shoot extends Command {
     	shooter.disablePID();
     	shooter.setBackPower(0.0);
     	shooter.setFrontPower(0.0);
-       	
+       	conveyor.disablePID();
     	conveyor.setMotorPower(0.0);
     }
 

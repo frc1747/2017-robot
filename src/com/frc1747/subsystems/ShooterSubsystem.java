@@ -40,12 +40,13 @@ public class ShooterSubsystem extends HBRSubsystem {
     	backShooterMotor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		backShooterMotor1.reverseSensor(true);
 		backShooterMotor1.configNominalOutputVoltage(+0.0f, -0.0f);
-		backShooterMotor1.configPeakOutputVoltage(+12.0f, -12.0f);
+		backShooterMotor1.configPeakOutputVoltage(+12.0f, -0.0f);
 		backShooterMotor1.setProfile(0);
 		backShooterMotor1.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
 		
 		// Configure Back Shooter Motor 2
     	backShooterMotor2 = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR2);
+		backShooterMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
 		backShooterMotor2.setInverted(true);
 		
 		// Configure Front Shooter Motor
@@ -53,7 +54,7 @@ public class ShooterSubsystem extends HBRSubsystem {
     	frontShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		frontShooterMotor.reverseSensor(true);
 		frontShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
-		frontShooterMotor.configPeakOutputVoltage(+12.0f, -12.0f);
+		frontShooterMotor.configPeakOutputVoltage(+0.0f, -12.0f);
 		frontShooterMotor.setProfile(0);
 		frontShooterMotor.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
 
