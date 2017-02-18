@@ -19,7 +19,7 @@ import lib.frc1747.subsystems.HBRSubsystem;
 public class DriveSubsystem extends HBRSubsystem {
 
 	// CONSTANTS
-	private final double ENCODER_SCALING_CONSTANT = 4.019156214366;
+	private final double ENCODER_SCALING_CONSTANT = 438.5;
 	
 	public final boolean HIGH_GEAR = true;
 	public final boolean LOW_GEAR = false;
@@ -82,7 +82,8 @@ public class DriveSubsystem extends HBRSubsystem {
 		oldXAccel = 0.8 * oldXAccel + 0.2 * gyro.getRawAccelX();
 		oldYAccel = 0.8 * oldYAccel + 0.2 * gyro.getRawAccelY();
 		oldZAccel = 0.8 * oldZAccel + 0.2 * gyro.getRawAccelZ();
-		write.println(oldYAccel);
+		write.println(getLeftSpeed());
+		write.flush();
 		SmartDashboard.putNumber("Accel X", oldXAccel);
 		SmartDashboard.putNumber("Accel Y", oldYAccel);
 		SmartDashboard.putNumber("Accel Z", oldZAccel);
@@ -91,7 +92,7 @@ public class DriveSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Right Drive RPS", getRightSpeed());
 		SmartDashboard.putNumber("Right Drive Surface Speed", getRightFeetPerSecond());
 		SmartDashboard.putNumber("Left Drive Surface Speed", getLeftFeetPerSecond());
-		SmartDashboard.putNumber("Left Drive Position", (getLeftPosition() / 438.5) *4);
+		SmartDashboard.putNumber("Left Drive Position", getLeftPosition());
 	}
 
 	
@@ -126,7 +127,7 @@ public class DriveSubsystem extends HBRSubsystem {
 	
 	public double getForwardAcceleration(){
 		//TODO: Replace axis name when possible
-		return gyro.getRawAccelX();
+		return gyro.getRawAccelY();
 	}
 	
 	public double getLateralAcceleration(){

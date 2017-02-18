@@ -37,7 +37,7 @@ public class ShifterSubsystem extends HBRSubsystem {
 	}
 	public boolean shouldShiftUp(){
 		
-		double slope = -SHIFT_ACCELERATION_HIGH/SHIFT_VELOCITY_LOW;
+		/*double slope = -SHIFT_ACCELERATION_HIGH/SHIFT_VELOCITY_LOW;
 		
 		
 		if(Math.abs(drive.getTurning()) <= TURNING_THRESHOLD_TO_SHIFT) {
@@ -52,7 +52,9 @@ public class ShifterSubsystem extends HBRSubsystem {
 			}
 		} else {
 			return LOW_GEAR;
-		}
+		}*/
+		
+		return false;
 	}
 	
 	public boolean isHighGear(){
