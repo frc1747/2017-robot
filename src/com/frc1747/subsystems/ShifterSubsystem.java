@@ -13,8 +13,8 @@ public class ShifterSubsystem extends HBRSubsystem {
 	private static final int SHIFT_ACCELERATION_HIGH = 1;
 	private static final int SHIFT_VELOCITY_LOW = 1;
 	private static final double TURNING_THRESHOLD_TO_SHIFT = 1;
-	private static final double LOWER_THRESHOLD = 1;
-	private static final double UPPER_THRESHOLD = 1.5;
+	private static final double LOWER_THRESHOLD = 6.5;
+	private static final double UPPER_THRESHOLD = 7;
 	
 	public Solenoid shifter;
 	private DriveSubsystem drive;
@@ -52,9 +52,20 @@ public class ShifterSubsystem extends HBRSubsystem {
 			}
 		} else {
 			return LOW_GEAR;
-		}*/
+		}
+
 		
-		return false;
+		return false;*/
+		
+		if (isHighGear() && drive.getLeftFeetPerSecond() < LOWER_THRESHOLD) {
+			return LOW_GEAR;
+		} else if (isLowGear() && drive.getLeftFeetPerSecond() > UPPER_THRESHOLD) {
+			return HIGH_GEAR;
+		} else if (isHighGear()) {
+			return HIGH_GEAR;
+		} else {
+			return LOW_GEAR;
+		}
 	}
 	
 	public boolean isHighGear(){
