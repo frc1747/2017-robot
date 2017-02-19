@@ -24,7 +24,7 @@ public class DriveSubsystem extends HBRSubsystem {
 	public final boolean HIGH_GEAR = true;
 	public final boolean LOW_GEAR = false;
 
-	private final double WHEEL_DIAMETER = 4/12; //in feet
+	private final double WHEEL_DIAMETER = 4./12; //in feet
 	private final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI; 
 	//private final double ENCODER_COUNTS_PER_REVOLUTION = 360;
 	private final double LEFT_KP = 0, LEFT_KI = 0, LEFT_KD = 0, LEFT_KF = 0;
@@ -153,6 +153,7 @@ public class DriveSubsystem extends HBRSubsystem {
 	}
 	
 	public double getLeftFeetPerSecond(){
+		System.out.println(getLeftSpeed() + "," + WHEEL_CIRCUMFERENCE);
 		return getLeftSpeed() * WHEEL_CIRCUMFERENCE /*/
 				(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME)*/;
 	}

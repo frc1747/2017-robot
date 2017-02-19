@@ -1,6 +1,7 @@
 package com.frc1747.commands.conveyer;
 
 import com.frc1747.subsystems.ConveyorSubsystem;
+import com.frc1747.subsystems.ShifterSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -19,17 +20,19 @@ public class ConveyIn extends Command{
 	 // Called just before this Command runs the first time
     protected void initialize() {
     	conveyor.enablePID();
+    	System.out.println("INIT");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
+    	System.out.println("EXEC");
+    	conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
     	conveyor.setSetpoint(400.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

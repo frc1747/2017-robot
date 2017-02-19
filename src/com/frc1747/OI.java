@@ -51,10 +51,10 @@ public class OI {
 		 */
 		
 		driver = new Logitech(RobotMap.DRIVER);
-		operator = new Xbox(RobotMap.OPERATOR);
+		//operator = new Xbox(RobotMap.OPERATOR);
 		
 		createDriver();
-		createOperator();
+		//createOperator();
 		createDashboard();
 	}
 	
@@ -63,14 +63,14 @@ public class OI {
 		dPad = new POVButton(driver, Logitech.UP);
 		
 		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
-		driver.getButton(Logitech.A).whileHeld(new CloseGates());
+		//driver.getButton(Logitech.A).whileHeld(new CloseGates());
 		driver.getButton(Logitech.RB).whileHeld(new Shoot());
 		driver.getButton(Logitech.RT).whileHeld(new OpenGates());
 		//driver.getButton(Logitech.B).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.LT).whenPressed(new Extend());
 		driver.getButton(Logitech.LB).whenPressed(new Retract());
 		driver.getButton(Logitech.B).whileHeld(new TakeIn());
-		driver.getButton(Logitech.X).whileHeld(new TakeOut());
+		//driver.getButton(Logitech.X).whileHeld(new TakeOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
 	}

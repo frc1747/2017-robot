@@ -32,8 +32,8 @@ public class Shoot extends Command {
     	requires(shooterGate);
     	
     	//good setpoint is back: 80 front: 35
-    	SmartDashboard.putNumber("Front Shooter Setpoint", 30);
-    	SmartDashboard.putNumber("Back Shooter Setpoint", 80);
+    	SmartDashboard.putNumber("Front Shooter Setpoint", 35);
+    	SmartDashboard.putNumber("Back Shooter Setpoint", 75.5);
     	SmartDashboard.putNumber("Shooter Gate Time", gateTime);
     	SmartDashboard.putNumber("Gate Open Time", endTime);
     	
