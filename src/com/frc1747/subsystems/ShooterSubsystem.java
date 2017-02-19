@@ -38,9 +38,9 @@ public class ShooterSubsystem extends HBRSubsystem {
     	// Configure Back Shooter Motor 1
     	backShooterMotor1 = new HBRTalon(RobotMap.BACK_SHOOTER_MOTOR1);
     	backShooterMotor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		backShooterMotor1.reverseSensor(true);
+		backShooterMotor1.reverseSensor(false);
 		backShooterMotor1.configNominalOutputVoltage(+0.0f, -0.0f);
-		backShooterMotor1.configPeakOutputVoltage(+12.0f, -0.0f);
+		backShooterMotor1.configPeakOutputVoltage(+12.0f, -12.0f);
 		backShooterMotor1.setProfile(0);
 		backShooterMotor1.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
 		

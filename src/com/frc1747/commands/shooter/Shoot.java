@@ -50,7 +50,7 @@ public class Shoot extends Command {
     	pidStartTime = System.currentTimeMillis();
     	rampTime = 500;
     	desiredFrontSetpoint = -SmartDashboard.getNumber("Front Shooter Setpoint", 35);
-    	desiredBackSetpoint = SmartDashboard.getNumber("Back Shooter Setpoint", 75.5);
+    	desiredBackSetpoint = -SmartDashboard.getNumber("Back Shooter Setpoint", 75.5);
       	/*shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 75.5),
     			-SmartDashboard.getNumber("Front Shooter Setpoint", 35));*/
       	//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
@@ -73,7 +73,7 @@ public class Shoot extends Command {
 		    	if(shooter.onTarget()) {
 		    		if (counter % 2 == 0) {
 		    			if(shooter.onTarget()){
-		    				shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_CLOSE);
+		    				shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_OPEN);
 		    			}
 		    		}
 		    		else {

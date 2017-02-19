@@ -11,13 +11,13 @@ public class ClimbSubsystem extends HBRSubsystem {
 	private CANTalon motor2;
 	private static ClimbSubsystem instance;
 	
-	public final double CLIMBER_POWER = 0; //TODO: use actual power
+	public final double CLIMBER_POWER = 1.0; //TODO: use actual power
 	
 	private ClimbSubsystem() {
 		motor1 = new CANTalon(RobotMap.CLIMBER_MOTOR1);
-		motor2 = new CANTalon(RobotMap.CLIMBER_MOTOR2);
+		//motor2 = new CANTalon(RobotMap.CLIMBER_MOTOR2);
 		motor1.setInverted(RobotMap.CLIMBER_INVERTED1);
-		motor2.setInverted(RobotMap.CLIMBER_INVERTED2);
+		//motor2.setInverted(RobotMap.CLIMBER_INVERTED2);
 	}
 	
 	public static ClimbSubsystem getInstance(){
@@ -29,7 +29,7 @@ public class ClimbSubsystem extends HBRSubsystem {
 	
 	public void setMotorPower(double power) {
 		motor1.set(power);
-		motor2.set(power);
+		//motor2.set(power);
 	}
 	
 	@Override

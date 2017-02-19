@@ -84,7 +84,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
     	//speed *= ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
     	motor1.set(speed);
     	motor2.set(motor1.getDeviceID());
-    	motor2.reverseOutput(true);
+    	//motor2.reverseOutput(true);
     }
 	
 	@Override

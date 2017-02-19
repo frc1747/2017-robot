@@ -21,7 +21,7 @@ public class RobotMap {
 	
 	public static final int CONVEYOR_MOTOR1 = 41;
 	public static final int CONVEYOR_MOTOR2 = 42;
-	public static final boolean CONVEYOR_INVERTED1 = true;
+	public static final boolean CONVEYOR_INVERTED1 = false;
 	public static final boolean CONVEYOR_INVERTED2 = false;
 	
 	public static final int INTAKE_MOTOR = 31;
