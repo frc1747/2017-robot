@@ -19,6 +19,10 @@ public class Shoot extends Command {
 	private long gateTime;
 	private long startTime;
 	private long endTime;
+	private long pidStartTime;
+	private double desiredFrontSetpoint = -35;
+	private double desiredBackSetpoint = 75.5;
+	private int rampTime;
 	
     public Shoot() {
     	shooter = ShooterSubsystem.getInstance();
@@ -32,8 +36,8 @@ public class Shoot extends Command {
     	requires(shooterGate);
     	
     	//good setpoint is back: 80 front: 35
-    	SmartDashboard.putNumber("Front Shooter Setpoint", 35);
-    	SmartDashboard.putNumber("Back Shooter Setpoint", 75.5);
+    	SmartDashboard.putNumber("Front Shooter Setpoint", -desiredFrontSetpoint);
+    	SmartDashboard.putNumber("Back Shooter Setpoint", desiredBackSetpoint);
     	SmartDashboard.putNumber("Shooter Gate Time", gateTime);
     	SmartDashboard.putNumber("Gate Open Time", endTime);
     	
@@ -42,47 +46,56 @@ public class Shoot extends Command {
     protected void initialize() {
     	shooter.enablePID();
     	conveyor.enablePID();
-    	conveyor.setSetpoint(400.0);
     	startTime = System.currentTimeMillis();
-      	shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 80),
-    			-SmartDashboard.getNumber("Front Shooter Setpoint", 35));
+    	pidStartTime = System.currentTimeMillis();
+    	rampTime = 500;
+    	desiredFrontSetpoint = -SmartDashboard.getNumber("Front Shooter Setpoint", 35);
+    	desiredBackSetpoint = SmartDashboard.getNumber("Back Shooter Setpoint", 75.5);
+      	/*shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 75.5),
+    			-SmartDashboard.getNumber("Front Shooter Setpoint", 35));*/
       	//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
     }
 
     protected void execute() {
     	//shooter.setBackPower(0.5);
     	//shooter.setFrontPower(0.5);
-    	if (System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Shooter Gate Time", gateTime)) {
+    	if(System.currentTimeMillis() - pidStartTime < rampTime){
+    		shooter.setSetpoint((desiredBackSetpoint/rampTime) * (System.currentTimeMillis() - pidStartTime),
+    				(desiredFrontSetpoint/rampTime) * (System.currentTimeMillis() - pidStartTime));
+    	}else{
+        	conveyor.setSetpoint(400.0);
+    		shooter.setSetpoint(desiredBackSetpoint, desiredFrontSetpoint);
+	    	if (System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Shooter Gate Time", gateTime)) {
+		    		
+	    		//shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
+	    		shooterGate.gatesClose();
 	    		
-    		//shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
-    		shooterGate.gatesClose();
-    		
-	    	if(shooter.onTarget()) {
-	    		if (counter % 2 == 0) {
-	    			if(shooter.onTarget()){
-	    				shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_CLOSE);
-	    			}
-	    		}
-	    		else {
-	    			if(shooter.onTarget()){
-	    				shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
-	    			}
-	    		}
-	    		
-	    		//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
-	    		startTime = System.currentTimeMillis();
-	    		counter++;
-	    		
+		    	if(shooter.onTarget()) {
+		    		if (counter % 2 == 0) {
+		    			if(shooter.onTarget()){
+		    				shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_CLOSE);
+		    			}
+		    		}
+		    		else {
+		    			if(shooter.onTarget()){
+		    				shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
+		    			}
+		    		}
+		    		
+		    		//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
+		    		startTime = System.currentTimeMillis();
+		    		counter++;
+		    		
+		    	}
+		    	else {
+	//	    		conveyor.setMotorPower(0.0);
+		    	}
 	    	}
-	    	else {
-//	    		conveyor.setMotorPower(0.0);
+	    	
+	    	if(System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Gate Open Time", endTime)){
+	    		shooterGate.gatesClose();
 	    	}
     	}
-    	
-    	if(System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Gate Open Time", endTime)){
-    		shooterGate.gatesClose();
-    	}
-    	
     }
 
     protected boolean isFinished() {

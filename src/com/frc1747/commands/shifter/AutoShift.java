@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
  */
 public class AutoShift extends Command {
 	
-	private static final double LOWER_THRESHOLD = 6.;
+	private static final double LOWER_THRESHOLD = 4.8;
 	private static final double UPPER_THRESHOLD = 6.8;
 	private ShifterSubsystem shifter;
 	private DriveSubsystem driveSubsystem;
