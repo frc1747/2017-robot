@@ -61,6 +61,26 @@ public class HBRTalon extends CANTalon {
 		}
 		super.set(outputValue);
 	}
+	
+	/**
+	 * Sets the maximum error where Integral Accumulation will occur during a closed-loop mode.
+	 * This just calls the other setIZone method that takes a double param
+	 * @param izone an integer for the maximum error allowed
+	 */
+	@Override
+	public void setIZone(int izone) {
+		setIZone((double) izone);
+	}
+	
+	/**
+	 * Sets the maximum error where Integral Accumulation will occur during a closed-loop mode.
+	 * @param izone a double for the maximum error allowed
+	 */
+	public void setIZone(double izone) {
+		izone *= (scaling * READ_TIME);
+		izone = Math.round(izone);
+		super.setIZone((int) izone);
+	}
 
 	/**
 	   * Scales from native units to desired units, for example:
