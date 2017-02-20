@@ -55,12 +55,12 @@ public class DriveSubsystem extends HBRSubsystem {
 		right.setPIDF(rightPIDForward.P, rightPIDForward.I, rightPIDForward.D, rightPIDForward.F);
 		gyro = new AHRS(SPI.Port.kMXP);
 		
-		try{
+		/*try{
 			File accelValues = new File("/home/lvuser/AccelerationValues.csv");
 			write = new PrintWriter(new FileOutputStream(accelValues, true));
 		}catch(Exception e){
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public static DriveSubsystem getInstance() {
@@ -88,8 +88,8 @@ public class DriveSubsystem extends HBRSubsystem {
 		oldXAccel = 0.8 * oldXAccel + 0.2 * gyro.getRawAccelX();
 		oldYAccel = 0.8 * oldYAccel + 0.2 * gyro.getRawAccelY();
 		oldZAccel = 0.8 * oldZAccel + 0.2 * gyro.getRawAccelZ();
-		write.println(getLeftSpeed());
-		write.flush();
+		//write.println(getLeftSpeed());
+		//write.flush();
 		SmartDashboard.putNumber("Accel X", oldXAccel);
 		SmartDashboard.putNumber("Accel Y", oldYAccel);
 		SmartDashboard.putNumber("Accel Z", oldZAccel);

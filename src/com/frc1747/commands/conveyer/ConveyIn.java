@@ -1,5 +1,6 @@
 package com.frc1747.commands.conveyer;
 
+import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
 import com.frc1747.subsystems.ShifterSubsystem;
 
@@ -8,12 +9,14 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ConveyIn extends Command{
 
 	private ConveyorSubsystem conveyor;
+	private CollectorSubsystem intake;
 	
 	public ConveyIn() {
 		conveyor = ConveyorSubsystem.getInstance();
 		//conveyor.setPIDF(kP, kI, kD, kF);
 		//conveyor.enablePID();
 		requires(conveyor);
+		requires(intake = CollectorSubsystem.getInstance());
 	}
 	
 	
@@ -27,7 +30,11 @@ public class ConveyIn extends Command{
     protected void execute() {
     	System.out.println("EXEC");
     	//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
-    	conveyor.setSetpoint(400.0);
+    	if(intake.isIntakeIn()){
+    		conveyor.setSetpoint(400.0);
+    	}else{
+    		conveyor.setSetpoint(0.0);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

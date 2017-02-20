@@ -24,10 +24,10 @@ public class DriveWithJoysticks extends Command {
 	
     public DriveWithJoysticks() {
     	requires(drive = DriveSubsystem.getInstance());
-    	//requires(shifter = ShifterSubsystem.getInstance());
+    	requires(shifter = ShifterSubsystem.getInstance());
     	setInterruptible(true);
-    	SmartDashboard.putNumber("right setpoint", 7);
-    	SmartDashboard.putNumber("left setpoint", 7);
+    	//SmartDashboard.putNumber("right setpoint", 7);
+    	//SmartDashboard.putNumber("left setpoint", 7);
     }
 
     protected void initialize() {
@@ -40,7 +40,12 @@ public class DriveWithJoysticks extends Command {
     	leftVert = OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL);
     	
     	//if(oi.getDriver().getButton(Logitech.LT).get()){
-    		drive.setSetpoint(7.25 * (leftVert + rightHoriz), 7.25 * (leftVert - rightHoriz));
+    		if(shifter.isHighGear()){
+    			drive.setSetpoint(12.0 * (leftVert + rightHoriz), 12.0 * (leftVert - rightHoriz));
+    		}else{
+    			drive.setSetpoint(7.25 * (leftVert + rightHoriz), 7.25 * (leftVert - rightHoriz));
+    		}
+    			
     	//drive.setSetpoint(SmartDashboard.getNumber("left setpoint", 7), SmartDashboard.getNumber("right setpoint", 7));
     	if(drive.getLeftSetpoint() < 0) {
     		drive.setLeftPIDF(DriveSubsystem.leftPIDBackward);
@@ -59,7 +64,7 @@ public class DriveWithJoysticks extends Command {
     	//}
     	
     	//if(shifter.shouldShiftUp()){
-    	//	shifter.setTransmission(shifter.HIGH_GEAR);
+    		//shifter.setTransmission(shifter.HIGH_GEAR);
     	//} else{
     	//	shifter.setTransmission(shifter.LOW_GEAR);
     	//}

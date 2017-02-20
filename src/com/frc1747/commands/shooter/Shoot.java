@@ -1,5 +1,6 @@
 package com.frc1747.commands.shooter;
 
+import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
 import com.frc1747.subsystems.ShooterGateSubsystem;
 import com.frc1747.subsystems.ShooterSubsystem;
@@ -15,6 +16,7 @@ public class Shoot extends Command {
 	private ShooterSubsystem shooter;
 	private ConveyorSubsystem conveyor;
 	private ShooterGateSubsystem shooterGate;
+	private CollectorSubsystem intake;
 	private int counter = 0;
 	private long gateTime;
 	private long startTime;
@@ -34,6 +36,7 @@ public class Shoot extends Command {
     	requires(conveyor);
     	requires(shooter);
     	requires(shooterGate);
+    	requires(intake = CollectorSubsystem.getInstance());
     	
     	//good setpoint is back: 80 front: 35
     	SmartDashboard.putNumber("Front Shooter Setpoint", -desiredFrontSetpoint);
@@ -63,8 +66,13 @@ public class Shoot extends Command {
     	if(System.currentTimeMillis() - pidStartTime < rampTime){
     		shooter.setSetpoint((desiredBackSetpoint/rampTime) * (System.currentTimeMillis() - pidStartTime),
     				(desiredFrontSetpoint/rampTime) * (System.currentTimeMillis() - pidStartTime));
+    		shooter.clearIAccumulation();
     	}else{
-        	conveyor.setSetpoint(SmartDashboard.getNumber("Intake Setpoint", 400));
+    		if(intake.isIntakeIn()){
+            	conveyor.setSetpoint(SmartDashboard.getNumber("Intake Setpoint", 400));
+    		}else{
+    			conveyor.setSetpoint(0.0);
+    		}
     		shooter.setSetpoint(desiredBackSetpoint, desiredFrontSetpoint);
 	    	if (System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Shooter Gate Time", gateTime)) {
 		    		
@@ -97,6 +105,7 @@ public class Shoot extends Command {
 	    		shooterGate.gatesClose();
 	    	}
     	}
+    	    	
     }
 
     protected boolean isFinished() {

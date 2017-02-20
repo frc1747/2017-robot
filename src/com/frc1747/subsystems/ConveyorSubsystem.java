@@ -19,7 +19,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
 	
 	private HBRTalon motor1;
 	private CANTalon motor2;
-	private PIDValues pidValues = new PIDValues(0, 0, 0, 5.07);
+	private PIDValues pidValues = new PIDValues(5, 0.015, 200, 4.17);
 	
 	private static ConveyorSubsystem instance;
 
@@ -34,12 +34,13 @@ public class ConveyorSubsystem extends HBRSubsystem {
 		motor1.configPeakOutputVoltage(+12.0f, -12.0f);
 		motor1.setProfile(0);
 		motor1.setScaling(4 * ENCODER_COUNTS_PER_REVOLUTION);
-		
+		System.out.println(motor1.getIZone());
 		// Configure Motor 2
 		motor2 = new CANTalon(RobotMap.CONVEYOR_MOTOR2);
     	motor2.setInverted(RobotMap.CONVEYOR_INVERTED2);
     	
     	setPIDF(pidValues);
+		motor1.setIZone(20);
 	}
 	
 	public void setPIDF(PIDValues pidValues){

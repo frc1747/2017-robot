@@ -1,5 +1,6 @@
 package com.frc1747.commands.conveyer;
 
+import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,11 +11,13 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ConveyOut extends Command {
 	
 	private ConveyorSubsystem conveyor;
+	private CollectorSubsystem intake;
 
     public ConveyOut() {
     	
     	conveyor = ConveyorSubsystem.getInstance();
     	requires(conveyor);
+    	requires(intake = CollectorSubsystem.getInstance());
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     }
@@ -25,7 +28,11 @@ public class ConveyOut extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	conveyor.setMotorPower(-conveyor.CONVEYOR_POWER);
+    	if(intake.isIntakeIn()){
+    		conveyor.setMotorPower(-conveyor.CONVEYOR_POWER);
+    	}else{
+    		conveyor.setMotorPower(0.0);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

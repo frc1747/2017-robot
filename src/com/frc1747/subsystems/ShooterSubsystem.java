@@ -1,5 +1,9 @@
 package com.frc1747.subsystems;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
+
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
@@ -23,8 +27,9 @@ public class ShooterSubsystem extends HBRSubsystem {
 		SHOOTER_TOLERANCE = 2,
 		SHOOTER_POWER = 0; //TODO: put actual value
 		
-	private final PIDValues backPID = new PIDValues(10, 0.015, 150, 3.75);
-	private final PIDValues frontPID = new PIDValues(0, 0, 0, 5.8);
+	private final PIDValues backPID = new PIDValues(10, 0.05, 460, 3.75);
+	private final PIDValues frontPID = new PIDValues(13, 0.02, 370, 5.3);
+	//private final PIDValues backPID = new PIDValues(0, 0, 0, 5.3);
 
 	private double frontSetpoint = 0.0, backSetpoint = 0.0, avg_speed = 0;
 
@@ -32,6 +37,10 @@ public class ShooterSubsystem extends HBRSubsystem {
 	private CANTalon backShooterMotor2;
 	
 	private static ShooterSubsystem instance;
+	
+	private long startDebugTime = 0;
+	
+	PrintWriter write; 
 	
     private ShooterSubsystem() {
     	
@@ -63,12 +72,21 @@ public class ShooterSubsystem extends HBRSubsystem {
 
 		// Set PIDF Constants for Back Shooter Motors
     	backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
+    	backShooterMotor1.setIZone(7.0);
     	//backShooterMotor1.setPID(backPID.P, backPID.I, backPID.D);
 		//backShooterMotor1.setF(backPID.F);
     	// Set PIDF Constants for Front Shooter Motor
     	frontShooterMotor.setPIDF(frontPID.P, frontPID.I, frontPID.D, frontPID.F);
+    	frontShooterMotor.setIZone(5.0);
 		//frontShooterMotor.setPID(frontPID.P, frontPID.I, frontPID.D);
 		//frontShooterMotor.setF(frontPID.F);
+    	
+    	try{
+			File ShootValues = new File("/home/lvuser/ShooterValues.csv");
+			write = new PrintWriter(new FileOutputStream(ShootValues, true));
+		}catch(Exception e){
+			e.printStackTrace();
+		}
     }
     
     public static ShooterSubsystem getInstance() {
@@ -160,7 +178,16 @@ public class ShooterSubsystem extends HBRSubsystem {
     public double getBackVoltage() {
     	return backShooterMotor1.getOutputVoltage();
     }
+    
+    public void clearIAccumulation(){
+    	frontShooterMotor.clearIAccum();
+    	backShooterMotor1.clearIAccum();
+    }
 
+    public void writeBackValues(){
+    	write.println(backShooterMotor1.getSpeed() + "," + (System.currentTimeMillis() - startDebugTime));
+    }
+    
 	@Override
 	public void updateDashboard() {
 		super.updateDashboard();
@@ -168,6 +195,9 @@ public class ShooterSubsystem extends HBRSubsystem {
 	
 	@Override
 	public void debug() {
+		if (startDebugTime < System.currentTimeMillis()){
+			startDebugTime = System.currentTimeMillis();
+		}
 		SmartDashboard.putNumber("Back Shooter Output Voltage", getBackVoltage());
 		SmartDashboard.putNumber("Front Shooter Output Voltage", getFrontVoltage());
 
@@ -185,5 +215,11 @@ public class ShooterSubsystem extends HBRSubsystem {
 //		SmartDashboard.putNumber("Bottom Shooter Speed (ft/s)", getBottomFeetPerSecond());
 		SmartDashboard.putNumber("Front Shooter Position", getFrontPosition());
 		SmartDashboard.putNumber("Back Shooter Position", getBackPosition());
+
+		writeBackValues();
 	}
+	
+	public boolean temp;
+	public double sumSpeed;
+	public double samples;
 }

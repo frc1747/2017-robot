@@ -15,8 +15,8 @@ public class ShooterGateSubsystem extends HBRSubsystem {
 	
 	private static ShooterGateSubsystem instance;
 	
-	public final static Value GATE_CLOSE = DoubleSolenoid.Value.kForward;
-	public final static Value GATE_OPEN = DoubleSolenoid.Value.kReverse;
+	public final static Value GATE_CLOSE = DoubleSolenoid.Value.kReverse;
+	public final static Value GATE_OPEN = DoubleSolenoid.Value.kForward;
 	public final static Value GATE_HOLD = DoubleSolenoid.Value.kOff;
 	
 	public ShooterGateSubsystem() {

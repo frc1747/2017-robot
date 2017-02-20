@@ -32,7 +32,6 @@ public class ShifterSubsystem extends HBRSubsystem {
 	}
 	
 	public void setTransmission(boolean gear){
-		System.out.println("shift set: " + gear);
 		shifter.set(gear);
 	}
 	public boolean shouldShiftUp(){

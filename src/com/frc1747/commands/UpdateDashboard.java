@@ -28,7 +28,7 @@ public class UpdateDashboard extends Command {
 
     protected void execute() {
     	
-    	if(timer.get() > 0.1){
+    	if(timer.get() > 1.0 / 20){
 	    	ClimbSubsystem.getInstance().updateDashboard();
 			CollectorSubsystem.getInstance().updateDashboard();
 			ConveyorSubsystem.getInstance().updateDashboard();
