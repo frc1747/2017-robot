@@ -74,7 +74,8 @@ public class OI {
 		//driver.getButton(Logitech.X).whileHeld(new TakeOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
-		SmartDashboard.putData("CollectIn", new TakeIn());
+		SmartDashboard.putData("ShiftUp", new ShiftUp());
+		SmartDashboard.putData("ShiftDown", new ShiftDown());
 	}
 	
 	private void createOperator() {

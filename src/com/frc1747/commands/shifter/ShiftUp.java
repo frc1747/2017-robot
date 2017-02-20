@@ -12,6 +12,7 @@ public class ShiftUp extends Command {
 	private ShifterSubsystem shifter;
 	
     public ShiftUp() {
+    	System.out.println("ShiftUp Constructor");
     	shifter = ShifterSubsystem.getInstance();
         requires(shifter);
     }

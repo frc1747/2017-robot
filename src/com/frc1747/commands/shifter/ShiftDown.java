@@ -12,6 +12,7 @@ public class ShiftDown extends Command {
 	private ShifterSubsystem shifter;
 	
     public ShiftDown() {
+    	System.out.println("Shift Down constructor");
     	shifter = ShifterSubsystem.getInstance();
     	requires(shifter);
     }

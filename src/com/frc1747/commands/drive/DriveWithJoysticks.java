@@ -24,7 +24,7 @@ public class DriveWithJoysticks extends Command {
 	
     public DriveWithJoysticks() {
     	requires(drive = DriveSubsystem.getInstance());
-    	requires(shifter = ShifterSubsystem.getInstance());
+    	shifter = ShifterSubsystem.getInstance();
     	setInterruptible(true);
     	//SmartDashboard.putNumber("right setpoint", 7);
     	//SmartDashboard.putNumber("left setpoint", 7);
