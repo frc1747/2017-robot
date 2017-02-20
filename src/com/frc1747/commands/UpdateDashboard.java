@@ -10,6 +10,7 @@ import com.frc1747.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UpdateDashboard extends Command {
 

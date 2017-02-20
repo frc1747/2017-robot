@@ -19,7 +19,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
 	
 	private HBRTalon motor1;
 	private CANTalon motor2;
-	private PIDValues pidValues = new PIDValues(12, 0, 120, 5.07);
+	private PIDValues pidValues = new PIDValues(0, 0, 0, 5.07);
 	
 	private static ConveyorSubsystem instance;
 

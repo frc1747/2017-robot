@@ -13,13 +13,14 @@ import com.frc1747.RobotMap;
 import com.frc1747.commands.drive.DriveWithJoysticks;
 import com.kauailabs.navx.frc.AHRS;
 
+import lib.frc1747.pid.PIDValues;
 import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 
 public class DriveSubsystem extends HBRSubsystem {
 
 	// CONSTANTS
-	private final double ENCODER_SCALING_CONSTANT = 438.5;
+	private final double ENCODER_SCALING_CONSTANT = 617.25;
 	
 	public final boolean HIGH_GEAR = true;
 	public final boolean LOW_GEAR = false;
@@ -27,8 +28,13 @@ public class DriveSubsystem extends HBRSubsystem {
 	private final double WHEEL_DIAMETER = 4./12; //in feet
 	private final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI; 
 	//private final double ENCODER_COUNTS_PER_REVOLUTION = 360;
-	private final double LEFT_KP = 0, LEFT_KI = 0, LEFT_KD = 0, LEFT_KF = 0;
-	private final double RIGHT_KP = 0, RIGHT_KI = 0, RIGHT_KD = 0, RIGHT_KF = 0;
+	//private final double LEFT_KP = 2, LEFT_KI = 0, LEFT_KD = 7, LEFT_KF = 2.3; //I = 0.01 for brake mode
+	//private final double RIGHT_KP = 2, RIGHT_KI = 0, RIGHT_KD = 7, RIGHT_KF = 2.3;
+	
+	public static final PIDValues leftPIDForward = new PIDValues(1, 0, 5, 2.07);
+	public static final PIDValues rightPIDForward = new PIDValues(1, 0, 5, 2.07);
+	public static final PIDValues leftPIDBackward = new PIDValues(1, 0, 5, 2.01);
+	public static final PIDValues rightPIDBackward = new PIDValues(1, 0, 5, 2.14);
 	
 	private DriveSide left, right;
 	private AHRS gyro;
@@ -45,8 +51,8 @@ public class DriveSubsystem extends HBRSubsystem {
 		// TODO: Determine which side is inverted
 		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, RobotMap.LEFT_DRIVE_INVERTED, RobotMap.LEFT_DRIVE_SENSOR_REVERSED);
 		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, RobotMap.RIGHT_DRIVE_INVERTED, RobotMap.RIGHT_DRIVE_SENSOR_REVERSED);
-		left.setPIDF(LEFT_KP, LEFT_KI, LEFT_KD, LEFT_KF);
-		right.setPIDF(RIGHT_KP, RIGHT_KI, RIGHT_KD, RIGHT_KF);
+		left.setPIDF(leftPIDForward.P, leftPIDForward.I, leftPIDForward.D, leftPIDForward.F);
+		right.setPIDF(rightPIDForward.P, rightPIDForward.I, rightPIDForward.D, rightPIDForward.F);
 		gyro = new AHRS(SPI.Port.kMXP);
 		
 		try{
@@ -88,11 +94,11 @@ public class DriveSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Accel Y", oldYAccel);
 		SmartDashboard.putNumber("Accel Z", oldZAccel);
 		
-		SmartDashboard.putNumber("Left Drive RPS", getLeftSpeed());
-		SmartDashboard.putNumber("Right Drive RPS", getRightSpeed());
-		SmartDashboard.putNumber("Right Drive Surface Speed", getRightFeetPerSecond());
-		SmartDashboard.putNumber("Left Drive Surface Speed", getLeftFeetPerSecond());
+		SmartDashboard.putNumber("Left Drive FPS", getLeftSpeed());
+		SmartDashboard.putNumber("Right Drive FPS", getRightSpeed());
 		SmartDashboard.putNumber("Left Drive Position", getLeftPosition());
+		SmartDashboard.putNumber("Average speed", getAverageSpeed());
+		
 	}
 
 	
@@ -116,13 +122,13 @@ public class DriveSubsystem extends HBRSubsystem {
 		left.disablePID();
 	}
 	
-	public void setSetpoint(double rightSpeed, double leftSpeed) {
+	public void setSetpoint(double leftSpeed, double rightSpeed) {
 		right.setSetpoint(rightSpeed);
 		left.setSetpoint(leftSpeed);
 	}
 
-	public double getSpeed(){
-		return (right.getSpeed() + left.getSpeed()) / 2;
+	public double getAverageSpeed(){
+		return (-right.getSpeed() + left.getSpeed()) / 2;
 	}
 	
 	public double getForwardAcceleration(){
@@ -133,6 +139,14 @@ public class DriveSubsystem extends HBRSubsystem {
 	public double getLateralAcceleration(){
 		//TODO: Replace axis name when possible
 		return gyro.getRawAccelZ();
+	}
+	
+	public void setLeftPIDF(PIDValues values){
+		left.setPIDF(values.P, values.I, values.D, values.F);
+	}
+	
+	public void setRightPIDF(PIDValues values){
+		right.setPIDF(values.P, values.I, values.D, values.F);
 	}
 	
 	public double getTurning(){
@@ -178,6 +192,14 @@ public class DriveSubsystem extends HBRSubsystem {
 		return left.getPosition();
 	}
 	
+	public double getLeftSetpoint(){
+		return left.getSetpoint();
+	}
+	
+	public double getRightSetpoint(){
+		return right.getSetpoint();
+	}
+	
 	private class DriveSide {
 		
 		private HBRTalon motor1, motor2;
@@ -200,10 +222,15 @@ public class DriveSubsystem extends HBRSubsystem {
 			//TODO: motor1.reverseSensor(isInverted);		
 			motor1.configNominalOutputVoltage(+0.0f, -0.0f);
 			//TODO: possibly +12.0f, -0.0f
-			motor1.configPeakOutputVoltage(+0.0f, -12.0f);
+			motor1.configPeakOutputVoltage(+12.0f, -12.0f);
 			motor1.setProfile(0);
+			motor1.setNominalClosedLoopVoltage(12.0);
 		}
 		
+		public double getSetpoint() {
+			return motor1.getSetpoint();
+		}
+
 		public void setPIDF(double Kp, double Ki, double Kd, double Kf) {
 			motor1.setP(this.Kp = Kp);
 			motor1.setI(this.Ki = Ki);
@@ -228,6 +255,7 @@ public class DriveSubsystem extends HBRSubsystem {
 		
 		public void setSetpoint(double speed) {
 			motor1.set(speed);
+			motor2.set(motor1.getDeviceID());
 		}
 		
 		public double getSpeed() {

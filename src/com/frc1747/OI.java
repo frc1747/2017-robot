@@ -15,6 +15,7 @@ import com.frc1747.commands.shooter.CloseGates;
 import com.frc1747.commands.shooter.OpenGates;
 import com.frc1747.commands.shooter.Shoot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import lib.frc1747.controller.Logitech;
 import lib.frc1747.controller.Xbox;
 import lib.frc1747.controller.button.POVButton;
@@ -65,7 +66,7 @@ public class OI {
 		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
 		//driver.getButton(Logitech.A).whileHeld(new CloseGates());
 		driver.getButton(Logitech.RB).whileHeld(new Shoot());
-		driver.getButton(Logitech.RT).whileHeld(new OpenGates());
+		driver.getButton(Logitech.RT).whileHeld(new TakeIn());
 		//driver.getButton(Logitech.B).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.LT).whenPressed(new Extend());
 		driver.getButton(Logitech.LB).whenPressed(new Retract());
@@ -73,6 +74,7 @@ public class OI {
 		//driver.getButton(Logitech.X).whileHeld(new TakeOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
+		SmartDashboard.putData("CollectIn", new TakeIn());
 	}
 	
 	private void createOperator() {

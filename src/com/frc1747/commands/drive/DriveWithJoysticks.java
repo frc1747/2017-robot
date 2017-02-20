@@ -5,6 +5,7 @@ import com.frc1747.subsystems.DriveSubsystem;
 import com.frc1747.subsystems.ShifterSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import lib.frc1747.controller.Logitech;
 
 /**
@@ -25,10 +26,12 @@ public class DriveWithJoysticks extends Command {
     	requires(drive = DriveSubsystem.getInstance());
     	//requires(shifter = ShifterSubsystem.getInstance());
     	setInterruptible(true);
+    	SmartDashboard.putNumber("right setpoint", 7);
+    	SmartDashboard.putNumber("left setpoint", 7);
     }
 
     protected void initialize() {
-    	//drive.enablePID();
+    	drive.enablePID();
     }
     
     protected void execute() {
@@ -37,9 +40,22 @@ public class DriveWithJoysticks extends Command {
     	leftVert = OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL);
     	
     	//if(oi.getDriver().getButton(Logitech.LT).get()){
-    		//drive.setSetpoint(leftVert + rightHoriz, leftVert - rightHoriz);
+    		drive.setSetpoint(7.25 * (leftVert + rightHoriz), 7.25 * (leftVert - rightHoriz));
+    	//drive.setSetpoint(SmartDashboard.getNumber("left setpoint", 7), SmartDashboard.getNumber("right setpoint", 7));
+    	if(drive.getLeftSetpoint() < 0) {
+    		drive.setLeftPIDF(DriveSubsystem.leftPIDBackward);
+    	}
+    	else {
+    		drive.setLeftPIDF(DriveSubsystem.leftPIDForward);
+    	}
+    	
+    	if(drive.getRightSetpoint() < 0){
+    		drive.setRightPIDF(DriveSubsystem.rightPIDBackward);
+    	}else{
+    		drive.setRightPIDF(DriveSubsystem.rightPIDForward);
+    	}
     	//} else {
-    		drive.driveArcadeMode(leftVert, rightHoriz);
+    		//drive.driveArcadeMode(leftVert, rightHoriz);
     	//}
     	
     	//if(shifter.shouldShiftUp()){
@@ -54,9 +70,9 @@ public class DriveWithJoysticks extends Command {
     }
     
     protected void end() {
-    	drive.setPower(0.0, 0.0);
-    	//drive.setSetpoint(0, 0);
-    	//drive.disablePID();
+    	//drive.setPower(0.0, 0.0);
+    	drive.setSetpoint(0, 0);
+    	drive.disablePID();
     }
 
     protected void interrupted() {

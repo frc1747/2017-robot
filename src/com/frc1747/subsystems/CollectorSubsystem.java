@@ -1,9 +1,11 @@
 package com.frc1747.subsystems;
 
 import com.frc1747.RobotMap;
+import com.frc1747.commands.collector.TakeIn;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 
@@ -13,7 +15,7 @@ import lib.frc1747.subsystems.HBRSubsystem;
 public class CollectorSubsystem extends HBRSubsystem {
 
 	public final double 
-		COLLECTOR_POWER = 0.85, //TODO: put actual value we want to use
+		COLLECTOR_POWER = 0.85, //previously .85
 		WHEEL_DIAMETER = 1.6/12, //in feet
 		WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI,
 		ENCODER_COUNTS_PER_REVOLUTION = 4,

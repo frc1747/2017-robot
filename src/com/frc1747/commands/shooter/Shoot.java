@@ -40,6 +40,7 @@ public class Shoot extends Command {
     	SmartDashboard.putNumber("Back Shooter Setpoint", desiredBackSetpoint);
     	SmartDashboard.putNumber("Shooter Gate Time", gateTime);
     	SmartDashboard.putNumber("Gate Open Time", endTime);
+    	SmartDashboard.putNumber("Intake Setpoint", 400);
     	
     }
 
@@ -63,7 +64,7 @@ public class Shoot extends Command {
     		shooter.setSetpoint((desiredBackSetpoint/rampTime) * (System.currentTimeMillis() - pidStartTime),
     				(desiredFrontSetpoint/rampTime) * (System.currentTimeMillis() - pidStartTime));
     	}else{
-        	conveyor.setSetpoint(400.0);
+        	conveyor.setSetpoint(SmartDashboard.getNumber("Intake Setpoint", 400));
     		shooter.setSetpoint(desiredBackSetpoint, desiredFrontSetpoint);
 	    	if (System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Shooter Gate Time", gateTime)) {
 		    		

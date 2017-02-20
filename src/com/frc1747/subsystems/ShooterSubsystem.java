@@ -23,8 +23,8 @@ public class ShooterSubsystem extends HBRSubsystem {
 		SHOOTER_TOLERANCE = 2,
 		SHOOTER_POWER = 0; //TODO: put actual value
 		
-	private final PIDValues backPID = new PIDValues(18, 0, 250, 3.5);
-	private final PIDValues frontPID = new PIDValues(15, 0, 90, 5.8);
+	private final PIDValues backPID = new PIDValues(10, 0.015, 150, 3.75);
+	private final PIDValues frontPID = new PIDValues(0, 0, 0, 5.8);
 
 	private double frontSetpoint = 0.0, backSetpoint = 0.0, avg_speed = 0;
 
@@ -43,11 +43,13 @@ public class ShooterSubsystem extends HBRSubsystem {
 		backShooterMotor1.configPeakOutputVoltage(+12.0f, -12.0f);
 		backShooterMotor1.setProfile(0);
 		backShooterMotor1.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
+		backShooterMotor1.setNominalClosedLoopVoltage(12.0);
 		
 		// Configure Back Shooter Motor 2
     	backShooterMotor2 = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR2);
 		backShooterMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
-		backShooterMotor2.setInverted(true);
+		backShooterMotor2.setInverted(false);
+		backShooterMotor2.setNominalClosedLoopVoltage(12.0);
 		
 		// Configure Front Shooter Motor
     	frontShooterMotor = new HBRTalon(RobotMap.FRONT_SHOOTER_MOTOR);
@@ -57,6 +59,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 		frontShooterMotor.configPeakOutputVoltage(+0.0f, -12.0f);
 		frontShooterMotor.setProfile(0);
 		frontShooterMotor.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
+		frontShooterMotor.setNominalClosedLoopVoltage(12.0);
 
 		// Set PIDF Constants for Back Shooter Motors
     	backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
@@ -78,14 +81,14 @@ public class ShooterSubsystem extends HBRSubsystem {
     	backShooterMotor1.changeControlMode(TalonControlMode.Speed);
     	frontShooterMotor.changeControlMode(TalonControlMode.Speed);
     	backShooterMotor2.changeControlMode(TalonControlMode.Follower);
-    	backShooterMotor2.reverseOutput(true);
+    	//backShooterMotor2.reverseOutput(true);
     }
     
     public void disablePID() {
     	
     	backShooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
     	frontShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
-    	backShooterMotor2.reverseOutput(true);
+    	//backShooterMotor2.reverseOutput(true);
     }
     
     public boolean onTarget() {
@@ -104,6 +107,7 @@ public class ShooterSubsystem extends HBRSubsystem {
     	
     	backShooterMotor1.set(backSpeed);
     	backShooterMotor2.set(backShooterMotor1.getDeviceID());
+    	backShooterMotor2.reverseOutput(true);
     	frontShooterMotor.set(frontSpeed);
     }
     
