@@ -33,7 +33,7 @@ public class AutoShift extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("EXECUTE: " + shifter.isHighGear() + ", " + driveSubsystem.getLeftSpeed());
+    	//System.out.println("EXECUTE: " + shifter.isHighGear() + ", " + driveSubsystem.getLeftSpeed());
 		if (shifter.isHighGear() && Math.abs(driveSubsystem.getAverageSpeed()) < LOWER_THRESHOLD) {
 			shifter.setTransmission(shifter.LOW_GEAR);
 			Scheduler.getInstance().add(new DriveCoast());
