@@ -22,8 +22,8 @@ public class Shoot extends Command {
 	private long startTime;
 	private long endTime;
 	private long pidStartTime;
-	private double desiredFrontSetpoint = -35;
-	private double desiredBackSetpoint = 75.5;
+	private double desiredFrontSetpoint = -37.0;
+	private double desiredBackSetpoint = 88.0;
 	private int rampTime;
 	
     public Shoot() {
@@ -36,7 +36,7 @@ public class Shoot extends Command {
     	requires(conveyor);
     	requires(shooter);
     	requires(shooterGate);
-    	requires(intake = CollectorSubsystem.getInstance());
+    	intake = CollectorSubsystem.getInstance();
     	
     	//good setpoint is back: 80 front: 35
     	SmartDashboard.putNumber("Front Shooter Setpoint", -desiredFrontSetpoint);
@@ -68,7 +68,7 @@ public class Shoot extends Command {
     				(desiredFrontSetpoint/rampTime) * (System.currentTimeMillis() - pidStartTime));
     		shooter.clearIAccumulation();
     	}else{
-    		if(intake.isIntakeIn()){
+    		if(intake.isIntakeOut()){
             	conveyor.setSetpoint(SmartDashboard.getNumber("Intake Setpoint", 400));
     		}else{
     			conveyor.setSetpoint(0.0);

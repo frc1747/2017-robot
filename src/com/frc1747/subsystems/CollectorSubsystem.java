@@ -64,8 +64,8 @@ public class CollectorSubsystem extends HBRSubsystem {
 		intakeSolenoid.set(position);
 	}
 	
-	public boolean isIntakeIn(){
-		return intakeSolenoid.get() == EXTEND_POSITION;
+	public boolean isIntakeOut(){
+		return intakeSolenoid.get() != EXTEND_POSITION;
 	}
 
     public void initDefaultCommand() {

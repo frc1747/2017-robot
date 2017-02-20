@@ -27,7 +27,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 		SHOOTER_TOLERANCE = 2,
 		SHOOTER_POWER = 0; //TODO: put actual value
 		
-	private final PIDValues backPID = new PIDValues(10, 0.05, 460, 3.75);
+	private final PIDValues backPID = new PIDValues(10, 0.01, 410, 3.35);
 	private final PIDValues frontPID = new PIDValues(13, 0.02, 370, 5.3);
 	//private final PIDValues backPID = new PIDValues(0, 0, 0, 5.3);
 

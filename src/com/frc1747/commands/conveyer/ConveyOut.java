@@ -28,7 +28,7 @@ public class ConveyOut extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(intake.isIntakeIn()){
+    	if(intake.isIntakeOut()){
     		conveyor.setMotorPower(-conveyor.CONVEYOR_POWER);
     	}else{
     		conveyor.setMotorPower(0.0);
