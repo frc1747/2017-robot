@@ -26,8 +26,8 @@ public class DriveWithJoysticks extends Command {
     	requires(drive = DriveSubsystem.getInstance());
     	shifter = ShifterSubsystem.getInstance();
     	setInterruptible(true);
-    	//SmartDashboard.putNumber("right setpoint", 7);
-    	//SmartDashboard.putNumber("left setpoint", 7);
+    	SmartDashboard.putNumber("right setpoint", 7);
+    	SmartDashboard.putNumber("left setpoint", 7);
     }
 
     protected void initialize() {
@@ -43,21 +43,21 @@ public class DriveWithJoysticks extends Command {
     		if(shifter.isHighGear()){
     			drive.setSetpoint(12.0 * (leftVert + rightHoriz), 12.0 * (leftVert - rightHoriz));
     		}else{
-    			drive.setSetpoint(7.25 * (leftVert + rightHoriz), 7.25 * (leftVert - rightHoriz));
+    			//drive.setSetpoint(7.25 * (leftVert + rightHoriz), 7.25 * (leftVert - rightHoriz));
     		}
     			
     	//drive.setSetpoint(SmartDashboard.getNumber("left setpoint", 7), SmartDashboard.getNumber("right setpoint", 7));
     	if(drive.getLeftSetpoint() < 0) {
-    		drive.setLeftPIDF(DriveSubsystem.leftPIDBackward);
+    		//drive.setLeftPIDF(DriveSubsystem.leftPIDBackward);
     	}
     	else {
-    		drive.setLeftPIDF(DriveSubsystem.leftPIDForward);
+    		//drive.setLeftPIDF(DriveSubsystem.leftPIDForward);
     	}
     	
     	if(drive.getRightSetpoint() < 0){
-    		drive.setRightPIDF(DriveSubsystem.rightPIDBackward);
+    		//drive.setRightPIDF(DriveSubsystem.rightPIDBackward);
     	}else{
-    		drive.setRightPIDF(DriveSubsystem.rightPIDForward);
+    		//drive.setRightPIDF(DriveSubsystem.rightPIDForward);
     	}
     	//} else {
     		//drive.driveArcadeMode(leftVert, rightHoriz);
