@@ -71,7 +71,7 @@ public class OI {
 		driver.getButton(Logitech.LT).whenPressed(new Extend());
 		driver.getButton(Logitech.LB).whenPressed(new Retract());
 		driver.getButton(Logitech.B).whileHeld(new TakeIn());
-		//driver.getButton(Logitech.X).whileHeld(new TakeOut());
+		driver.getButton(Logitech.X).whileHeld(new ConveyOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
 		SmartDashboard.putData("ShiftUp", new ShiftUp());

@@ -24,6 +24,7 @@ public class ShiftUp extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {    
     	shifter.setTransmission(shifter.HIGH_GEAR);
+    	System.out.println("Shifting");
     }
 
     // Make this return true when this Command no longer needs to run execute()

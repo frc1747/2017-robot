@@ -22,8 +22,8 @@ public class Shoot extends Command {
 	private long startTime;
 	private long endTime;
 	private long pidStartTime;
-	private double desiredFrontSetpoint = -37.0;
-	private double desiredBackSetpoint = 88.0;
+	private double desiredFrontSetpoint = -35.0;
+	private double desiredBackSetpoint = 89.0;
 	private int rampTime;
 	
     public Shoot() {
@@ -54,7 +54,7 @@ public class Shoot extends Command {
     	pidStartTime = System.currentTimeMillis();
     	rampTime = 500;
     	desiredFrontSetpoint = -SmartDashboard.getNumber("Front Shooter Setpoint", 35);
-    	desiredBackSetpoint = -SmartDashboard.getNumber("Back Shooter Setpoint", 75.5);
+    	desiredBackSetpoint = -SmartDashboard.getNumber("Back Shooter Setpoint", 89);
       	/*shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 75.5),
     			-SmartDashboard.getNumber("Front Shooter Setpoint", 35));*/
       	//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
