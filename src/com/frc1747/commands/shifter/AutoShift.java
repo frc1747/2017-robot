@@ -16,6 +16,13 @@ public class AutoShift extends Command {
 	private static final double UPPER_THRESHOLD = 6.8;
 	private ShifterSubsystem shifter;
 	private DriveSubsystem driveSubsystem;
+	
+	private long lastMeasure;
+	private long sinceLastMeasure;
+	private double lastLeftVel;
+	private double lastRightVel;
+	public double rightAccel;
+	public double leftAccel;
 
     public AutoShift() {
         // Use requires() here to declare subsystem dependencies
@@ -29,6 +36,9 @@ public class AutoShift extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	lastMeasure = System.currentTimeMillis();
+    	lastLeftVel = 0;
+    	lastRightVel = 0;
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -44,6 +54,14 @@ public class AutoShift extends Command {
 			shifter.setTransmission(shifter.HIGH_GEAR);
 		} else {
 			shifter.setTransmission(shifter.LOW_GEAR);
+		}
+		
+		if(sinceLastMeasure - System.currentTimeMillis() > 50){
+			rightAccel = (driveSubsystem.getRightFeetPerSecond() - lastRightVel) / 0.05;
+			leftAccel = (driveSubsystem.getLeftFeetPerSecond() - lastLeftVel) / 0.05;
+			lastLeftVel = driveSubsystem.getLeftFeetPerSecond();
+			lastRightVel = driveSubsystem.getRightFeetPerSecond();
+			lastMeasure = System.currentTimeMillis();
 		}
     }
 
