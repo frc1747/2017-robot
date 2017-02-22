@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class AutoShoot extends CommandGroup {
 	
     public AutoShoot() {
-    	addSequential(new BoilerAutoAllign());
+    	addSequential(new BoilerAutoAlign());
     	addSequential(new Shoot());
     }
 }

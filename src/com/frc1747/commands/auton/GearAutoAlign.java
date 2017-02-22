@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class GearAutoAllign extends Command {
+public class GearAutoAlign extends Command {
 	
 	private DriveSubsystem drive;
 	private double offset;
 	private static final double MAX_DRIVE_SPEED = 1; //the max speed the robot should be turning at
 
-    public GearAutoAllign() {   	
+    public GearAutoAlign() {   	
     	requires(drive = DriveSubsystem.getInstance());
     }
 
