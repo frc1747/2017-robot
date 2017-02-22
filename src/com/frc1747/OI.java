@@ -1,7 +1,7 @@
 
 package com.frc1747;
 
-import com.frc1747.commands.auton.AutoAllign;
+import com.frc1747.commands.auton.BoilerAutoAllign;
 import com.frc1747.commands.auton.AutoShoot;
 import com.frc1747.commands.collector.Extend;
 import com.frc1747.commands.collector.Retract;

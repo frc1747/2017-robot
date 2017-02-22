@@ -16,7 +16,7 @@ public class AutonShoot extends CommandGroup {
     	shootTime = SmartDashboard.getNumber("Auton Shoot Time", 5000);
     	
     	
-    	addSequential(new AutoAllign());
+    	addSequential(new BoilerAutoAllign());
     	startTime = System.currentTimeMillis();
     	while(System.currentTimeMillis() - startTime <= shootTime){
     	addSequential(new Shoot());
