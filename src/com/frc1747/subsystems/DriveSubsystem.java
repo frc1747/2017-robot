@@ -20,7 +20,8 @@ import lib.frc1747.subsystems.HBRSubsystem;
 public class DriveSubsystem extends HBRSubsystem {
 
 	// CONSTANTS
-	private final double ENCODER_SCALING_CONSTANT = 617.25;
+	private final double LEFT_SCALING_CONSTANT = 615.9;
+	private final double RIGHT_SCALING_CONSTANT = 618.35;
 	
 	public final boolean HIGH_GEAR = true;
 	public final boolean LOW_GEAR = false;
@@ -31,10 +32,15 @@ public class DriveSubsystem extends HBRSubsystem {
 	//private final double LEFT_KP = 2, LEFT_KI = 0, LEFT_KD = 7, LEFT_KF = 2.3; //I = 0.01 for brake mode
 	//private final double RIGHT_KP = 2, RIGHT_KI = 0, RIGHT_KD = 7, RIGHT_KF = 2.3;
 	
-	public static final PIDValues leftPIDForward = new PIDValues(1, 0, 5, 2.07);
-	public static final PIDValues rightPIDForward = new PIDValues(1, 0, 5, 2.07);
-	public static final PIDValues leftPIDBackward = new PIDValues(1, 0, 5, 2.01);
-	public static final PIDValues rightPIDBackward = new PIDValues(1, 0, 5, 2.14);
+	public static final PIDValues leftLowPIDForward = new PIDValues(5, 0, 100, 2.25);
+	public static final PIDValues rightLowPIDForward = new PIDValues(9, 0, 100, 2.245);
+	public static final PIDValues leftLowPIDBackward = new PIDValues(5.5, 0, 70, 2.13);
+	public static final PIDValues rightLowPIDBackward = new PIDValues(4.25, 0, 30, 2.27);
+	
+	public static final PIDValues leftHighPIDBackward = new PIDValues(5, 0, 50, 1.23);
+	public static final PIDValues rightHighPIDBackward = new PIDValues(5, 0, 50, 1.305);
+	public static final PIDValues leftHighPIDForward = new PIDValues(5.5, 0, 50, 1.24);
+	public static final PIDValues rightHighPIDForward = new PIDValues(5, 0, 50, 1.26);
 	
 	private DriveSide left, right;
 	private AHRS gyro;
@@ -51,9 +57,11 @@ public class DriveSubsystem extends HBRSubsystem {
 		// TODO: Determine which side is inverted
 		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, RobotMap.LEFT_DRIVE_INVERTED, RobotMap.LEFT_DRIVE_SENSOR_REVERSED);
 		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, RobotMap.RIGHT_DRIVE_INVERTED, RobotMap.RIGHT_DRIVE_SENSOR_REVERSED);
-		left.setPIDF(leftPIDForward.P, leftPIDForward.I, leftPIDForward.D, leftPIDForward.F);
-		right.setPIDF(rightPIDForward.P, rightPIDForward.I, rightPIDForward.D, rightPIDForward.F);
+		left.setPIDF(leftLowPIDForward.P, leftLowPIDForward.I, leftLowPIDForward.D, leftLowPIDForward.F);
+		right.setPIDF(rightLowPIDForward.P, rightLowPIDForward.I, rightLowPIDForward.D, rightLowPIDForward.F);
 		gyro = new AHRS(SPI.Port.kMXP);
+		left.setScaling(LEFT_SCALING_CONSTANT);
+		right.setScaling(RIGHT_SCALING_CONSTANT);
 		
 		/*try{
 			File accelValues = new File("/home/lvuser/AccelerationValues.csv");
@@ -215,7 +223,7 @@ public class DriveSubsystem extends HBRSubsystem {
 			motor2.setInverted(isInverted);
 			
 			motor1.reverseSensor(sensorReversed);
-			motor1.setScaling(ENCODER_SCALING_CONSTANT);
+			//motor1.setScaling(ENCODER_SCALING_CONSTANT);
 			
 			//TODO: not necessarily motor1
 			motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -265,6 +273,10 @@ public class DriveSubsystem extends HBRSubsystem {
 			
 			return motor1.getPosition();
 			
+		}
+		
+		public void setScaling(double scaling){
+			motor1.setScaling(scaling);
 		}
 		
 	}

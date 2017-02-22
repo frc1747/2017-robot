@@ -31,43 +31,47 @@ public class DriveWithJoysticks extends Command {
     }
 
     protected void initialize() {
-    	drive.enablePID();
     }
     
     protected void execute() {
-    	
+
+    	drive.enablePID();
     	rightHoriz = OI.getInstance().getDriver().getAxis(Logitech.RIGHT_HORIZONTAL);
     	leftVert = OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL);
     	
     	//if(oi.getDriver().getButton(Logitech.LT).get()){
     		if(shifter.isHighGear()){
+    			if(drive.getLeftSetpoint() < 0){
+    				drive.setLeftPIDF(DriveSubsystem.leftHighPIDBackward);
+    			}else{
+    				drive.setLeftPIDF(DriveSubsystem.leftHighPIDForward);
+    			}
+    			if(drive.getRightSetpoint() < 0){
+    				drive.setRightPIDF(DriveSubsystem.rightHighPIDBackward);
+    			}else{
+    				drive.setRightPIDF(DriveSubsystem.rightHighPIDForward);
+    			}
     			drive.setSetpoint(12.0 * (leftVert + rightHoriz), 12.0 * (leftVert - rightHoriz));
-    		}else{
-    			//drive.setSetpoint(7.25 * (leftVert + rightHoriz), 7.25 * (leftVert - rightHoriz));
     		}
-    			
+    		else {
+    			if(drive.getLeftSetpoint() < 0){
+    				drive.setLeftPIDF(DriveSubsystem.leftLowPIDBackward);
+    			}else{
+    				drive.setLeftPIDF(DriveSubsystem.leftLowPIDForward);
+    			}
+    			if(drive.getRightSetpoint() < 0){
+    				drive.setRightPIDF(DriveSubsystem.rightLowPIDBackward);
+    			}else{
+    				drive.setRightPIDF(DriveSubsystem.rightLowPIDForward);
+    			}
+    			drive.setSetpoint(7.25 * (leftVert + rightHoriz), 7.25 * (leftVert - rightHoriz));
+    		}
+    		
+    		if(Math.abs(drive.getLeftSetpoint()) < 0.5 && Math.abs(drive.getRightSetpoint()) < 0.05) {
+    			drive.disablePID();
+    			drive.setPower(0, 0);
+    		}
     	//drive.setSetpoint(SmartDashboard.getNumber("left setpoint", 7), SmartDashboard.getNumber("right setpoint", 7));
-    	if(drive.getLeftSetpoint() < 0) {
-    		//drive.setLeftPIDF(DriveSubsystem.leftPIDBackward);
-    	}
-    	else {
-    		//drive.setLeftPIDF(DriveSubsystem.leftPIDForward);
-    	}
-    	
-    	if(drive.getRightSetpoint() < 0){
-    		//drive.setRightPIDF(DriveSubsystem.rightPIDBackward);
-    	}else{
-    		//drive.setRightPIDF(DriveSubsystem.rightPIDForward);
-    	}
-    	//} else {
-    		//drive.driveArcadeMode(leftVert, rightHoriz);
-    	//}
-    	
-    	//if(shifter.shouldShiftUp()){
-    		//shifter.setTransmission(shifter.HIGH_GEAR);
-    	//} else{
-    	//	shifter.setTransmission(shifter.LOW_GEAR);
-    	//}
     }
 
     protected boolean isFinished() {
