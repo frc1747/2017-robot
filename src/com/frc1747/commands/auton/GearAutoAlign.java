@@ -19,7 +19,7 @@ public class GearAutoAlign extends Command {
     }
 
     protected void initialize() {
-    	drive.enablePID();
+    	drive.enableSpeedPID();
     }
 
     protected void execute() {

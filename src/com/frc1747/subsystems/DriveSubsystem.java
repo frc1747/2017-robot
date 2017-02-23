@@ -120,9 +120,14 @@ public class DriveSubsystem extends HBRSubsystem {
 		left.setPower(leftVert + rightHoriz);
 	}
 	
-	public void enablePID() {
-		right.enablePID();
-		left.enablePID();
+	public void enableSpeedPID() {
+		right.enableSpeedPID();
+		left.enableSpeedPID();
+	}
+	
+	public void enablePositionPID(){
+		right.enablePositionPID();
+		left.enablePositionPID();
 	}
 	
 	public void disablePID() {
@@ -246,8 +251,13 @@ public class DriveSubsystem extends HBRSubsystem {
 			motor1.setF(this.Kf = Kf);
 		}
 		
-		public void enablePID() {
+		public void enableSpeedPID() {
 			motor1.changeControlMode(TalonControlMode.Speed);
+			motor2.changeControlMode(TalonControlMode.Follower);
+		}
+		
+		public void enablePositionPID(){
+			motor1.changeControlMode(TalonControlMode.Position);
 			motor2.changeControlMode(TalonControlMode.Follower);
 		}
 		
@@ -270,7 +280,6 @@ public class DriveSubsystem extends HBRSubsystem {
 			return motor1.getSpeed();
 		}
 		public double getPosition(){
-			
 			return motor1.getPosition();
 			
 		}

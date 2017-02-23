@@ -35,7 +35,7 @@ public class DriveWithJoysticks extends Command {
     
     protected void execute() {
 
-    	drive.enablePID();
+    	drive.enableSpeedPID();
     	rightHoriz = OI.getInstance().getDriver().getAxis(Logitech.RIGHT_HORIZONTAL);
     	leftVert = OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL);
     	

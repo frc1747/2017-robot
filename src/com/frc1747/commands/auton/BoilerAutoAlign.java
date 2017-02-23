@@ -19,7 +19,7 @@ public class BoilerAutoAlign extends Command {
     }
 
     protected void initialize() {
-    	drive.enablePID();
+    	drive.enableSpeedPID();
     }
 
     protected void execute() {
