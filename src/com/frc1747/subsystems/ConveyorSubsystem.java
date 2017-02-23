@@ -14,8 +14,8 @@ public class ConveyorSubsystem extends HBRSubsystem {
 
 	public final double CONVEYOR_POWER = 0.85; 
 	private final int 
-		ENCODER_COUNTS_PER_REVOLUTION = 1,
-		READ_TIME = 10;
+		ENCODER_COUNTS_PER_REVOLUTION = 1/*,
+		READ_TIME = 10*/;
 	
 	private HBRTalon motor1;
 	private CANTalon motor2;

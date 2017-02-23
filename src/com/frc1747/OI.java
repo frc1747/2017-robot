@@ -1,7 +1,6 @@
 
 package com.frc1747;
 
-import com.frc1747.commands.auton.BoilerAutoAlign;
 import com.frc1747.commands.auton.AutoShoot;
 import com.frc1747.commands.collector.Extend;
 import com.frc1747.commands.collector.Retract;
@@ -11,8 +10,6 @@ import com.frc1747.commands.conveyer.ConveyIn;
 import com.frc1747.commands.conveyer.ConveyOut;
 import com.frc1747.commands.shifter.ShiftDown;
 import com.frc1747.commands.shifter.ShiftUp;
-import com.frc1747.commands.shooter.CloseGates;
-import com.frc1747.commands.shooter.OpenGates;
 import com.frc1747.commands.shooter.Shoot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

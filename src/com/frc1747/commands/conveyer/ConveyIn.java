@@ -2,7 +2,6 @@ package com.frc1747.commands.conveyer;
 
 import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
-import com.frc1747.subsystems.ShifterSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 

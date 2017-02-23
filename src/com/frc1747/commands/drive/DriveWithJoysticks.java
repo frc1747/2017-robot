@@ -15,7 +15,7 @@ import lib.frc1747.controller.Logitech;
 public class DriveWithJoysticks extends Command {
 
 	private DriveSubsystem drive;
-	private OI oi;
+	//private OI oi;
 	private ShifterSubsystem shifter;
 	
 	int multiplier;

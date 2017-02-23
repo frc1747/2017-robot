@@ -1,7 +1,6 @@
 package com.frc1747.subsystems;
 
 import com.frc1747.RobotMap;
-import com.frc1747.commands.shifter.AutoShift;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,9 +11,9 @@ import lib.frc1747.subsystems.HBRSubsystem;
  */
 public class ShifterSubsystem extends HBRSubsystem {
 
-	private static final int SHIFT_ACCELERATION_HIGH = 1;
-	private static final int SHIFT_VELOCITY_LOW = 1;
-	private static final double TURNING_THRESHOLD_TO_SHIFT = 1;
+	//private static final int SHIFT_ACCELERATION_HIGH = 1;
+	//private static final int SHIFT_VELOCITY_LOW = 1;
+	//private static final double TURNING_THRESHOLD_TO_SHIFT = 1;
 	public final boolean HIGH_GEAR = true;
 	public final boolean LOW_GEAR = false;
 	

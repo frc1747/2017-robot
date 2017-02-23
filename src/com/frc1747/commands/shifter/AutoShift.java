@@ -22,7 +22,7 @@ public class AutoShift extends Command {
 	private ShifterSubsystem shifter;
 	private DriveSubsystem driveSubsystem;
 	
-	private long lastMeasure;
+	//private long lastMeasure;
 	private long sinceLastMeasure;
 	private double lastLeftVel;
 	private double lastRightVel;
@@ -41,7 +41,7 @@ public class AutoShift extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	lastMeasure = System.currentTimeMillis();
+    	//lastMeasure = System.currentTimeMillis();
     	lastLeftVel = 0;
     	lastRightVel = 0;
     }
@@ -53,7 +53,7 @@ public class AutoShift extends Command {
 			leftAccel = (driveSubsystem.getLeftFeetPerSecond() - lastLeftVel) / 0.05;
 			lastLeftVel = driveSubsystem.getLeftFeetPerSecond();
 			lastRightVel = driveSubsystem.getRightFeetPerSecond();
-			lastMeasure = System.currentTimeMillis();
+			//lastMeasure = System.currentTimeMillis();
 			avgAccel = (leftAccel + rightAccel) / 2;
 		}
     	//System.out.println("EXECUTE: " + shifter.isHighGear() + ", " + driveSubsystem.getLeftSpeed());

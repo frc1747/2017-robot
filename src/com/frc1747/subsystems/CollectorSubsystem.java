@@ -1,11 +1,9 @@
 package com.frc1747.subsystems;
 
 import com.frc1747.RobotMap;
-import com.frc1747.commands.collector.TakeIn;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 

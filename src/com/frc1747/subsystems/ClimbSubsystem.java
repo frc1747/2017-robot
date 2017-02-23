@@ -8,7 +8,7 @@ import lib.frc1747.subsystems.HBRSubsystem;
 public class ClimbSubsystem extends HBRSubsystem {
 
 	private CANTalon motor1;
-	private CANTalon motor2;
+	//private CANTalon motor2;
 	private static ClimbSubsystem instance;
 	
 	public final double CLIMBER_POWER = 1.0; //TODO: use actual power

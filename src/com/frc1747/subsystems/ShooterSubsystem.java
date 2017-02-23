@@ -24,8 +24,8 @@ public class ShooterSubsystem extends HBRSubsystem {
 		ENCODER_EDGES_PER_OUTPUT_REVOLUTION = ENCODER_EDGES_PER_INPUT_REVOLUTION * GEAR_RATIO;
 		
 	private final int 
-		SHOOTER_TOLERANCE = 2,
-		SHOOTER_POWER = 0; //TODO: put actual value
+		SHOOTER_TOLERANCE = 2/*,
+		SHOOTER_POWER = 0*/; //TODO: put actual value
 		
 	private final PIDValues backPID = new PIDValues(10, 0.01, 300, 3.35);
 	private final PIDValues frontPID = new PIDValues(13, 0.02, 370, 5.3);

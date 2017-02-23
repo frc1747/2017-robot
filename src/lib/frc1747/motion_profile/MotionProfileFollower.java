@@ -18,7 +18,7 @@ public class MotionProfileFollower extends TimerTask {
 	
 	public static final double DEFAULT_PERIOD = 1 / 100.0;
 	
-	private double sum, last;
+	private double sum/*, last*/;
 	
 	public MotionProfileFollower(PIDValues pid, double period) {
 		this.pid = pid;
@@ -64,7 +64,7 @@ public class MotionProfileFollower extends TimerTask {
 	
 	public void reset() {
 		if(timer == null) {
-			last = 0;
+			//last = 0;
 			sum = 0;
 		}
 	}
@@ -84,7 +84,7 @@ public class MotionProfileFollower extends TimerTask {
 	//	output += pid.V;	// V Term
 	//	output += pid.A;	// A Term
 		
-		last = position; // Set feedback to last feed back
+		//last = position; // Set feedback to last feed back
 		
 		feedback.setOutput(output);
 	}
