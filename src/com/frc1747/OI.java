@@ -60,9 +60,8 @@ public class OI {
 		
 		dPad = new POVButton(driver, Logitech.UP);
 		
-		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
+		/*driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
 		//driver.getButton(Logitech.A).whileHeld(new CloseGates());
-		driver.getButton(Logitech.RB).whileHeld(new Shoot());
 		driver.getButton(Logitech.RT).whileHeld(new TakeIn());
 		//driver.getButton(Logitech.B).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.LT).whenPressed(new Extend());
@@ -72,7 +71,9 @@ public class OI {
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
 		SmartDashboard.putData("ShiftUp", new ShiftUp());
-		SmartDashboard.putData("ShiftDown", new ShiftDown());
+		SmartDashboard.putData("ShiftDown", new ShiftDown());*/
+		driver.getButton(Logitech.RB).whileHeld(new Shoot());
+
 	}
 	
 	private void createOperator() {

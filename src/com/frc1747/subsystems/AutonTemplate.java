@@ -7,9 +7,10 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonTemplate extends CommandGroup{
 	
-	String [] commands = {"command1", "command2", "command3", "command4"}; //can add more commands
 	
 	AutonTemplate(String command1, String command2, String command3, String command4){
+		
+		String [] commands = {command1, command2, command3, command4}; //can add more commands
 		
 		for(String currentCommand : commands){
 			switch(currentCommand){

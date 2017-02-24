@@ -7,37 +7,32 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class DriveDistance extends Command {
-	
+public class RotateAngle extends Command {
+
 	DriveSubsystem drive;
-	double leftPos;
-	double rightPos;
-	double leftStartPos;
-	double rightStartPos;
+	double angle;
+	double circleRadius;
+	double turnDist;
 	
-    public DriveDistance(double leftPos, double rightPos) {
+    public RotateAngle(double angle) {
         requires(drive = DriveSubsystem.getInstance());
-        this.leftPos = leftPos;
-        this.rightPos = rightPos;
+        this.angle = angle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	drive.enablePositionPID();
-    	leftStartPos = drive.getLeftPosition();
-    	rightStartPos = drive.getRightPosition();
-    	drive.setSetpoint(leftPos, rightPos);
-
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-
+    	turnDist = (angle / 360) * Math.PI * 2 * circleRadius; //angle measured clockwise from positive y
+    	drive.setSetpoint(turnDist, -turnDist);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(leftPos + leftStartPos) == Math.abs(drive.getLeftPosition()) && Math.abs(rightPos + leftStartPos) == Math.abs(drive.getLeftPosition());
+        return false;
     }
 
     // Called once after isFinished returns true
