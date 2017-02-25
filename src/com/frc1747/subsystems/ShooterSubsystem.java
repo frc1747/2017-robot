@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import com.ctre.CANTalon;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
+import com.ctre.CANTalon.VelocityMeasurementPeriod;
 import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,9 +21,9 @@ public class ShooterSubsystem extends HBRSubsystem {
 		SHOOTER_DIAMETER = 1.6 / 12.0, //in feet
 		SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI,
 		ENCODER_EDGES_PER_INPUT_REVOLUTION = 12.0, // 6 cycles per 1 rev of shooter roller
+		ARDUINO_SCALING = 25.0/8,
 		GEAR_RATIO = 2.0,
-		ENCODER_EDGES_PER_OUTPUT_REVOLUTION = ENCODER_EDGES_PER_INPUT_REVOLUTION * GEAR_RATIO;
-		
+		ENCODER_EDGES_PER_OUTPUT_REVOLUTION = ENCODER_EDGES_PER_INPUT_REVOLUTION * GEAR_RATIO * ARDUINO_SCALING;		
 	private final int 
 		SHOOTER_TOLERANCE = 2/*,
 		SHOOTER_POWER = 0*/; //TODO: put actual value
@@ -53,6 +54,9 @@ public class ShooterSubsystem extends HBRSubsystem {
 		backShooterMotor1.configPeakOutputVoltage(+12.0f, -12.0f);
 		backShooterMotor1.setProfile(0);
 		backShooterMotor1.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
+//		backShooterMotor1.setFeedbackDevice(FeedbackDevice.EncFalling);
+//		backShooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_10Ms);
+//		backShooterMotor1.SetVelocityMeasurementWindow(32);
 		backShooterMotor1.setNominalClosedLoopVoltage(12.0);
 		
 		// Configure Back Shooter Motor 2
@@ -70,6 +74,9 @@ public class ShooterSubsystem extends HBRSubsystem {
 		frontShooterMotor.setProfile(0);
 		frontShooterMotor.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
 		frontShooterMotor.setNominalClosedLoopVoltage(12.0);
+//		frontShooterMotor.setFeedbackDevice(FeedbackDevice.EncFalling);
+//		frontShooterMotor.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_10Ms);
+//		frontShooterMotor.SetVelocityMeasurementWindow(32);
 
 		// Set PIDF Constants for Back Shooter Motors
     	backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
