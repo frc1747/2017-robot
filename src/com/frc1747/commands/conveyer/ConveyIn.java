@@ -15,7 +15,7 @@ public class ConveyIn extends Command{
 		//conveyor.setPIDF(kP, kI, kD, kF);
 		//conveyor.enablePID();
 		requires(conveyor);
-		requires(intake = CollectorSubsystem.getInstance());
+		intake = CollectorSubsystem.getInstance();
 	}
 	
 	

@@ -69,7 +69,7 @@ public class Shoot extends Command {
     		shooter.clearIAccumulation();
     	}else{
     		if(intake.isIntakeOut()){
-            	//conveyor.setSetpoint(SmartDashboard.getNumber("Intake Setpoint", 400));
+            	conveyor.setSetpoint(SmartDashboard.getNumber("Intake Setpoint", 400));
     		}else{
     			conveyor.setSetpoint(0.0);
     		}
@@ -79,7 +79,7 @@ public class Shoot extends Command {
 	    		//shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
 	    		shooterGate.gatesClose();
 	    		
-		    	/*if(shooter.onTarget()) {
+		   if(shooter.onTarget()) {
 		    		if (counter % 2 == 0) {
 		    			if(shooter.onTarget()){
 		    				shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_OPEN);
@@ -98,7 +98,7 @@ public class Shoot extends Command {
 		    	}
 		    	else {
 	//	    		conveyor.setMotorPower(0.0);
-		    	}*/
+		    	}
 	    	}
 	    	
 	    	if(System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Gate Open Time", endTime)){

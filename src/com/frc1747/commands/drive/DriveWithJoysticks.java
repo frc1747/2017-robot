@@ -40,7 +40,8 @@ public class DriveWithJoysticks extends Command {
     	leftVert = OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL);
     	
     	//if(oi.getDriver().getButton(Logitech.LT).get()){
-    		if(shifter.isHighGear()){
+    		
+    	if(shifter.isHighGear()){
     			if(drive.getLeftSetpoint() < 0){
     				drive.setLeftPIDF(DriveSubsystem.leftHighPIDBackward);
     			}else{
@@ -66,6 +67,7 @@ public class DriveWithJoysticks extends Command {
     			}
     			drive.setSetpoint(7.25 * (leftVert + rightHoriz), 7.25 * (leftVert - rightHoriz));
     		}
+    			//drive.setPower(leftVert + rightHoriz, leftVert - rightHoriz);
     		
     		if(Math.abs(drive.getLeftSetpoint()) < 0.5 && Math.abs(drive.getRightSetpoint()) < 0.05) {
     			drive.disablePID();

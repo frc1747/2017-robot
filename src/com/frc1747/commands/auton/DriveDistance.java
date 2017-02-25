@@ -37,7 +37,7 @@ public class DriveDistance extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(leftPos + leftStartPos) == Math.abs(drive.getLeftPosition()) && Math.abs(rightPos + leftStartPos) == Math.abs(drive.getLeftPosition());
+        return Math.abs(leftPos + leftStartPos) == Math.abs(drive.getLeftPosition()) && Math.abs(rightPos + rightStartPos) == Math.abs(drive.getRightPosition());
     }
 
     // Called once after isFinished returns true

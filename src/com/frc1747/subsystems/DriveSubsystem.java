@@ -71,6 +71,10 @@ public class DriveSubsystem extends HBRSubsystem {
 		}*/
 	}
 	
+	public AHRS getGyro(){
+		return gyro;
+	}
+	
 	public static DriveSubsystem getInstance() {
 		return instance == null ? instance = new DriveSubsystem() : instance;
 	}
