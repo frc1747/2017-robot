@@ -1,6 +1,7 @@
 package com.frc1747.subsystems;
 
 import com.frc1747.RobotMap;
+import com.frc1747.commands.shifter.AutoShift;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -70,7 +71,7 @@ public class ShifterSubsystem extends HBRSubsystem {
 	}
 	
     public void initDefaultCommand() {
-    	//setDefaultCommand(new AutoShift());
+    	setDefaultCommand(new AutoShift());
     }
 	@Override
 	public void updateDashboard() {

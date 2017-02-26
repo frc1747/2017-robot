@@ -14,10 +14,10 @@ public class AutoShift extends Command {
 	
 	//private static final double LOWER_THRESHOLD = 4.8;
 	//private static final double UPPER_THRESHOLD = 6.8;
-	public double shiftUpSlope = 7./35;
-	public double shiftDownSlope = 5./20;
-	public double shiftUpVel = 7;
-	public double shiftDownVel = 5;
+	public double shiftUpSlope = 7./25;
+	public double shiftDownSlope = 5./15;
+	public double shiftUpVel = 6.5;
+	public double shiftDownVel = 4.5;
 	public double avgAccel;
 	private ShifterSubsystem shifter;
 	private DriveSubsystem driveSubsystem;

@@ -21,15 +21,15 @@ public class ShooterSubsystem extends HBRSubsystem {
 		SHOOTER_DIAMETER = 1.6 / 12.0, //in feet
 		SHOOTER_CIRCUMFERENCE = SHOOTER_DIAMETER * Math.PI,
 		ENCODER_EDGES_PER_INPUT_REVOLUTION = 12.0, // 6 cycles per 1 rev of shooter roller
-		ARDUINO_SCALING = 25.0/8,
+		ARDUINO_SCALING = 25.0,
 		GEAR_RATIO = 2.0,
 		ENCODER_EDGES_PER_OUTPUT_REVOLUTION = ENCODER_EDGES_PER_INPUT_REVOLUTION * GEAR_RATIO * ARDUINO_SCALING;		
 	private final int 
 		SHOOTER_TOLERANCE = 2/*,
 		SHOOTER_POWER = 0*/; //TODO: put actual value
 		
-	private final PIDValues backPID = new PIDValues(13, 0.01, 100, 3.29);
-	private final PIDValues frontPID = new PIDValues(21, 0.03, 350, 5.7);
+	private final PIDValues backPID = new PIDValues(0.45, 0.0005, 0.026, 0.1233); //TODO try increasing D to prevent overshoot after shooting
+	private final PIDValues frontPID = new PIDValues(0.423, 0.00027, 0.3, 0.2);
 	//20,0.05,360 2/20/17
 	//private final PIDValues backPID = new PIDValues(0, 0, 0, 5.3);
 
@@ -51,12 +51,12 @@ public class ShooterSubsystem extends HBRSubsystem {
     	backShooterMotor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		backShooterMotor1.reverseSensor(false);
 		backShooterMotor1.configNominalOutputVoltage(+0.0f, -0.0f);
-		backShooterMotor1.configPeakOutputVoltage(+12.0f, -12.0f);
+		backShooterMotor1.configPeakOutputVoltage(+0.0f, -12.0f);
 		backShooterMotor1.setProfile(0);
 		backShooterMotor1.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
 //		backShooterMotor1.setFeedbackDevice(FeedbackDevice.EncFalling);
-//		backShooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_10Ms);
-//		backShooterMotor1.SetVelocityMeasurementWindow(32);
+		backShooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_5Ms);
+		backShooterMotor1.SetVelocityMeasurementWindow(16);
 		backShooterMotor1.setNominalClosedLoopVoltage(12.0);
 		
 		// Configure Back Shooter Motor 2
@@ -68,24 +68,24 @@ public class ShooterSubsystem extends HBRSubsystem {
 		// Configure Front Shooter Motor
     	frontShooterMotor = new HBRTalon(RobotMap.FRONT_SHOOTER_MOTOR);
     	frontShooterMotor.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		frontShooterMotor.reverseSensor(true);
+		frontShooterMotor.reverseSensor(false);
 		frontShooterMotor.configNominalOutputVoltage(+0.0f, -0.0f);
 		frontShooterMotor.configPeakOutputVoltage(+0.0f, -12.0f);
 		frontShooterMotor.setProfile(0);
 		frontShooterMotor.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
 		frontShooterMotor.setNominalClosedLoopVoltage(12.0);
 //		frontShooterMotor.setFeedbackDevice(FeedbackDevice.EncFalling);
-//		frontShooterMotor.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_10Ms);
-//		frontShooterMotor.SetVelocityMeasurementWindow(32);
+		frontShooterMotor.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_5Ms);
+		frontShooterMotor.SetVelocityMeasurementWindow(16);
 
 		// Set PIDF Constants for Back Shooter Motors
     	backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
-    	backShooterMotor1.setIZone(7.0);
+    	backShooterMotor1.setIZone(25 * 7.0);
     	//backShooterMotor1.setPID(backPID.P, backPID.I, backPID.D);
 		//backShooterMotor1.setF(backPID.F);
     	// Set PIDF Constants for Front Shooter Motor
     	frontShooterMotor.setPIDF(frontPID.P, frontPID.I, frontPID.D, frontPID.F);
-    	frontShooterMotor.setIZone(5.0);
+    	frontShooterMotor.setIZone(125.0);
 		//frontShooterMotor.setPID(frontPID.P, frontPID.I, frontPID.D);
 		//frontShooterMotor.setF(frontPID.F);
     	
