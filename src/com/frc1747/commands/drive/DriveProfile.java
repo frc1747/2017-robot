@@ -20,40 +20,40 @@ public class DriveProfile extends Command {
 	private Timer timer;
 
 	// Motion profile parameters
-	private double dt;
+	private double dt = 0.01;
 	private double[][] s_profile;
 	private double[][] a_profile;
 
 	// Feedforward constants
-	private double s_kf_p;
-	private double s_kf_v;
-	private double s_kf_a;
+	private double s_kf_p = 0;
+	private double s_kf_v = 0.1;
+	private double s_kf_a = 0;
 	
-	private double a_kf_p;
-	private double a_kf_v;
-	private double a_kf_a;
+	private double a_kf_p = 0;
+	private double a_kf_v = 0;
+	private double a_kf_a = 0;
 
 	// Feedback constants
-	private double s_kp;
-	private double s_ki;
-	private double s_kd;
+	private double s_kp = 0;
+	private double s_ki = 0;
+	private double s_kd = 0;
 	
-	private double a_kp;
-	private double a_ki;
-	private double a_kd;
+	private double a_kp = 0;
+	private double a_ki = 0;
+	private double a_kd = 0;
 
 	// Clamping variables
-	private double s_lim_p;
-	private double s_lim_i;
-	private double s_lim_d;
-	private double s_lim_q;
+	private double s_lim_p = 1;
+	private double s_lim_i = 1;
+	private double s_lim_d = 1;
+	private double s_lim_q = 1;
 	
-	private double a_lim_p;
-	private double a_lim_i;
-	private double a_lim_d;
-	private double a_lim_q;
+	private double a_lim_p = 1;
+	private double a_lim_i = 1;
+	private double a_lim_d = 1;
+	private double a_lim_q = 1;
 
-	private double lim_q;
+	private double lim_q = 1;
 
 	// Sensor inputs
 	private double s_p;
@@ -102,43 +102,9 @@ public class DriveProfile extends Command {
 		// Ensure the timer is initialized
 		timer = null;
 		
-		// Set the time period
-		dt = 0.01;
-		
 		// Set the profiles
 		s_profile = profileS;
 		a_profile = profileA;
-
-		// Set feedforward constants
-		s_kf_p = 0;
-		s_kf_v = 0.1;
-		s_kf_a = 0;
-		
-		a_kf_p = 0;
-		a_kf_v = 0;
-		a_kf_a = 0;
-
-		// Set feedback constants
-		s_kp = 0;
-		s_ki = 0;
-		s_kd = 0;
-		
-		a_kp = 0;
-		a_ki = 0;
-		a_kd = 0;
-
-		// Ensure the clamping variables are initialized
-		s_lim_p = 1;
-		s_lim_i = 1;
-		s_lim_d = 1;
-
-		a_lim_p = 1;
-		a_lim_i = 1;
-		a_lim_d = 1;
-
-		s_lim_q = 1;
-		a_lim_q = 1;
-		lim_q = 1;
     }
 
     // Called just before this Command runs the first time
