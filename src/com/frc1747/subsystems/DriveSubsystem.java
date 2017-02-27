@@ -171,6 +171,10 @@ public class DriveSubsystem extends HBRSubsystem {
 		return gyro.getRate();
 	}
 	
+	public double getAngle() {
+		return gyro.getAngle();
+	}
+	
 	/**
 	 * Determines if the robot should shift into high gear
 	 * @return True if robot should be in high gear, false if it should be in low gear
@@ -181,6 +185,11 @@ public class DriveSubsystem extends HBRSubsystem {
 		gyro.zeroYaw();
 		gyro.reset();
 		gyro.resetDisplacement();
+	}
+	
+	public void resetEncoders() {
+		left.zeroEncoder();
+		right.zeroEncoder();
 	}
 	
 	public double getLeftFeetPerSecond(){
@@ -207,6 +216,9 @@ public class DriveSubsystem extends HBRSubsystem {
 	}
 	public double getLeftPosition(){
 		return left.getPosition();
+	}
+	public double getAveragePosition() {
+		return (getLeftPosition() + getRightPosition())/2;
 	}
 	
 	public double getLeftSetpoint(){
@@ -290,6 +302,10 @@ public class DriveSubsystem extends HBRSubsystem {
 		
 		public void setScaling(double scaling){
 			motor1.setScaling(scaling);
+		}
+		
+		public void zeroEncoder() {
+			motor1.setEncPosition(0);
 		}
 		
 	}
