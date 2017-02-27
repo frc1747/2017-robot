@@ -57,10 +57,10 @@ public class AutoShift extends Command {
 			avgAccel = (leftAccel + rightAccel) / 2;
 		}
     	//System.out.println("EXECUTE: " + shifter.isHighGear() + ", " + driveSubsystem.getLeftSpeed());
-		if (shifter.isHighGear() && driveSubsystem.getAverageSpeed() < shiftDownVel - shiftDownSlope * avgAccel){
+		if (shifter.isHighGear() && Math.abs(driveSubsystem.getAverageSpeed()) < Math.abs(shiftDownVel - shiftDownSlope * avgAccel)){
 			shifter.setTransmission(shifter.LOW_GEAR);
 			Scheduler.getInstance().add(new DriveCoast());
-		} else if (shifter.isLowGear() && driveSubsystem.getAverageSpeed() > shiftUpVel - shiftUpSlope*avgAccel){
+		} else if (shifter.isLowGear() && Math.abs(driveSubsystem.getAverageSpeed()) > Math.abs(shiftUpVel - shiftUpSlope*avgAccel)){
 			shifter.setTransmission(shifter.HIGH_GEAR);
 			Scheduler.getInstance().add(new DriveCoast());
 		} else {
