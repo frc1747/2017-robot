@@ -1,9 +1,13 @@
 package com.frc1747.commands.drive;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import com.frc1747.subsystems.DriveSubsystem;
+
 import edu.wpi.first.wpilibj.command.Command;
 
 public class DriveProfile extends Command {
@@ -63,6 +67,32 @@ public class DriveProfile extends Command {
 	private double a_ep;
 	private double a_ei;
 	private double a_ed;
+	
+	// Create a profile from a file on the roborio
+	public static DriveProfile fromFile(String filename) {
+		DriveProfile profile = null;
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(filename));
+			int count = Integer.parseInt(br.readLine().trim());
+			double[][] profileS = new double[count][3];
+			double[][] profileA = new double[count][3];
+			
+			for(int i = 0;i < count;i++) {
+				String[] parts = br.readLine().split(",");
+				for(int j = 0;j < 3;j++) {
+					profileS[i][j] = Double.parseDouble(parts[j].trim());
+					profileA[i][j] = Double.parseDouble(parts[j+3].trim());
+				}
+			}
+			
+			profile = new DriveProfile(profileS, profileA);
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+		}
+		
+		return profile;
+	}
 
     public DriveProfile(double[][] profileS, double[][] profileA) {
     	// Command initialization
