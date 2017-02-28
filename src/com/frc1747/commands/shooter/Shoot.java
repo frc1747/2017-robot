@@ -77,7 +77,7 @@ public class Shoot extends Command {
 	    	if (System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Shooter Gate Time", gateTime)) {
 		    		
 	    		//shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
-	    		shooterGate.gatesClose();
+	    		shooterGate.gatesOpen();
 	    		
 		   if(shooter.onTarget()) {
 		    		if (counter % 2 == 0) {
@@ -102,7 +102,7 @@ public class Shoot extends Command {
 	    	}
 	    	
 	    	if(System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Gate Open Time", endTime)){
-	    		shooterGate.gatesClose();
+	    		shooterGate.gatesOpen();
 	    	}
     	}
     	    	

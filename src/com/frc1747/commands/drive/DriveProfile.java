@@ -25,20 +25,20 @@ public class DriveProfile extends Command {
 	private double[][] a_profile;
 
 	// Feedforward constants
-	private double s_kf_p = 0;
-	private double s_kf_v = 0.1;
-	private double s_kf_a = 0;
+	private double s_kf_p = 0.0;
+	private double s_kf_v = 0.125;
+	private double s_kf_a = 0.07;
 	
 	private double a_kf_p = 0;
-	private double a_kf_v = 0;
+	private double a_kf_v = 0.16;
 	private double a_kf_a = 0;
 
 	// Feedback constants
-	private double s_kp = 0;
-	private double s_ki = 0;
+	private double s_kp = 0.02;
+	private double s_ki = 0.005;
 	private double s_kd = 0;
 	
-	private double a_kp = 0;
+	private double a_kp = 0.02;
 	private double a_ki = 0;
 	private double a_kd = 0;
 
@@ -209,7 +209,7 @@ public class DriveProfile extends Command {
 			double a_p_a = a_profile[index][0];
 			
 			// Read the heading
-			double a_m_p = -drive.getAngle();
+			double a_m_p = (-drive.getAngle()/360) * 2 * Math.PI;
 			
 			// Position error
 			a_ep = a_p_p - a_m_p;

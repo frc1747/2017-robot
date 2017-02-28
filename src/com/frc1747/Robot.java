@@ -1,6 +1,7 @@
 package com.frc1747;
 
 import com.frc1747.commands.UpdateDashboard;
+import com.frc1747.commands.drive.DriveProfile;
 import com.frc1747.subsystems.ClimbSubsystem;
 import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
@@ -31,6 +32,8 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
+		DriveProfile p = DriveProfile.fromFile("/home/lvuser/profile5.csv");
+		Scheduler.getInstance().add(p);
 	}
 	
 	@Override

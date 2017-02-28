@@ -183,7 +183,7 @@ public class DriveSubsystem extends HBRSubsystem {
 	
 	public void resetGyro(){
 		gyro.zeroYaw();
-		gyro.reset();
+		//gyro.reset();
 		gyro.resetDisplacement();
 	}
 	

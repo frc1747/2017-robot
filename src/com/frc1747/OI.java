@@ -1,6 +1,7 @@
 
 package com.frc1747;
 
+import com.frc1747.commands.IntakeShoot;
 import com.frc1747.commands.auton.AutoShoot;
 import com.frc1747.commands.collector.Extend;
 import com.frc1747.commands.collector.Retract;
@@ -80,7 +81,7 @@ public class OI {
 		
 		operator.getButton(Xbox.LT).whileHeld(new ConveyIn());
 		operator.getButton(Xbox.RT).whileHeld(new ConveyOut());
-		operator.getButton(Xbox.X).whileHeld(new Shoot());
+		operator.getButton(Xbox.X).whileHeld(new IntakeShoot());
 		////operator.getButton(Xbox.B).whileHeld(new ConveyIn());
 		operator.getButton(Xbox.B).whenPressed(new Extend());
 		operator.getButton(Xbox.Y).whenPressed(new Retract());
