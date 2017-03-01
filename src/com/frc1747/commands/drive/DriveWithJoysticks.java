@@ -52,7 +52,8 @@ public class DriveWithJoysticks extends Command {
     			}else{
     				drive.setRightPIDF(DriveSubsystem.rightHighPIDForward);
     			}
-    			drive.setSetpoint(12.0 * (leftVert + rightHoriz), 12.0 * (leftVert - rightHoriz));
+    			//drive.setSetpoint(12.0 * (Math.pow(leftVert + rightHoriz, 3)), 12.0 * Math.pow(leftVert - rightHoriz, 3));
+    			drive.driveArcadePID(12.0 * Math.pow(leftVert, 3), 12.0 * Math.pow(rightHoriz, 3));
     		}
     		else {
     			if(drive.getLeftSetpoint() < 0){
@@ -65,7 +66,8 @@ public class DriveWithJoysticks extends Command {
     			}else{
     				drive.setRightPIDF(DriveSubsystem.rightLowPIDForward);
     			}
-    			drive.setSetpoint(7.25 * (leftVert + rightHoriz), 7.25 * (leftVert - rightHoriz));
+    			//drive.setSetpoint(7.25 * Math.pow(leftVert + rightHoriz, 3), 7.25 * Math.pow(leftVert - rightHoriz, 3));
+    			drive.driveArcadePID(12.0 * Math.pow(leftVert, 3), 7.25 * Math.pow(rightHoriz, 3));
     		}
     			//drive.setPower(leftVert + rightHoriz, leftVert - rightHoriz);
     		

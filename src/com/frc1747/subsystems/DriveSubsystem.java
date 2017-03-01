@@ -32,10 +32,10 @@ public class DriveSubsystem extends HBRSubsystem {
 	//private final double LEFT_KP = 2, LEFT_KI = 0, LEFT_KD = 7, LEFT_KF = 2.3; //I = 0.01 for brake mode
 	//private final double RIGHT_KP = 2, RIGHT_KI = 0, RIGHT_KD = 7, RIGHT_KF = 2.3;
 	
-	public static final PIDValues leftLowPIDForward = new PIDValues(5, 0, 100, 2.25);
-	public static final PIDValues rightLowPIDForward = new PIDValues(9, 0, 100, 2.245);
-	public static final PIDValues leftLowPIDBackward = new PIDValues(5.5, 0, 70, 2.13);
-	public static final PIDValues rightLowPIDBackward = new PIDValues(4.25, 0, 30, 2.27);
+	public static final PIDValues leftLowPIDForward = new PIDValues(3.75, 0, 100, 2.25);//previous comp P = 5
+	public static final PIDValues rightLowPIDForward = new PIDValues(6.75, 0, 100, 2.245);//previous comp p = 9
+	public static final PIDValues leftLowPIDBackward = new PIDValues(4.125, 0, 70, 2.13);//previous p = 5.5
+	public static final PIDValues rightLowPIDBackward = new PIDValues(3.1875, 0, 30, 2.27);//previous p = 4.25
 	
 	public static final PIDValues leftHighPIDBackward = new PIDValues(5, 0, 50, 1.23);
 	public static final PIDValues rightHighPIDBackward = new PIDValues(5, 0, 50, 1.305);
@@ -109,6 +109,8 @@ public class DriveSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Left Drive FPS", getLeftSpeed());
 		SmartDashboard.putNumber("Right Drive FPS", getRightSpeed());
 		SmartDashboard.putNumber("Left Drive Position", getLeftPosition());
+		SmartDashboard.putNumber("Right Drive Position", getRightPosition());
+		SmartDashboard.putNumber("Average Position", getAveragePosition());
 		SmartDashboard.putNumber("Average speed", getAverageSpeed());
 		
 	}
@@ -122,6 +124,10 @@ public class DriveSubsystem extends HBRSubsystem {
 	public void driveArcadeMode(double leftVert, double rightHoriz) {
 		right.setPower(leftVert - rightHoriz);
 		left.setPower(leftVert + rightHoriz);
+	}
+	
+	public void driveArcadePID(double leftVert, double rightHoriz) {
+		setSetpoint(leftVert + rightHoriz, leftVert - rightHoriz);
 	}
 	
 	public void enableSpeedPID() {
@@ -218,7 +224,7 @@ public class DriveSubsystem extends HBRSubsystem {
 		return left.getPosition();
 	}
 	public double getAveragePosition() {
-		return (getLeftPosition() + getRightPosition())/2;
+		return (getLeftPosition() - getRightPosition())/2;
 	}
 	
 	public double getLeftSetpoint(){

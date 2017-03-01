@@ -32,7 +32,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		DriveProfile p = DriveProfile.fromFile("/home/lvuser/profile5.csv");
+		DriveProfile p = DriveProfile.fromFile("/home/lvuser/profile2.csv");
 		Scheduler.getInstance().add(p);
 	}
 	
