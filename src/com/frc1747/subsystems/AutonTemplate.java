@@ -2,15 +2,19 @@ package com.frc1747.subsystems;
 
 import com.frc1747.commands.auton.AutoShoot;
 import com.frc1747.commands.auton.BoilerAutoAlign;
+import com.frc1747.commands.drive.DriveProfile;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonTemplate extends CommandGroup{
 	
 	
-	AutonTemplate(String command1, String command2, String command3, String command4){
+	public AutonTemplate(/*String command1, String command2, String command3, String command4*/){
 		
-		String [] commands = {command1, command2, command3, command4}; //can add more commands
+		DriveProfile profile6 = DriveProfile.fromFile("/home/lvuser/profile7a.csv");
+		DriveProfile profile5 = DriveProfile.fromFile("/home/lvuser/profile7b.csv");
+		
+		/*String [] commands = {command1, command2, command3, command4}; //can add more commands
 		
 		for(String currentCommand : commands){
 			switch(currentCommand){
@@ -21,7 +25,10 @@ public class AutonTemplate extends CommandGroup{
 				break;
 			//add more cases for each possible command
 			}
-		}
+		}*/
+		
+		addSequential(profile6);
+		addSequential(profile5);
 	}
 	
 	private void addShooter(){

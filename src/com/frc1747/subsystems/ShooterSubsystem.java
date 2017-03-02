@@ -223,7 +223,9 @@ public class ShooterSubsystem extends HBRSubsystem {
 //		SmartDashboard.putNumber("Bottom Shooter Speed (ft/s)", getBottomFeetPerSecond());
 		SmartDashboard.putNumber("Front Shooter Position", getFrontPosition());
 		SmartDashboard.putNumber("Back Shooter Position", getBackPosition());
-
+		SmartDashboard.putNumber("Front Shooter Throttle", frontShooterMotor.getOutputVoltage()/frontShooterMotor.getBusVoltage());
+		SmartDashboard.putNumber("Back Shooter Throttle", backShooterMotor1.getOutputVoltage()/backShooterMotor1.getBusVoltage());
+		
 		writeBackValues();
 	}
 	

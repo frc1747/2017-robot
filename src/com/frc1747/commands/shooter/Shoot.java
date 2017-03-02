@@ -23,7 +23,7 @@ public class Shoot extends Command {
 	private long endTime;
 	private long pidStartTime;
 	private double desiredFrontSetpoint = -35.0;
-	private double desiredBackSetpoint = 89.0;
+	private double desiredBackSetpoint = 120.0;
 	private int rampTime;
 	
     public Shoot() {
@@ -76,8 +76,8 @@ public class Shoot extends Command {
     		shooter.setSetpoint(desiredBackSetpoint, desiredFrontSetpoint);
 	    	if (System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Shooter Gate Time", gateTime)) {
 		    		
-	    		//shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
-	    		shooterGate.gatesOpen();
+//	    		shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
+	    		shooterGate.gatesClose();
 	    		
 		   if(shooter.onTarget()) {
 		    		if (counter % 2 == 0) {
@@ -90,7 +90,7 @@ public class Shoot extends Command {
 		    				shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
 		    			}
 		    		}
-		    		
+		    		shooterGate.gatesOpen();
 		    		//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
 		    		startTime = System.currentTimeMillis();
 		    		counter++;

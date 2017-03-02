@@ -67,7 +67,7 @@ public class DriveWithJoysticks extends Command {
     				drive.setRightPIDF(DriveSubsystem.rightLowPIDForward);
     			}
     			//drive.setSetpoint(7.25 * Math.pow(leftVert + rightHoriz, 3), 7.25 * Math.pow(leftVert - rightHoriz, 3));
-    			drive.driveArcadePID(12.0 * Math.pow(leftVert, 3), 7.25 * Math.pow(rightHoriz, 3));
+    			drive.driveArcadePID(12.0 * Math.pow(leftVert, 3), 12.0 * Math.pow(rightHoriz, 3));
     		}
     			//drive.setPower(leftVert + rightHoriz, leftVert - rightHoriz);
     		

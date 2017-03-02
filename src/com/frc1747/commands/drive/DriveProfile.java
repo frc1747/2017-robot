@@ -39,7 +39,7 @@ public class DriveProfile extends Command {
 	private double s_kd = 0;
 	
 	private double a_kp = 0.085;
-	private double a_ki = 0;
+	private double a_ki = 0.01;
 	private double a_kd = 0;
 
 	// Clamping variables

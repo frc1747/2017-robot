@@ -11,6 +11,8 @@ public class TakeIn extends Command {
 
 	private CollectorSubsystem intake;
 	double power;
+	boolean stalled = false;
+	long stallTime;
 	
     public TakeIn() {
     	intake = CollectorSubsystem.getInstance();
@@ -23,7 +25,23 @@ public class TakeIn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	intake.setPower(intake.COLLECTOR_POWER);
+    	System.out.println(stalled);
+    	if (intake.isCurrentHigh() && !stalled){
+    		stalled = true;
+    		stallTime = System.currentTimeMillis();
+    	}
+    	
+    	if(stalled && System.currentTimeMillis() - stallTime > 1000){
+    		stalled = false;
+    	}
+    	
+    	if(!stalled){
+    		System.out.println("forward");
+    		intake.setPower(intake.COLLECTOR_POWER);
+    		stalled = false;
+    	}else{
+    		intake.setPower(-intake.COLLECTOR_POWER);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()

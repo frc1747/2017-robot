@@ -2,6 +2,7 @@ package com.frc1747;
 
 import com.frc1747.commands.UpdateDashboard;
 import com.frc1747.commands.drive.DriveProfile;
+import com.frc1747.subsystems.AutonTemplate;
 import com.frc1747.subsystems.ClimbSubsystem;
 import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
@@ -11,11 +12,14 @@ import com.frc1747.subsystems.ShooterGateSubsystem;
 import com.frc1747.subsystems.ShooterSubsystem;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
+	
+	Command auton;
 
 	@Override
 	public void robotInit() {
@@ -32,8 +36,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		DriveProfile p = DriveProfile.fromFile("/home/lvuser/profile2.csv");
-		Scheduler.getInstance().add(p);
+		(auton = new AutonTemplate()).start();
 	}
 	
 	@Override
