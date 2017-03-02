@@ -8,35 +8,28 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonTemplate extends CommandGroup{
 	
+	DriveProfile profile5;
+	DriveProfile profile6;
 	
-	public AutonTemplate(/*String command1, String command2, String command3, String command4*/){
+	public AutonTemplate(int profile){
 		
 		DriveProfile profile6 = DriveProfile.fromFile("/home/lvuser/profile7a.csv");
 		DriveProfile profile5 = DriveProfile.fromFile("/home/lvuser/profile7b.csv");
 		
-		/*String [] commands = {command1, command2, command3, command4}; //can add more commands
+		this.profile5 = profile5;
+		this.profile6 = profile6;
 		
-		for(String currentCommand : commands){
-			switch(currentCommand){
-			case "" : break;
-			case "shoot": addShooter();
-				break;
-			case "boilerAlign": addBoilerAlignment();
-				break;
-			//add more cases for each possible command
-			}
-		}*/
-		
-		addSequential(profile6);
-		addSequential(profile5);
-	}
-	
-	private void addShooter(){
-		addSequential(new AutoShoot());
-	}
-	
-	private void addBoilerAlignment(){
-		addSequential(new BoilerAutoAlign());
-	}
-	
+		switch(profile){
+		case 5:
+			System.out.println("Case 5");
+//			addSequential(profile5);
+//			addSequential(profile6);
+			break;
+		case 6:
+			System.out.println("Case 6");
+//			addSequential(profile6);
+//			addSequential(profile5);
+			break;
+		}
+	}	
 }

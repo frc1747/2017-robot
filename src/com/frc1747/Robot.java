@@ -15,19 +15,28 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	
+	
 	Command auton;
+	SendableChooser<Integer> autonChoice;
 
 	@Override
 	public void robotInit() {
 //		SendableChooser autoChooser = new SendableChooser();
 //		autoChooser.addDefault("Position 1", object);
+		
 		(new UpdateDashboard()).start();
 		initSubsystems();
 		SmartDashboard.putNumber("Auton Shoot Time", 5000);
+		
+		autonChoice = new SendableChooser<>();
+		autonChoice.addObject("Correct gear order", 5);
+		autonChoice.addObject("reversed gear order", 6);
+		SmartDashboard.putData("Auton profile", autonChoice);
 	}
 
 	@Override
@@ -36,7 +45,7 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void autonomousInit() {
-		(auton = new AutonTemplate()).start();
+		(auton = new AutonTemplate(autonChoice.getSelected())).start();
 	}
 	
 	@Override
