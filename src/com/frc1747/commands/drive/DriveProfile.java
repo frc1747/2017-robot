@@ -1,10 +1,14 @@
 package com.frc1747.commands.drive;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import com.frc1747.subsystems.DriveSubsystem;
 
@@ -68,6 +72,8 @@ public class DriveProfile extends Command {
 	private double a_ei;
 	private double a_ed;
 	
+	private PrintWriter print;
+	
 	// Create a profile from a file on the roborio
 	public static DriveProfile fromFile(String filename) {
 		DriveProfile profile = null;
@@ -105,6 +111,17 @@ public class DriveProfile extends Command {
 		// Set the profiles
 		s_profile = profileS;
 		a_profile = profileA;
+		
+		// Initialize logging
+		try{
+			print = new PrintWriter(
+					new FileOutputStream(
+					File.createTempFile("log_", ".csv",
+							new File("/home/lvuser")), false));
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		}
     }
 
     // Called just before this Command runs the first time
@@ -237,6 +254,11 @@ public class DriveProfile extends Command {
 			double outputL = Math.min(lim_q, Math.max(-lim_q, s_output - a_output));
 			double outputR = Math.min(lim_q, Math.max(-lim_q, s_output + a_output));
 			drive.setPower(outputL, outputR);
+
+			// Logging
+			if(print != null) {
+				print.format("%.4f, %.4f, %.4f, %.4f\n", s_p_p, s_m_p, a_p_p, a_m_p);
+			}
 			
 			// Check end conditions
 			index++;
