@@ -67,7 +67,7 @@ public class CollectorSubsystem extends HBRSubsystem {
 	}
 	
 	public boolean isIntakeOut(){
-		return intakeSolenoid.get() == EXTEND_POSITION;
+		return true;
 	}
 	
 	public double getMotorCurrent(){

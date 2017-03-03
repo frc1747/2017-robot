@@ -1,5 +1,6 @@
 package com.frc1747.subsystems;
 
+import com.frc1747.Robot.Autons;
 import com.frc1747.commands.auton.AutoShoot;
 import com.frc1747.commands.auton.BoilerAutoAlign;
 import com.frc1747.commands.drive.DriveProfile;
@@ -11,7 +12,7 @@ public class AutonTemplate extends CommandGroup{
 	DriveProfile profile5;
 	DriveProfile profile6;
 	
-	public AutonTemplate(int profile){
+	public AutonTemplate(Autons profile){
 		
 		DriveProfile profile6 = DriveProfile.fromFile("/home/lvuser/profile7a.csv");
 		DriveProfile profile5 = DriveProfile.fromFile("/home/lvuser/profile7b.csv");
@@ -20,15 +21,23 @@ public class AutonTemplate extends CommandGroup{
 		this.profile6 = profile6;
 		
 		switch(profile){
-		case 5:
-			System.out.println("Case 5");
-//			addSequential(profile5);
-//			addSequential(profile6);
+		case GEAR_LEFT:
+			//addSequential(DriveProfile.fromFile("/home/lvuser/gear_left_a.csv"));
+			//addSequential(DriveProfile.fromFile("/home/lvuser/gear_left_b.csv"));
 			break;
-		case 6:
-			System.out.println("Case 6");
-//			addSequential(profile6);
-//			addSequential(profile5);
+		case GEAR_RIGHT:
+//			addSequential(DriveProfile.fromFile("/home/lvuser/gear_right_a.csv"));
+//			addSequential(DriveProfile.fromFile("/home/lvuser/gear_right_a_b.csv"));
+			break;
+		case HOPPER_RED:
+//			addSequential(DriveProfile.fromFile("/home/lvuser/hopper_red_a.csv"));
+//			addSequential(DriveProfile.fromFile("/home/lvuser/hopper_red_b.csv"));
+//			addSequential(new AutoShoot());
+			break;
+		case HOPPER_BLUE:
+			addSequential(DriveProfile.fromFile("/home/lvuser/hopper_blue_a.csv"));
+			addSequential(DriveProfile.fromFile("/home/lvuser/hopper_blue_b.csv"));
+			addSequential(new AutoShoot());
 			break;
 		}
 	}	

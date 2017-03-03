@@ -11,6 +11,7 @@ import com.frc1747.subsystems.ShifterSubsystem;
 import com.frc1747.subsystems.ShooterGateSubsystem;
 import com.frc1747.subsystems.ShooterSubsystem;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -20,9 +21,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 	
+	static Compressor compressor;
 	
 	Command auton;
-	SendableChooser<Integer> autonChoice;
+	SendableChooser<Autons> autonChoice;
 
 	@Override
 	public void robotInit() {
@@ -34,8 +36,10 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Auton Shoot Time", 5000);
 		
 		autonChoice = new SendableChooser<>();
-		autonChoice.addObject("Correct gear order", 5);
-		autonChoice.addObject("reversed gear order", 6);
+		autonChoice.addObject("Correct gear order", Autons.GEAR_LEFT);
+		autonChoice.addObject("reversed gear order", Autons.GEAR_RIGHT);
+		autonChoice.addObject("Red Hopper", Autons.HOPPER_RED);
+		autonChoice.addObject("Blu Hopper", Autons.HOPPER_BLUE);
 		SmartDashboard.putData("Auton profile", autonChoice);
 	}
 
@@ -81,6 +85,17 @@ public class Robot extends IterativeRobot {
 		ShooterGateSubsystem.getInstance();
 		OI.getInstance();
 		ShifterSubsystem.getInstance();
+	}
+	
+	public enum Autons {
+		HOPPER_BLUE, HOPPER_RED, GEAR_LEFT, GEAR_RIGHT
+	}
+	
+	public static Compressor getCompressor(){
+		if(compressor == null){
+			compressor = new Compressor();
+		}
+		return compressor;
 	}
 }
 

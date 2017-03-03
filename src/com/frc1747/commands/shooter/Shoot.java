@@ -1,5 +1,6 @@
 package com.frc1747.commands.shooter;
 
+import com.frc1747.Robot;
 import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
 import com.frc1747.subsystems.ShooterGateSubsystem;
@@ -22,7 +23,7 @@ public class Shoot extends Command {
 	private long startTime;
 	private long endTime;
 	private long pidStartTime;
-	private double desiredFrontSetpoint = -35.0;
+	private double desiredFrontSetpoint = -45.0;
 	private double desiredBackSetpoint = 120.0;
 	private int rampTime;
 	
@@ -32,18 +33,18 @@ public class Shoot extends Command {
     	shooterGate = ShooterGateSubsystem.getInstance();
     	counter = 0;
     	gateTime = 170;
-    	endTime = 115;
+    	endTime = 500;
     	requires(conveyor);
     	requires(shooter);
-    	requires(shooterGate);
-    	intake = CollectorSubsystem.getInstance();
+    	requires(shooterGate);    	
+    	requires(intake = CollectorSubsystem.getInstance());
     	
     	//good setpoint is back: 80 front: 35
     	SmartDashboard.putNumber("Front Shooter Setpoint", -desiredFrontSetpoint);
     	SmartDashboard.putNumber("Back Shooter Setpoint", desiredBackSetpoint);
     	SmartDashboard.putNumber("Shooter Gate Time", gateTime);
     	SmartDashboard.putNumber("Gate Open Time", endTime);
-    	SmartDashboard.putNumber("Intake Setpoint", 400);
+    	SmartDashboard.putNumber("Conveyor Setpoint", 200);
     	
     }
 
@@ -55,6 +56,7 @@ public class Shoot extends Command {
     	rampTime = 500;
     	desiredFrontSetpoint = -SmartDashboard.getNumber("Front Shooter Setpoint", 35);
     	desiredBackSetpoint = -SmartDashboard.getNumber("Back Shooter Setpoint", 89);
+    	Robot.getCompressor().stop();
       	/*shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 75.5),
     			-SmartDashboard.getNumber("Front Shooter Setpoint", 35));*/
       	//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
@@ -68,8 +70,9 @@ public class Shoot extends Command {
     				(desiredFrontSetpoint/rampTime) * (System.currentTimeMillis() - pidStartTime));
     		shooter.clearIAccumulation();
     	}else{
+    		intake.setPower(0.50);
     		if(intake.isIntakeOut()){
-            	conveyor.setSetpoint(SmartDashboard.getNumber("Intake Setpoint", 400));
+            	conveyor.setSetpoint(SmartDashboard.getNumber("Conveyor Setpoint", 200));
     		}else{
     			conveyor.setSetpoint(0.0);
     		}
@@ -90,7 +93,7 @@ public class Shoot extends Command {
 		    				shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
 		    			}
 		    		}
-		    		shooterGate.gatesOpen();
+		    		//shooterGate.gatesOpen();
 		    		//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
 		    		startTime = System.currentTimeMillis();
 		    		counter++;
@@ -102,7 +105,7 @@ public class Shoot extends Command {
 	    	}
 	    	
 	    	if(System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Gate Open Time", endTime)){
-	    		shooterGate.gatesOpen();
+	    		shooterGate.gatesClose();
 	    	}
     	}
     	    	
@@ -120,6 +123,8 @@ public class Shoot extends Command {
     	shooter.setFrontPower(0.0);
        	conveyor.disablePID();
     	conveyor.setMotorPower(0.0);
+    	Robot.getCompressor().start();
+    	intake.setPower(0.0);
     }
 
     protected void interrupted() {
