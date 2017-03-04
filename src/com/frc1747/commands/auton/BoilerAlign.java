@@ -1,16 +1,14 @@
 package com.frc1747.commands.auton;
 
-import com.frc1747.commands.shooter.Shoot;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoShoot extends CommandGroup {
-	
-    public AutoShoot() {
+public class BoilerAlign extends CommandGroup {
+
+    public BoilerAlign() {
     	addSequential(new BoilerHorizontalAutoAlign());
-    	addSequential(new Shoot());
+    	addSequential(new BoilerVerticalAutoAlign());
     }
 }

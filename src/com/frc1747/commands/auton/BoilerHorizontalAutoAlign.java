@@ -9,16 +9,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class BoilerAutoAlign extends PIDCommand {
+public class BoilerHorizontalAutoAlign extends PIDCommand {
 	
 	private DriveSubsystem drive;
 	private double offset;
-	private static final double MAX_DRIVE_SPEED = 1; //the max speed the robot should be turning at
-	static final double P = 0;
-	static final double I = 0;
+	private static final double MAX_DRIVE_SPEED = 1.5; //the max speed the robot should be turning at
+	static final double P = 2;
+	static final double I = .5;
 	static final double D = 0;
 
-    public BoilerAutoAlign() {   	
+    public BoilerHorizontalAutoAlign() {   	
     	super(P,I,D);
     	super.requires(drive = DriveSubsystem.getInstance());
     }
@@ -26,10 +26,12 @@ public class BoilerAutoAlign extends PIDCommand {
     protected void initialize() {
     	drive.enableSpeedPID();
     	super.setSetpoint(0);
+    	SmartDashboard.putString("Aligned Horizontally", "Not Aligned");
+    	System.out.println("RUNNING");
     }
 
     protected void execute() {
-    	//offset = SmartDashboard.getNumber("Boiler Targeted", 0);
+    	//offset = SmartDashboard.getNumber("Boiler Horizontal", 0);
     	//drive.setSetpoint(offset * MAX_DRIVE_SPEED, -offset * MAX_DRIVE_SPEED);
     	//offset just scales speed, the thresholds are set in 2017 Vision in BoilerFilterConfig
     }
@@ -41,6 +43,7 @@ public class BoilerAutoAlign extends PIDCommand {
     protected void end() {
     	drive.setSetpoint(0.0, 0.0);
     	drive.disablePID();
+    	SmartDashboard.putString("Aligned Horizontally", "Aligned");
     }
 
     protected void interrupted() {
@@ -49,7 +52,7 @@ public class BoilerAutoAlign extends PIDCommand {
 
 	@Override
 	protected double returnPIDInput() {
-		offset = SmartDashboard.getNumber("Boiler Targeted", 0);
+		offset = SmartDashboard.getNumber("Boiler Horizontal", 0.1);
 		return offset;
 	}
 

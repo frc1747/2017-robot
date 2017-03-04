@@ -65,24 +65,23 @@ public class Shoot extends Command {
     protected void execute() {
     	//shooter.setBackPower(0.5);
     	//shooter.setFrontPower(0.5);
+    	shooter.debug();
     	if(System.currentTimeMillis() - pidStartTime < rampTime){
     		shooter.setSetpoint((desiredBackSetpoint/rampTime) * (System.currentTimeMillis() - pidStartTime),
     				(desiredFrontSetpoint/rampTime) * (System.currentTimeMillis() - pidStartTime));
     		shooter.clearIAccumulation();
+    		conveyor.setSetpoint(SmartDashboard.getNumber("Conveyor Setpoint", 200));
     	}else{
     		intake.setPower(0.50);
-    		if(intake.isIntakeOut()){
-            	conveyor.setSetpoint(SmartDashboard.getNumber("Conveyor Setpoint", 200));
-    		}else{
-    			conveyor.setSetpoint(0.0);
-    		}
+            conveyor.setSetpoint(SmartDashboard.getNumber("Conveyor Setpoint", 200));
     		shooter.setSetpoint(desiredBackSetpoint, desiredFrontSetpoint);
 	    	if (System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Shooter Gate Time", gateTime)) {
 		    		
 //	    		shooterGate.setAllSolenoids(ShooterGateSubsystem.GATE_CLOSE);
 	    		shooterGate.gatesClose();
 	    		
-		   if(shooter.onTarget()) {
+	    		if(shooter.onTarget()) {
+	    			System.out.println("on target");
 		    		if (counter % 2 == 0) {
 		    			if(shooter.onTarget()){
 		    				shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_OPEN);
@@ -93,22 +92,19 @@ public class Shoot extends Command {
 		    				shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
 		    			}
 		    		}
-		    		//shooterGate.gatesOpen();
-		    		//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
 		    		startTime = System.currentTimeMillis();
 		    		counter++;
-		    		
 		    	}
 		    	else {
 	//	    		conveyor.setMotorPower(0.0);
 		    	}
 	    	}
-	    	
+		    	
 	    	if(System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Gate Open Time", endTime)){
 	    		shooterGate.gatesClose();
 	    	}
-    	}
-    	    	
+		}
+	    	    	
     }
 
     protected boolean isFinished() {

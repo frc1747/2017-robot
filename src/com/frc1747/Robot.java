@@ -45,10 +45,15 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void teleopInit() {
+		Scheduler.getInstance().removeAll();
+		System.out.println(SmartDashboard.getNumber("Test", 0));
+		ShifterSubsystem.getInstance().enableAutoshifting();
 	}
 
 	@Override
 	public void autonomousInit() {
+		Scheduler.getInstance().removeAll();
+		ShifterSubsystem.getInstance().disableAutoshifting();
 		(auton = new AutonTemplate(autonChoice.getSelected())).start();
 	}
 	
@@ -64,6 +69,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+//		System.out.println(SmartDashboard.getNumber("Test",0));
 	}
 	
 	@Override

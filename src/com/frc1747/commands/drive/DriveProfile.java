@@ -1,10 +1,14 @@
 package com.frc1747.commands.drive;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import com.frc1747.subsystems.DriveSubsystem;
 
@@ -26,11 +30,11 @@ public class DriveProfile extends Command {
 
 	// Feedforward constants
 	private double s_kf_p = 0.0;
-	private double s_kf_v = 0.18;
+	private double s_kf_v = 0.14;
 	private double s_kf_a = 0.065;
 	
 	private double a_kf_p = 0;
-	private double a_kf_v = 0.19;
+	private double a_kf_v = 0.16;
 	private double a_kf_a = 0.1;
 
 	// Feedback constants
@@ -67,6 +71,8 @@ public class DriveProfile extends Command {
 	private double a_ep;
 	private double a_ei;
 	private double a_ed;
+	
+	private PrintWriter print;
 	
 	// Create a profile from a file on the roborio
 	public static DriveProfile fromFile(String filename) {
@@ -105,6 +111,17 @@ public class DriveProfile extends Command {
 		// Set the profiles
 		s_profile = profileS;
 		a_profile = profileA;
+		
+		// Initialize logging
+		try{
+			print = new PrintWriter(
+					new FileOutputStream(
+					File.createTempFile("log_", ".csv",
+							new File("/home/lvuser")), true));
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		}
     }
 
     // Called just before this Command runs the first time
@@ -237,10 +254,20 @@ public class DriveProfile extends Command {
 			double outputL = Math.min(lim_q, Math.max(-lim_q, s_output - a_output));
 			double outputR = Math.min(lim_q, Math.max(-lim_q, s_output + a_output));
 			drive.setPower(outputL, outputR);
+
+			// Logging
+			if(print != null) {
+				print.format("%.4f, %.4f, %.4f, %.4f\n", s_p_p, s_m_p, a_p_p, a_m_p);
+				System.out.println("LOG");
+			}
 			
 			// Check end conditions
 			index++;
 			if (index >= s_profile.length) {
+				if(print != null) {
+					print.flush();
+					print.close();
+				}
 				end();
 			}
     	}

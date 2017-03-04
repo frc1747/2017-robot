@@ -30,7 +30,7 @@ public class ConveyIn extends Command{
     	System.out.println("EXEC");
     	//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
     	if(intake.isIntakeOut()){
-    		conveyor.setSetpoint(400.0);
+    		conveyor.setSetpoint(200.0);
     	}else{
     		conveyor.setSetpoint(0.0);
     	}

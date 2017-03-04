@@ -38,7 +38,7 @@ public class HBRTalon extends CANTalon {
 	 */
 	@Override
 	public double getSpeed() {
-		double speed = super.getSpeed() / (READ_TIME * scaling); 
+		double speed = super.getSpeed() / (READ_TIME * scaling);
 		return speed;
 	}
 	@Override

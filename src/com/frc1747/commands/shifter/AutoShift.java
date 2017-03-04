@@ -47,20 +47,23 @@ public class AutoShift extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {		
-		if(sinceLastMeasure - System.currentTimeMillis() > 50){
+    protected void execute() {
+		if(System.currentTimeMillis() - sinceLastMeasure > 50){
 			rightAccel = (driveSubsystem.getRightFeetPerSecond() - lastRightVel) / 0.05;
 			leftAccel = (driveSubsystem.getLeftFeetPerSecond() - lastLeftVel) / 0.05;
 			lastLeftVel = driveSubsystem.getLeftFeetPerSecond();
 			lastRightVel = driveSubsystem.getRightFeetPerSecond();
-			//lastMeasure = System.currentTimeMillis();
+			sinceLastMeasure = System.currentTimeMillis();
 			avgAccel = (leftAccel + rightAccel) / 2;
+//			System.out.println(avgAccel);
 		}
     	//System.out.println("EXECUTE: " + shifter.isHighGear() + ", " + driveSubsystem.getLeftSpeed());
-		if (shifter.isHighGear() && Math.abs(driveSubsystem.getAverageSpeed()) < Math.abs(shiftDownVel - shiftDownSlope * avgAccel)){
+		if (shifter.isHighGear() && Math.abs(driveSubsystem.getAverageSpeed()) < shiftDownVel/*Math.abs(shiftDownVel - shiftDownSlope * avgAccel)*/){
+			System.out.println("Shifting down");
 			shifter.setTransmission(shifter.LOW_GEAR);
 			Scheduler.getInstance().add(new DriveCoast());
-		} else if (shifter.isLowGear() && Math.abs(driveSubsystem.getAverageSpeed()) > Math.abs(shiftUpVel - shiftUpSlope*avgAccel)){
+		} else if (shifter.isLowGear() && Math.abs(driveSubsystem.getAverageSpeed()) > shiftUpVel/*Math.abs(shiftUpVel - shiftUpSlope*avgAccel)*/){
+			System.out.println("Shifting up");
 			shifter.setTransmission(shifter.HIGH_GEAR);
 			Scheduler.getInstance().add(new DriveCoast());
 		} else {
@@ -71,6 +74,8 @@ public class AutoShift extends Command {
 		} else {
 			shifter.setTransmission(shifter.LOW_GEAR);
 		}*/
+		
+		System.out.println("Average Speed " + driveSubsystem.getAverageSpeed());
     }
 
     // Make this return true when this Command no longer needs to run execute()

@@ -4,11 +4,11 @@ import com.frc1747.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class Climb extends Command {
+public class StopClimb extends Command {
 
 	private ClimbSubsystem climber;
 	
-	public Climb() {
+	public StopClimb() {
 		climber = ClimbSubsystem.getInstance();
 		requires(climber);
 	}
@@ -19,12 +19,12 @@ public class Climb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	climber.setMotorPower(climber.CLIMBER_POWER);    
+    	climber.setMotorPower(0.0);    
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return true;
     }
 
     // Called once after isFinished returns true

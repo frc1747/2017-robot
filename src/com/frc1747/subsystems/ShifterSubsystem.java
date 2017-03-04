@@ -73,6 +73,14 @@ public class ShifterSubsystem extends HBRSubsystem {
     public void initDefaultCommand() {
 //    	setDefaultCommand(new AutoShift());
     }
+    
+    public void enableAutoshifting(){
+    	setDefaultCommand(new AutoShift());
+    }
+    
+    public void disableAutoshifting(){
+    	setDefaultCommand(null);
+    }
 	@Override
 	public void updateDashboard() {
 		super.updateDashboard();

@@ -9,9 +9,9 @@ public class RobotMap {
 	public static final int LEFT_DRIVE_MOTOR2 = 12;
 	public static final int RIGHT_DRIVE_MOTOR1 = 21;
 	public static final int RIGHT_DRIVE_MOTOR2 = 22;
-	public static final boolean LEFT_DRIVE_INVERTED = false;
+	public static final boolean LEFT_DRIVE_INVERTED = true;
 	public static final boolean RIGHT_DRIVE_INVERTED = true;
-	public static final boolean LEFT_DRIVE_SENSOR_REVERSED = false;
+	public static final boolean LEFT_DRIVE_SENSOR_REVERSED = true;
 	public static final boolean RIGHT_DRIVE_SENSOR_REVERSED = false;
 	
 	public static final int CLIMBER_MOTOR1 = 1;
@@ -31,10 +31,10 @@ public class RobotMap {
 	public static final int BACK_SHOOTER_MOTOR1 = 61;
 	public static final int BACK_SHOOTER_MOTOR2 = 62;
 	public static final boolean FRONT_SHOOTER_INVERTED = false;
-	public static final boolean BACK_SHOOTER1_INVERTED = false;
+	public static final boolean BACK_SHOOTER1_INVERTED = true;
 	public static final boolean BACK_SHOOTER2_INVERTED = false;
 	
-	public static final int SHIFT_SOLENOID = 7;
+	public static final int SHIFT_SOLENOID = 0;
 	public static final int INTAKE_SOLENOID_PORT_1 = 1;
 	public static final int INTAKE_SOLENOID_PORT_2 = 2;
 	

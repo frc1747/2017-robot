@@ -11,6 +11,7 @@ import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
 import com.frc1747.commands.drive.DriveWithJoysticks;
+import com.frc1747.commands.drive.DriveWithJoysticks2;
 import com.kauailabs.navx.frc.AHRS;
 
 import lib.frc1747.pid.PIDValues;
@@ -80,7 +81,7 @@ public class DriveSubsystem extends HBRSubsystem {
 	}
 
 	public void initDefaultCommand() {
-		setDefaultCommand(new DriveWithJoysticks());
+		setDefaultCommand(new DriveWithJoysticks2());
     }
 
 	@Override
@@ -108,6 +109,8 @@ public class DriveSubsystem extends HBRSubsystem {
 		
 		SmartDashboard.putNumber("Left Drive FPS", getLeftSpeed());
 		SmartDashboard.putNumber("Right Drive FPS", getRightSpeed());
+		System.out.println("left " + getLeftSpeed());
+		System.out.println("right " + getRightSpeed());
 		SmartDashboard.putNumber("Left Drive Position", getLeftPosition());
 		SmartDashboard.putNumber("Right Drive Position", getRightPosition());
 		SmartDashboard.putNumber("Average Position", getAveragePosition());
@@ -128,6 +131,8 @@ public class DriveSubsystem extends HBRSubsystem {
 	
 	public void driveArcadePID(double leftVert, double rightHoriz) {
 		setSetpoint(leftVert + rightHoriz, leftVert - rightHoriz);
+//		System.out.println("left setpoint " + (leftVert + rightHoriz));
+//		System.out.println("rightSetpoint" + (leftVert - rightHoriz));
 	}
 	
 	public void enableSpeedPID() {
@@ -151,7 +156,7 @@ public class DriveSubsystem extends HBRSubsystem {
 	}
 
 	public double getAverageSpeed(){
-		return (-right.getSpeed() + left.getSpeed()) / 2;
+		return (right.getSpeed() + left.getSpeed()) / 2;
 	}
 	
 	public double getForwardAcceleration(){
@@ -199,18 +204,18 @@ public class DriveSubsystem extends HBRSubsystem {
 	}
 	
 	public double getLeftFeetPerSecond(){
-		System.out.println(getLeftSpeed() + "," + WHEEL_CIRCUMFERENCE);
-		return getLeftSpeed() * WHEEL_CIRCUMFERENCE /*/
-				(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME)*/;
+		//System.out.println(getLeftSpeed() + "," + WHEEL_CIRCUMFERENCE);
+		return getLeftSpeed() /* WHEEL_CIRCUMFERENCE //*/
+				/*(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME)*/;
 	}
 	
 	public double getRightFeetPerSecond(){
-		return getRightSpeed() * WHEEL_CIRCUMFERENCE /*/
+		return getRightSpeed() /* WHEEL_CIRCUMFERENCE /
 				(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME)*/;
 	}
 	
 	public double getLeftSpeed(){
-		return left.getSpeed();
+		return -left.getSpeed();
 	}
 	
 	public double getRightSpeed(){
@@ -221,10 +226,10 @@ public class DriveSubsystem extends HBRSubsystem {
 		return right.getPosition();
 	}
 	public double getLeftPosition(){
-		return left.getPosition();
+		return -left.getPosition();
 	}
 	public double getAveragePosition() {
-		return (getLeftPosition() - getRightPosition())/2;
+		return (getLeftPosition() + getRightPosition())/2;
 	}
 	
 	public double getLeftSetpoint(){
@@ -240,6 +245,8 @@ public class DriveSubsystem extends HBRSubsystem {
 		private HBRTalon motor1, motor2;
 		
 		private double Kp = 0, Ki = 0, Kd = 0, Kf = 0;
+		
+		private boolean isInverted;
 		
 		private DriveSide(int motorPort1, int motorPort2, boolean isInverted, boolean sensorReversed) {
 			
@@ -260,6 +267,8 @@ public class DriveSubsystem extends HBRSubsystem {
 			motor1.configPeakOutputVoltage(+12.0f, -12.0f);
 			motor1.setProfile(0);
 			motor1.setNominalClosedLoopVoltage(12.0);
+			
+			this.isInverted = isInverted;
 		}
 		
 		public double getSetpoint() {

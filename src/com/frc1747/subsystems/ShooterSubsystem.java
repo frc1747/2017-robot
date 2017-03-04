@@ -25,11 +25,11 @@ public class ShooterSubsystem extends HBRSubsystem {
 		GEAR_RATIO = 2.0,
 		ENCODER_EDGES_PER_OUTPUT_REVOLUTION = ENCODER_EDGES_PER_INPUT_REVOLUTION * GEAR_RATIO * ARDUINO_SCALING;		
 	private final int 
-		SHOOTER_TOLERANCE = 2/*,
+		SHOOTER_TOLERANCE = 5/*,
 		SHOOTER_POWER = 0*/; //TODO: put actual value
 		
-	private final PIDValues backPID = new PIDValues(0.45, 0.0005, 0.026, 0.1233); //TODO try increasing D to prevent overshoot after shooting
-	private final PIDValues frontPID = new PIDValues(0.423, 0.00027, 0.3, 0.2);
+	private final PIDValues backPID = new PIDValues(0.125, 0, 0.19, 0.122); //TODO try increasing D to prevent overshoot after shooting
+	private final PIDValues frontPID = new PIDValues(0.423, 0.00027, 0.3, 0.17);
 	//20,0.05,360 2/20/17
 	//private final PIDValues backPID = new PIDValues(0, 0, 0, 5.3);
 
@@ -46,23 +46,26 @@ public class ShooterSubsystem extends HBRSubsystem {
 	
     private ShooterSubsystem() {
     	
+
+    	
     	// Configure Back Shooter Motor 1
     	backShooterMotor1 = new HBRTalon(RobotMap.BACK_SHOOTER_MOTOR1);
     	backShooterMotor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-		backShooterMotor1.reverseSensor(false);
+		backShooterMotor1.reverseSensor(true);
 		backShooterMotor1.configNominalOutputVoltage(+0.0f, -0.0f);
-		backShooterMotor1.configPeakOutputVoltage(+0.0f, -12.0f);
+		backShooterMotor1.configPeakOutputVoltage(+12.0f, -0.0f);
 		backShooterMotor1.setProfile(0);
 		backShooterMotor1.setScaling(ENCODER_EDGES_PER_OUTPUT_REVOLUTION);
 //		backShooterMotor1.setFeedbackDevice(FeedbackDevice.EncFalling);
 		backShooterMotor1.SetVelocityMeasurementPeriod(VelocityMeasurementPeriod.Period_5Ms);
 		backShooterMotor1.SetVelocityMeasurementWindow(16);
 		backShooterMotor1.setNominalClosedLoopVoltage(12.0);
+		backShooterMotor1.setInverted(RobotMap.BACK_SHOOTER1_INVERTED);
 		
 		// Configure Back Shooter Motor 2
     	backShooterMotor2 = new CANTalon(RobotMap.BACK_SHOOTER_MOTOR2);
 		backShooterMotor2.configPeakOutputVoltage(+12.0f, -12.0f);
-		backShooterMotor2.setInverted(false);
+//		backShooterMotor2.setInverted(RobotMap.BACK_SHOOTER2_INVERTED);
 		backShooterMotor2.setNominalClosedLoopVoltage(12.0);
 		
 		// Configure Front Shooter Motor
@@ -107,20 +110,20 @@ public class ShooterSubsystem extends HBRSubsystem {
     	backShooterMotor1.changeControlMode(TalonControlMode.Speed);
     	frontShooterMotor.changeControlMode(TalonControlMode.Speed);
     	backShooterMotor2.changeControlMode(TalonControlMode.Follower);
-    	//backShooterMotor2.reverseOutput(true);
+    	backShooterMotor2.reverseOutput(false);
     }
     
     public void disablePID() {
     	
     	backShooterMotor1.changeControlMode(TalonControlMode.PercentVbus);
     	frontShooterMotor.changeControlMode(TalonControlMode.PercentVbus);
-    	//backShooterMotor2.reverseOutput(true);
+    	backShooterMotor2.reverseOutput(false);
     }
     
     public boolean onTarget() {
     	
-    	return Math.abs(getBackRPS() - backSetpoint) < SHOOTER_TOLERANCE &&
-    			Math.abs(getFrontRPS() - frontSetpoint) < SHOOTER_TOLERANCE;
+    	return Math.abs(Math.abs(getBackRPS()) - Math.abs(backSetpoint)) < SHOOTER_TOLERANCE &&
+    			Math.abs(Math.abs(getFrontRPS()) - Math.abs(frontSetpoint)) < SHOOTER_TOLERANCE;
     }
     
     public void setSetpoint(double backSpeed, double frontSpeed){
@@ -133,7 +136,7 @@ public class ShooterSubsystem extends HBRSubsystem {
     	
     	backShooterMotor1.set(backSpeed);
     	backShooterMotor2.set(backShooterMotor1.getDeviceID());
-    	backShooterMotor2.reverseOutput(true);
+    	backShooterMotor2.reverseOutput(false);
     	frontShooterMotor.set(frontSpeed);
     }
     
@@ -217,6 +220,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 		avg_speed = avg_speed * .9 + getFrontRPS() * .1;
 		SmartDashboard.putNumber("Front Shooter Filter Speed", avg_speed);
 		SmartDashboard.putNumber("Front Shooter Speed", getFrontRPS());
+		System.out.println(getFrontRPS());
 		SmartDashboard.putNumber("Front Shooter Surface Speed", avg_speed);
 		SmartDashboard.putNumber("Front Shooter Position", getFrontPosition());
 		SmartDashboard.putNumber("Back Shooter Voltage", getBackVoltage());

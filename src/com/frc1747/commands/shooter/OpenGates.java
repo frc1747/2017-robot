@@ -20,7 +20,8 @@ public class OpenGates extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	shooterGate.gatesOpen();
+//    	shooterGate.gatesOpen();
+    	shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -34,8 +35,8 @@ public class OpenGates extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_HOLD);
-    	shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_HOLD);
+//    	shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_HOLD);
+    	shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_CLOSE);
     }
 
     // Called when another command which requires one or more of the same

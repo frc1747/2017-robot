@@ -35,10 +35,11 @@ public class DriveWithJoysticks extends Command {
     
     protected void execute() {
 
-    	drive.enableSpeedPID();
+//    	drive.enableSpeedPID();
+    	
     	rightHoriz = OI.getInstance().getDriver().getAxis(Logitech.RIGHT_HORIZONTAL);
     	leftVert = OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL);
-    	
+    	drive.driveArcadeMode(leftVert, rightHoriz);
     	//if(oi.getDriver().getButton(Logitech.LT).get()){
     		
     	if(shifter.isHighGear()){
@@ -52,8 +53,6 @@ public class DriveWithJoysticks extends Command {
     			}else{
     				drive.setRightPIDF(DriveSubsystem.rightHighPIDForward);
     			}
-    			//drive.setSetpoint(12.0 * (Math.pow(leftVert + rightHoriz, 3)), 12.0 * Math.pow(leftVert - rightHoriz, 3));
-    			drive.driveArcadePID(12.0 * Math.pow(leftVert, 3), 12.0 * Math.pow(rightHoriz, 3));
     		}
     		else {
     			if(drive.getLeftSetpoint() < 0){
@@ -66,11 +65,9 @@ public class DriveWithJoysticks extends Command {
     			}else{
     				drive.setRightPIDF(DriveSubsystem.rightLowPIDForward);
     			}
-    			//drive.setSetpoint(7.25 * Math.pow(leftVert + rightHoriz, 3), 7.25 * Math.pow(leftVert - rightHoriz, 3));
-    			drive.driveArcadePID(12.0 * Math.pow(leftVert, 3), 12.0 * Math.pow(rightHoriz, 3));
     		}
     			//drive.setPower(leftVert + rightHoriz, leftVert - rightHoriz);
-    		
+//			drive.driveArcadePID(12.0 * Math.pow(leftVert, 3), 12.0 * Math.pow(rightHoriz, 3));
     		if(Math.abs(drive.getLeftSetpoint()) < 0.5 && Math.abs(drive.getRightSetpoint()) < 0.05) {
     			drive.disablePID();
     			drive.setPower(0, 0);
@@ -83,7 +80,7 @@ public class DriveWithJoysticks extends Command {
     }
     
     protected void end() {
-    	//drive.setPower(0.0, 0.0);
+    	drive.setPower(0.0, 0.0);
     	drive.setSetpoint(0, 0);
     	drive.disablePID();
     }

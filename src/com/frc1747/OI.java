@@ -3,6 +3,11 @@ package com.frc1747;
 
 import com.frc1747.commands.IntakeShoot;
 import com.frc1747.commands.auton.AutoShoot;
+import com.frc1747.commands.auton.BackupBoilerVerticalAlign;
+import com.frc1747.commands.auton.BoilerAlign;
+import com.frc1747.commands.auton.BoilerVerticalAutoAlign;
+import com.frc1747.commands.climb.Climb;
+import com.frc1747.commands.climb.StopClimb;
 import com.frc1747.commands.collector.Extend;
 import com.frc1747.commands.collector.Retract;
 import com.frc1747.commands.collector.TakeIn;
@@ -11,6 +16,8 @@ import com.frc1747.commands.conveyer.ConveyIn;
 import com.frc1747.commands.conveyer.ConveyOut;
 import com.frc1747.commands.shifter.ShiftDown;
 import com.frc1747.commands.shifter.ShiftUp;
+import com.frc1747.commands.shooter.CloseGates;
+import com.frc1747.commands.shooter.OpenGates;
 import com.frc1747.commands.shooter.Shoot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,7 +32,10 @@ public class OI {
 	private Logitech driver;
 	private Xbox operator;
 	
-	private POVButton dPad;
+	private POVButton dPadUp;
+	private POVButton dPadLeft;
+	private POVButton dPadRight;
+	private POVButton dPadDown;
 		
 	private OI() {
 		
@@ -59,7 +69,17 @@ public class OI {
 	
 	private void createDriver() {
 		
-		dPad = new POVButton(driver, Logitech.UP);
+		dPadUp = new POVButton(driver, Logitech.UP);
+		dPadUp.whenPressed(new Climb());
+		
+		dPadLeft = new POVButton(driver, Logitech.LEFT);
+		dPadLeft.whileHeld(new OpenGates());
+		
+		dPadRight = new POVButton(driver, Logitech.RIGHT);
+		dPadRight.whileHeld(new CloseGates());
+		
+		dPadDown = new POVButton(driver, Logitech.DOWN);
+		dPadDown.whenPressed(new StopClimb());
 		
 		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
 		//driver.getButton(Logitech.A).whileHeld(new CloseGates());
@@ -67,14 +87,14 @@ public class OI {
 		//driver.getButton(Logitech.B).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.LT).whenPressed(new Extend());
 		driver.getButton(Logitech.LB).whenPressed(new Retract());
-		driver.getButton(Logitech.B).whileHeld(new TakeIn());
+		//driver.getButton(Logitech.B).whenPressed(new BackupBoilerVerticalAlign());
+		driver.getButton(Logitech.B).whileHeld(new Climb());
 		driver.getButton(Logitech.X).whileHeld(new ConveyOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
 		SmartDashboard.putData("ShiftUp", new ShiftUp());
 		SmartDashboard.putData("ShiftDown", new ShiftDown());
 		driver.getButton(Logitech.RB).whileHeld(new Shoot());
-
 	}
 	
 	private void createOperator() {
