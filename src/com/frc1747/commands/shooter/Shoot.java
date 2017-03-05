@@ -23,7 +23,7 @@ public class Shoot extends Command {
 	private long startTime;
 	private long endTime;
 	private long pidStartTime;
-	private double desiredFrontSetpoint = -45.0;
+	private double desiredFrontSetpoint = -35.0;
 	private double desiredBackSetpoint = 120.0;
 	private int rampTime;
 	

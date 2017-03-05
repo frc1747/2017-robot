@@ -30,7 +30,7 @@ public class DriveProfile extends Command {
 
 	// Feedforward constants
 	private double s_kf_p = 0.0;
-	private double s_kf_v = 0.14;
+	private double s_kf_v = 0.24;
 	private double s_kf_a = 0.065;
 	
 	private double a_kf_p = 0;
