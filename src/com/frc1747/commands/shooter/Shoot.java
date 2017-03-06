@@ -1,5 +1,10 @@
 package com.frc1747.commands.shooter;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import com.frc1747.Robot;
 import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
@@ -26,6 +31,7 @@ public class Shoot extends Command {
 	private double desiredFrontSetpoint = -35.0;
 	private double desiredBackSetpoint = 120.0;
 	private int rampTime;
+	private PrintWriter print;
 	
     public Shoot() {
     	shooter = ShooterSubsystem.getInstance();
@@ -45,6 +51,17 @@ public class Shoot extends Command {
     	SmartDashboard.putNumber("Shooter Gate Time", gateTime);
     	SmartDashboard.putNumber("Gate Open Time", endTime);
     	SmartDashboard.putNumber("Conveyor Setpoint", 200);
+    	
+		// Initialize logging
+		try{
+			print = new PrintWriter(
+					new FileOutputStream(
+					File.createTempFile("log_shoot_", ".csv",
+							new File("/home/lvuser")), true));
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		}
     	
     }
 
@@ -103,8 +120,15 @@ public class Shoot extends Command {
 	    	if(System.currentTimeMillis() - startTime >= SmartDashboard.getNumber("Gate Open Time", endTime)){
 	    		shooterGate.gatesClose();
 	    	}
-		}
-	    	    	
+    	}
+			// Logging
+		if(print != null) {
+			print.format("%.4f, %.4f, %.4f, %.4f, %b, %b\n",
+					desiredFrontSetpoint, shooter.getFrontRPS(), 
+					desiredBackSetpoint, shooter.getBackRPS(), 
+					shooterGate.getSolenoidState(0), shooterGate.getSolenoidState(1));
+			System.out.println("LOG");
+		}    	
     }
 
     protected boolean isFinished() {
@@ -121,6 +145,10 @@ public class Shoot extends Command {
     	conveyor.setMotorPower(0.0);
     	Robot.getCompressor().start();
     	intake.setPower(0.0);
+    	if(print != null) {
+			print.flush();
+			print.close();
+		}
     }
 
     protected void interrupted() {

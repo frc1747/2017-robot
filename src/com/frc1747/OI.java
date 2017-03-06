@@ -2,9 +2,11 @@
 package com.frc1747;
 
 import com.frc1747.commands.IntakeShoot;
+import com.frc1747.commands.BoilerHorizontal;
 import com.frc1747.commands.auton.AutoShoot;
 import com.frc1747.commands.auton.BackupBoilerVerticalAlign;
 import com.frc1747.commands.auton.BoilerAlign;
+//import com.frc1747.commands.auton.BoilerHorizontalAutoAlign;
 import com.frc1747.commands.auton.BoilerVerticalAutoAlign;
 import com.frc1747.commands.climb.Climb;
 import com.frc1747.commands.climb.StopClimb;
@@ -85,10 +87,10 @@ public class OI {
 		//driver.getButton(Logitech.A).whileHeld(new CloseGates());
 		driver.getButton(Logitech.RT).whileHeld(new TakeIn());
 		//driver.getButton(Logitech.B).whileHeld(new ConveyIn());
-		driver.getButton(Logitech.LT).whenPressed(new Extend());
-		driver.getButton(Logitech.LB).whenPressed(new Retract());
-		//driver.getButton(Logitech.B).whenPressed(new BackupBoilerVerticalAlign());
-		driver.getButton(Logitech.B).whileHeld(new Climb());
+//		driver.getButton(Logitech.LT).whenPressed(new Extend());
+//		driver.getButton(Logitech.LB).whenPressed(new Retract());
+		//driver.getButton(Logitech.B).whenPressed(new Boiler());
+		driver.getButton(Logitech.B).whenPressed(new BoilerHorizontal());
 		driver.getButton(Logitech.X).whileHeld(new ConveyOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());

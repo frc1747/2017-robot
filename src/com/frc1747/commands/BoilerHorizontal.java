@@ -1,4 +1,4 @@
-package com.frc1747.commands.auton;
+package com.frc1747.commands;
 
 import com.frc1747.subsystems.DriveSubsystem;
 
@@ -8,44 +8,48 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class BackupBoilerVerticalAlign extends Command {
-	
+public class BoilerHorizontal extends Command {
+
 	DriveSubsystem drive;
 	double offset;
-	static final double MAX_SPEED = 1.5;
+	double startTime;
+	//static final double DEADBAND = .5;
 	
-    public BackupBoilerVerticalAlign() {
+    public BoilerHorizontal() {
        drive = DriveSubsystem.getInstance();
        requires(drive);
+       SmartDashboard.putNumber("Gyro Setpoint", 0);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	//System.out.println("Running");
-    	drive.enableSpeedPID();
+    	offset = SmartDashboard.getNumber("Boiler Horizontal",0);
+    	drive.resetGyro();
+    	drive.setGyroOffset(offset);
+    	drive.setGyroSetpoint(offset);
+    	drive.enableGyroPID();
+    	startTime = System.currentTimeMillis();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	offset = SmartDashboard.getNumber("Boiler Vertical", 1);
-    	System.out.print(offset);
-    	drive.setSetpoint(-MAX_SPEED*offset, -MAX_SPEED*offset);
+		SmartDashboard.putNumber("Gyro Angle", drive.getAngle());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return offset == 0; 
+        return drive.isGyroAtTarget() || (System.currentTimeMillis() - startTime > 5000);
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	System.out.println("Aligned");
-    	drive.setSetpoint(0, 0);
+    	drive.disableGyroPID();
+    	drive.setGyroSetpoint(0);
+    	drive.resetGyro();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	drive.setSetpoint(0,0);
     }
 }

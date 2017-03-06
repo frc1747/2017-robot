@@ -17,7 +17,7 @@ public class AutoShift extends Command {
 	public double shiftUpSlope = 7./25;
 	public double shiftDownSlope = 5./15;
 	public double shiftUpVel = 3.5;
-	public double shiftDownVel = 2.5;
+	public double shiftDownVel = 1.5;
 	public double avgAccel;
 	private ShifterSubsystem shifter;
 	private DriveSubsystem driveSubsystem;

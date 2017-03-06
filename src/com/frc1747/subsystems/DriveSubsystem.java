@@ -1,5 +1,9 @@
 package com.frc1747.subsystems;
 
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,7 +22,7 @@ import lib.frc1747.pid.PIDValues;
 import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 
-public class DriveSubsystem extends HBRSubsystem {
+public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput{
 
 	// CONSTANTS
 	private final double LEFT_SCALING_CONSTANT = 615.9;
@@ -43,6 +47,14 @@ public class DriveSubsystem extends HBRSubsystem {
 	public static final PIDValues leftHighPIDForward = new PIDValues(5.5, 0, 50, 1.24);
 	public static final PIDValues rightHighPIDForward = new PIDValues(5, 0, 50, 1.26);
 	
+	public static final PIDValues gyroPIDValues = new PIDValues(0.04,0,0.016,0);
+	public static final double GYRO_TOLERANCE = 0.5;
+	private double gyroSetpoint = -10;
+	static final double DEADBAND = 0.5;
+	double gyroOffset;
+	
+	private PIDController pidController;
+	
 	private DriveSide left, right;
 	private AHRS gyro;
 	
@@ -63,13 +75,65 @@ public class DriveSubsystem extends HBRSubsystem {
 		gyro = new AHRS(SPI.Port.kMXP);
 		left.setScaling(LEFT_SCALING_CONSTANT);
 		right.setScaling(RIGHT_SCALING_CONSTANT);
-		
+		pidController = new PIDController(gyroPIDValues.P, gyroPIDValues.I, gyroPIDValues.D, gyroPIDValues.F, gyro, this);
+		pidController.setAbsoluteTolerance(1);
+		pidController.setOutputRange(-1, 1);
 		/*try{
 			File accelValues = new File("/home/lvuser/AccelerationValues.csv");
 			write = new PrintWriter(new FileOutputStream(accelValues, true));
 		}catch(Exception e){
 			e.printStackTrace();
 		}*/
+		SmartDashboard.putData("Gyro PID",pidController);
+	}
+	
+	@Override
+	public void pidWrite(double output) {
+		// TODO Auto-generated method stub
+		if(output > DEADBAND){
+			output += gyroOffset * Math.signum(output);
+		}
+		driveArcadeMode(0, output);
+		SmartDashboard.putNumber("Gyro PID Output", output);
+	}
+
+	@Override
+	public void setPIDSourceType(PIDSourceType pidSource) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void setGyroOffset(double offset){
+		gyroOffset = offset;
+	}
+
+	@Override
+	public PIDSourceType getPIDSourceType() {
+		// TODO Auto-generated method stub
+		return PIDSourceType.kDisplacement;
+	}
+
+	@Override
+	public double pidGet() {
+		// TODO Auto-generated method stub
+		return gyro.pidGet();
+	}
+	
+	public void setGyroSetpoint(double setpoint){
+		pidController.setSetpoint(setpoint);
+		gyroSetpoint = setpoint;
+	}
+	
+	public void enableGyroPID(){
+		pidController.enable();
+	}
+	
+	public void disableGyroPID(){
+		pidController.disable();
+	}
+	
+	public boolean isGyroAtTarget(){
+		return Math.abs(getAngle() - gyroSetpoint) < GYRO_TOLERANCE;
 	}
 	
 	public AHRS getGyro(){
@@ -92,7 +156,6 @@ public class DriveSubsystem extends HBRSubsystem {
 	@Override
 	public void debug() {
 
-		SmartDashboard.putNumber("Gyro Angle", gyro.getAngle());
 		SmartDashboard.putNumber("Gyro Rate", gyro.getRate());
 		SmartDashboard.putNumber("Gyro Yaw", gyro.getYaw());
 		SmartDashboard.putNumber("Gyro Roll", gyro.getRoll());
@@ -324,5 +387,7 @@ public class DriveSubsystem extends HBRSubsystem {
 		}
 		
 	}
+
+
 }
 

@@ -26,11 +26,11 @@ public class DriveWithJoysticks2 extends Command {
 
 	// Maximum robot parameters
 	private double s_v_max = 12;
-	private double a_v_max = 6.71;
+	private double a_v_max = 4;
 	
 	// Feedforward constants
 	private double s_kf_v = 1 / s_v_max;
-	private double a_kf_v = 1 / a_v_max;
+	private double a_kf_v = 1 / 6.71;
 
 	// Feedback constants
 	private double s_kp = 0.1;
@@ -66,6 +66,9 @@ public class DriveWithJoysticks2 extends Command {
 	private double a_ep;
 	private double a_ei;
 	private double a_ed;
+	
+	private double deadband = 0.05;
+	private double offset = 0.0;
 	
 	// Logging
 	private File file;
@@ -202,6 +205,9 @@ public class DriveWithJoysticks2 extends Command {
 			a_output += Math.min(a_lim_p, Math.max(-a_lim_p, a_kp * a_ep));
 			a_output += Math.min(a_lim_i, Math.max(-a_lim_i, a_ki * a_ei));
 			a_output += Math.min(a_lim_d, Math.max(-a_lim_d, a_kd * a_ed));
+			if(Math.abs(a_p_v) > deadband){
+				a_output += offset * Math.signum(a_p_v);
+			}
 
 			// Limit and scale the output
 			a_output = Math.min(1, Math.max(-1, a_output)) * a_lim_q;

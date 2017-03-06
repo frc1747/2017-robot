@@ -31,6 +31,15 @@ public class ClimbSubsystem extends HBRSubsystem {
 		motor1.set(power);
 		//motor2.set(power);
 	}
+	public double getVoltage(){
+		return motor1.getOutputVoltage();
+	}
+	public double getCurrent(){
+		return motor1.getOutputCurrent();
+	}
+	public double getBusVoltage(){
+		return motor1.getBusVoltage();
+	}
 	
 	@Override
 	protected void initDefaultCommand() {

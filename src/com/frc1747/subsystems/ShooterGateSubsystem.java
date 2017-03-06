@@ -53,6 +53,11 @@ public class ShooterGateSubsystem extends HBRSubsystem {
     public void initDefaultCommand() {
     	
     }
+    public Boolean getSolenoidState(int solenoid){
+    	
+    	return solenoids[solenoid].get() == Value.kForward;
+    	
+    }
     
 	@Override
 	public void updateDashboard() {

@@ -136,7 +136,7 @@ public class ShooterSubsystem extends HBRSubsystem {
     	
     	backShooterMotor1.set(backSpeed);
     	backShooterMotor2.set(backShooterMotor1.getDeviceID());
-    	backShooterMotor2.reverseOutput(false);
+    	backShooterMotor2.reverseOutput(true);
     	frontShooterMotor.set(frontSpeed);
     }
     

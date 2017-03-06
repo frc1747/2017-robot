@@ -35,14 +35,14 @@ public class DriveProfile extends Command {
 	
 	private double a_kf_p = 0;
 	private double a_kf_v = 0.16;
-	private double a_kf_a = 0.1;
+	private double a_kf_a = 0.05;
 
 	// Feedback constants
-	private double s_kp = 0.12;
+	private double s_kp = 1.48;
 	private double s_ki = 0.03;
 	private double s_kd = 0;
 	
-	private double a_kp = 0.085;
+	private double a_kp = 1.36;
 	private double a_ki = 0.01;
 	private double a_kd = 0;
 
@@ -129,7 +129,7 @@ public class DriveProfile extends Command {
     	System.out.println("PROFILE INIT");
     	if (isFinished()) {
 			timer = new Timer();
-			timer.scheduleAtFixedRate(new CalculateClass(), 0,
+			timer.scheduleAtFixedRate(new CalculateClass(), 100,
 					(long) (dt * 1000));
 
 			// Reset sensors

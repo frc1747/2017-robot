@@ -1,5 +1,10 @@
 package com.frc1747.commands.auton;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import com.frc1747.commands.shooter.Shoot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -7,6 +12,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
+
+
 
 import com.frc1747.Robot;
 import com.frc1747.subsystems.CollectorSubsystem;
@@ -36,6 +43,8 @@ public class AutoShoot extends Command {
 	private int rampTime;
 	private long commandStartTime;
 	
+	private PrintWriter print;
+	
     public AutoShoot() {
     	shooter = ShooterSubsystem.getInstance();
     	conveyor = ConveyorSubsystem.getInstance();
@@ -55,6 +64,15 @@ public class AutoShoot extends Command {
     	SmartDashboard.putNumber("Gate Open Time", endTime);
     	SmartDashboard.putNumber("Conveyor Setpoint", 200);
     	
+		try{
+			print = new PrintWriter(
+					new FileOutputStream(
+					File.createTempFile("log_autoshoot_", ".csv",
+							new File("/home/lvuser")), true));
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		}
     }
 
     protected void initialize() {
@@ -114,11 +132,17 @@ public class AutoShoot extends Command {
 	    		shooterGate.gatesClose();
 	    	}
 		}
-	    	    	
+    	// Logging
+		if(print != null) {
+			print.format("%.4f, %.4f, %.4f, %.4f, %b, %b\n", desiredFrontSetpoint, shooter.getFrontRPS(), 
+					desiredBackSetpoint, shooter.getBackRPS(), 
+					shooterGate.getSolenoidState(0), shooterGate.getSolenoidState(1));
+			System.out.println("LOG");
+		}   	
     }
 
     protected boolean isFinished() {
-        return System.currentTimeMillis() - commandStartTime >= 10000;
+        return System.currentTimeMillis() - commandStartTime >= 7000;
     }
 
     protected void end() {
@@ -131,6 +155,10 @@ public class AutoShoot extends Command {
     	conveyor.setMotorPower(0.0);
     	Robot.getCompressor().start();
     	intake.setPower(0.0);
+		if(print != null) {
+			print.flush();
+			print.close();
+		}
     }
 
     protected void interrupted() {
