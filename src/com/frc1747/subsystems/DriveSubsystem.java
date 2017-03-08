@@ -47,11 +47,11 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	public static final PIDValues leftHighPIDForward = new PIDValues(5.5, 0, 50, 1.24);
 	public static final PIDValues rightHighPIDForward = new PIDValues(5, 0, 50, 1.26);
 	
-	public static final PIDValues gyroPIDValues = new PIDValues(0.04,0,0.016,0);
+	public static final PIDValues gyroPIDValues = new PIDValues(0.02,0.001,0.04,0);
 	public static final double GYRO_TOLERANCE = 0.5;
 	private double gyroSetpoint = -10;
-	static final double DEADBAND = 0.5;
-	double gyroOffset;
+	static final double DEADBAND = 0.1/10;
+	static final double GYRO_OFFSET = 0.125;
 	
 	private PIDController pidController;
 	
@@ -90,8 +90,9 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	@Override
 	public void pidWrite(double output) {
 		// TODO Auto-generated method stub
-		if(output > DEADBAND){
-			output += gyroOffset * Math.signum(output);
+		SmartDashboard.putNumber("Gyro Output Before Correction", output);
+		if(Math.abs(output) > DEADBAND){
+			output += GYRO_OFFSET * Math.signum(output);
 		}
 		driveArcadeMode(0, output);
 		SmartDashboard.putNumber("Gyro PID Output", output);
@@ -103,9 +104,6 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 		
 	}
 	
-	public void setGyroOffset(double offset){
-		gyroOffset = offset;
-	}
 
 	@Override
 	public PIDSourceType getPIDSourceType() {

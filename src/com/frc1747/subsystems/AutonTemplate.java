@@ -10,6 +10,7 @@ import com.frc1747.commands.auton.AutonRetract;
 import com.frc1747.commands.collector.Extend;
 import com.frc1747.commands.collector.Retract;
 import com.frc1747.commands.drive.DriveProfile;
+import com.frc1747.commands.drive.Rotate;
 import com.frc1747.commands.shooter.Shoot;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -30,8 +31,10 @@ public class AutonTemplate extends CommandGroup{
 		case HOPPER_RED:
 //			addSequential(DriveProfile.fromFile("/home/lvuser/hopper_red_a.csv"));
 //			addSequential(DriveProfile.fromFile("/home/lvuser/hopper_red_b.csv"));
-			addSequential(new AutoShoot());
-			addSequential(DriveProfile.fromFile("/home/lvuser/10pt_blue.csv"));
+//			addSequential(new AutoShoot());
+			addSequential(DriveProfile.fromFile("/home/lvuser/hopper2_blue.csv"));
+			addSequential(new Rotate(-10));
+			addSequential(new Rotate(13));
 //			addSequential(new AutonExtend());
 //			addSequential(new AutonRetract());
 			break;

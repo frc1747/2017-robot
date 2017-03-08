@@ -1,39 +1,35 @@
-package com.frc1747.commands;
+package com.frc1747.commands.drive;
 
 import com.frc1747.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class BoilerHorizontal extends Command {
+public class Rotate extends Command {
 
 	DriveSubsystem drive;
-	static final double MULTIPLIER = 1.05;
-	double offset;
-	double startTime;
-	//static final double DEADBAND = .5;
+	double setpoint, startTime;
 	
-    public BoilerHorizontal() {
-       drive = DriveSubsystem.getInstance();
-       requires(drive);
-       SmartDashboard.putNumber("Gyro Setpoint", 0);
+    public Rotate(double setpoint) {
+    	drive = DriveSubsystem.getInstance();
+    	requires(drive);
+    	this.setpoint = setpoint;
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	offset = MULTIPLIER * SmartDashboard.getNumber("Boiler Horizontal",0);
     	drive.resetGyro();
-    	drive.setGyroSetpoint(offset);
+    	drive.setGyroSetpoint(setpoint);
     	drive.enableGyroPID();
     	startTime = System.currentTimeMillis();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-		SmartDashboard.putNumber("Gyro Angle", drive.getAngle());
     }
 
     // Make this return true when this Command no longer needs to run execute()
