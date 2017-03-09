@@ -68,8 +68,8 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	private DriveSubsystem() {
 
 		// TODO: Determine which side is inverted
-		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, RobotMap.LEFT_DRIVE_INVERTED, RobotMap.LEFT_DRIVE_SENSOR_REVERSED);
-		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, RobotMap.RIGHT_DRIVE_INVERTED, RobotMap.RIGHT_DRIVE_SENSOR_REVERSED);
+		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, RobotMap.LEFT_DRIVE_MOTOR1_INVERTED, RobotMap.LEFT_DRIVE_MOTOR2_INVERTED, RobotMap.LEFT_DRIVE_SENSOR_REVERSED);
+		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, RobotMap.RIGHT_DRIVE_MOTOR1_INVERTED, RobotMap.RIGHT_DRIVE_MOTOR2_INVERTED, RobotMap.RIGHT_DRIVE_SENSOR_REVERSED);
 		left.setPIDF(leftLowPIDForward.P, leftLowPIDForward.I, leftLowPIDForward.D, leftLowPIDForward.F);
 		right.setPIDF(rightLowPIDForward.P, rightLowPIDForward.I, rightLowPIDForward.D, rightLowPIDForward.F);
 		gyro = new AHRS(SPI.Port.kMXP);
@@ -307,15 +307,13 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 		
 		private double Kp = 0, Ki = 0, Kd = 0, Kf = 0;
 		
-		private boolean isInverted;
-		
-		private DriveSide(int motorPort1, int motorPort2, boolean isInverted, boolean sensorReversed) {
+		private DriveSide(int motorPort1, int motorPort2, boolean motor1Inverted, boolean motor2Inverted, boolean sensorReversed) {
 			
 			motor1 = new HBRTalon(motorPort1);
 			motor2 = new HBRTalon(motorPort2);
 			
-			motor1.setInverted(isInverted);
-			motor2.setInverted(isInverted);
+			motor1.setInverted(motor1Inverted);
+			motor2.setInverted(motor2Inverted);
 			
 			motor1.reverseSensor(sensorReversed);
 			//motor1.setScaling(ENCODER_SCALING_CONSTANT);
@@ -328,8 +326,6 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 			motor1.configPeakOutputVoltage(+12.0f, -12.0f);
 			motor1.setProfile(0);
 			motor1.setNominalClosedLoopVoltage(12.0);
-			
-			this.isInverted = isInverted;
 		}
 		
 		public double getSetpoint() {

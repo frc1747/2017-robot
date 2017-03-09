@@ -9,8 +9,12 @@ public class RobotMap {
 	public static final int LEFT_DRIVE_MOTOR2 = 12;
 	public static final int RIGHT_DRIVE_MOTOR1 = 21;
 	public static final int RIGHT_DRIVE_MOTOR2 = 22;
-	public static final boolean LEFT_DRIVE_INVERTED = true;
-	public static final boolean RIGHT_DRIVE_INVERTED = true;
+	
+	public static final boolean LEFT_DRIVE_MOTOR1_INVERTED = true;
+	public static final boolean LEFT_DRIVE_MOTOR2_INVERTED = true;
+	public static final boolean RIGHT_DRIVE_MOTOR1_INVERTED = true; // one of the right motors needs to be inverted
+	public static final boolean RIGHT_DRIVE_MOTOR2_INVERTED = true; // don't know which one it is yet
+	
 	public static final boolean LEFT_DRIVE_SENSOR_REVERSED = true;
 	public static final boolean RIGHT_DRIVE_SENSOR_REVERSED = false;
 	
