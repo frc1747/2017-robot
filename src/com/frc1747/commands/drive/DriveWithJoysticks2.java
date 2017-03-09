@@ -156,6 +156,9 @@ public class DriveWithJoysticks2 extends Command {
     		
 			// Profile variables
 			double s_p_v = s_v_max * Math.pow(OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL), 1.0);
+			if(OI.getInstance().getDriver().getButton(Logitech.LT).get()) {
+				s_p_v *= 0.5;
+			}
 
 			// Read the velocity
 			double s_m_v = drive.getAverageSpeed();//intentionally out of phase
@@ -185,6 +188,9 @@ public class DriveWithJoysticks2 extends Command {
     		
 			// Profile variables
 			double a_p_v = -a_v_max * Math.pow(OI.getInstance().getDriver().getAxis(Logitech.RIGHT_HORIZONTAL), 1.0);
+			if(OI.getInstance().getDriver().getButton(Logitech.LT).get()) {
+				a_p_v *= 0.5;
+			}
 			
 			// Read the heading
 			double a_m_v = -drive.getGyro().getRate();

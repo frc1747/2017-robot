@@ -68,8 +68,10 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	private DriveSubsystem() {
 
 		// TODO: Determine which side is inverted
-		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2, RobotMap.LEFT_DRIVE_MOTOR1_INVERTED, RobotMap.LEFT_DRIVE_MOTOR2_INVERTED, RobotMap.LEFT_DRIVE_SENSOR_REVERSED);
-		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2, RobotMap.RIGHT_DRIVE_MOTOR1_INVERTED, RobotMap.RIGHT_DRIVE_MOTOR2_INVERTED, RobotMap.RIGHT_DRIVE_SENSOR_REVERSED);
+		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2,
+				RobotMap.LEFT_DRIVE_MOTOR1_INVERTED, RobotMap.LEFT_DRIVE_MOTOR2_INVERTED, RobotMap.LEFT_DRIVE_SENSOR_REVERSED);
+		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2,
+				RobotMap.RIGHT_DRIVE_MOTOR1_INVERTED, RobotMap.RIGHT_DRIVE_MOTOR2_INVERTED, RobotMap.RIGHT_DRIVE_SENSOR_REVERSED);
 		left.setPIDF(leftLowPIDForward.P, leftLowPIDForward.I, leftLowPIDForward.D, leftLowPIDForward.F);
 		right.setPIDF(rightLowPIDForward.P, rightLowPIDForward.I, rightLowPIDForward.D, rightLowPIDForward.F);
 		gyro = new AHRS(SPI.Port.kMXP);
@@ -100,20 +102,17 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 
 	@Override
 	public void setPIDSourceType(PIDSourceType pidSource) {
-		// TODO Auto-generated method stub
 		
 	}
 	
 
 	@Override
 	public PIDSourceType getPIDSourceType() {
-		// TODO Auto-generated method stub
 		return PIDSourceType.kDisplacement;
 	}
 
 	@Override
 	public double pidGet() {
-		// TODO Auto-generated method stub
 		return gyro.pidGet();
 	}
 	
