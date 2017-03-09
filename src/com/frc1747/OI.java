@@ -2,6 +2,7 @@
 package com.frc1747;
 
 import com.frc1747.commands.IntakeShoot;
+import com.frc1747.commands.AutoDrive;
 import com.frc1747.commands.BoilerHorizontal;
 import com.frc1747.commands.auton.AutoShoot;
 import com.frc1747.commands.auton.BackupBoilerVerticalAlign;
@@ -90,7 +91,7 @@ public class OI {
 //		driver.getButton(Logitech.LT).whenPressed(new Extend());
 //		driver.getButton(Logitech.LB).whenPressed(new Retract());
 		//driver.getButton(Logitech.B).whenPressed(new Boiler());
-		driver.getButton(Logitech.B).whenPressed(new BoilerHorizontal());
+		driver.getButton(Logitech.B).whenPressed(new AutoDrive());
 		driver.getButton(Logitech.X).whileHeld(new ConveyOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());

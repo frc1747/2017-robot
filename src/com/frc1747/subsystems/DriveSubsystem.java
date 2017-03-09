@@ -25,8 +25,8 @@ import lib.frc1747.subsystems.HBRSubsystem;
 public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput{
 
 	// CONSTANTS
-	private final double LEFT_SCALING_CONSTANT = 615.9;
-	private final double RIGHT_SCALING_CONSTANT = 618.35;
+	private final double LEFT_SCALING_CONSTANT = 609.6;
+	private final double RIGHT_SCALING_CONSTANT = 604.1;
 	
 	public final boolean HIGH_GEAR = true;
 	public final boolean LOW_GEAR = false;
@@ -280,11 +280,11 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	}
 	
 	public double getRightSpeed(){
-		return right.getSpeed();
+		return -right.getSpeed();
 	}
 	
 	public double getRightPosition(){
-		return right.getPosition();
+		return -right.getPosition();
 	}
 	public double getLeftPosition(){
 		return -left.getPosition();

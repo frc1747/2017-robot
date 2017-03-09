@@ -2,6 +2,7 @@ package com.frc1747.subsystems;
 
 import com.frc1747.Robot;
 import com.frc1747.Robot.Autons;
+import com.frc1747.commands.AutoDrive;
 import com.frc1747.commands.Delay;
 import com.frc1747.commands.auton.AutoShoot;
 import com.frc1747.commands.auton.AutonExtend;
@@ -35,6 +36,7 @@ public class AutonTemplate extends CommandGroup{
 			addSequential(DriveProfile.fromFile("/home/lvuser/hopper2_blue.csv"));
 			addSequential(new Rotate(-10));
 			addSequential(new Rotate(13));
+			addSequential(new AutoDrive());
 //			addSequential(new AutonExtend());
 //			addSequential(new AutonRetract());
 			break;

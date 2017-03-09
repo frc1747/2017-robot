@@ -25,6 +25,7 @@ public class Robot extends IterativeRobot {
 	
 	Command auton;
 	SendableChooser<Autons> autonChoice;
+	DriveSubsystem drive;
 
 	@Override
 	public void robotInit() {
@@ -48,6 +49,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().removeAll();
 		System.out.println(SmartDashboard.getNumber("Test", 0));
 		ShifterSubsystem.getInstance().enableAutoshifting();
+		drive = DriveSubsystem.getInstance();
 	}
 
 	@Override
@@ -69,6 +71,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		System.out.println(drive.getAveragePosition());
 //		System.out.println(SmartDashboard.getNumber("Test",0));
 	}
 	
