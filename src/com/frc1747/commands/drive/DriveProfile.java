@@ -133,7 +133,6 @@ public class DriveProfile extends Command {
 					(long) (dt * 1000));
 
 			// Reset sensors
-	    	drive.disablePID();
 	    	drive.resetEncoders();
 	    	drive.resetGyro();
 

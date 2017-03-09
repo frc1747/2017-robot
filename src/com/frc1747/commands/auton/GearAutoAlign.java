@@ -25,7 +25,7 @@ public class GearAutoAlign extends PIDCommand {
     }
 
     protected void initialize() {
-    	drive.enableSpeedPID();
+    	//drive.enableSpeedPID();
     	super.setSetpoint(0);
     }
 
@@ -41,8 +41,8 @@ public class GearAutoAlign extends PIDCommand {
     }
 
     protected void end() {
-    	drive.setSetpoint(0.0, 0.0);
-    	drive.disablePID();
+    	//drive.setSetpoint(0.0, 0.0);
+    	//drive.disablePID();
     }
 
     protected void interrupted() {
@@ -57,6 +57,6 @@ public class GearAutoAlign extends PIDCommand {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		drive.setSetpoint(MAX_DRIVE_SPEED * output, -output * MAX_DRIVE_SPEED);
+		//drive.setSetpoint(MAX_DRIVE_SPEED * output, -output * MAX_DRIVE_SPEED);
 	}
 }

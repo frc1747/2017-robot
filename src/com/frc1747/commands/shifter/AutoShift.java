@@ -49,10 +49,10 @@ public class AutoShift extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
 		if(System.currentTimeMillis() - sinceLastMeasure > 50){
-			rightAccel = (driveSubsystem.getRightFeetPerSecond() - lastRightVel) / 0.05;
-			leftAccel = (driveSubsystem.getLeftFeetPerSecond() - lastLeftVel) / 0.05;
-			lastLeftVel = driveSubsystem.getLeftFeetPerSecond();
-			lastRightVel = driveSubsystem.getRightFeetPerSecond();
+			rightAccel = (driveSubsystem.getRightSpeed() - lastRightVel) / 0.05;
+			leftAccel = (driveSubsystem.getLeftSpeed() - lastLeftVel) / 0.05;
+			lastLeftVel = driveSubsystem.getLeftSpeed();
+			lastRightVel = driveSubsystem.getRightSpeed();
 			sinceLastMeasure = System.currentTimeMillis();
 			avgAccel = (leftAccel + rightAccel) / 2;
 //			System.out.println(avgAccel);
@@ -69,11 +69,6 @@ public class AutoShift extends Command {
 		} else {
 			shifter.setTransmission(shifter.getGear());
 		}
-			/*if (shifter.isHighGear()) {
-			shifter.setTransmission(shifter.HIGH_GEAR);
-		} else {
-			shifter.setTransmission(shifter.LOW_GEAR);
-		}*/
 		
 		System.out.println("Average Speed " + driveSubsystem.getAverageSpeed());
     }

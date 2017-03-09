@@ -14,8 +14,8 @@ import java.io.PrintWriter;
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
+import com.frc1747.commands.drive.DriveWithJoysticks_OLD;
 import com.frc1747.commands.drive.DriveWithJoysticks;
-import com.frc1747.commands.drive.DriveWithJoysticks2;
 import com.kauailabs.navx.frc.AHRS;
 
 import lib.frc1747.pid.PIDValues;
@@ -142,7 +142,7 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	}
 
 	public void initDefaultCommand() {
-		setDefaultCommand(new DriveWithJoysticks2());
+		setDefaultCommand(new DriveWithJoysticks());
     }
 
 	@Override
@@ -169,8 +169,8 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 		
 		SmartDashboard.putNumber("Left Drive FPS", getLeftSpeed());
 		SmartDashboard.putNumber("Right Drive FPS", getRightSpeed());
-		System.out.println("left " + getLeftSpeed());
-		System.out.println("right " + getRightSpeed());
+		//System.out.println("left " + getLeftSpeed());
+		//System.out.println("right " + getRightSpeed());
 		SmartDashboard.putNumber("Left Drive Position", getLeftPosition());
 		SmartDashboard.putNumber("Right Drive Position", getRightPosition());
 		SmartDashboard.putNumber("Average Position", getAveragePosition());
@@ -187,32 +187,6 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	public void driveArcadeMode(double leftVert, double rightHoriz) {
 		right.setPower(leftVert - rightHoriz);
 		left.setPower(leftVert + rightHoriz);
-	}
-	
-	public void driveArcadePID(double leftVert, double rightHoriz) {
-		setSetpoint(leftVert + rightHoriz, leftVert - rightHoriz);
-//		System.out.println("left setpoint " + (leftVert + rightHoriz));
-//		System.out.println("rightSetpoint" + (leftVert - rightHoriz));
-	}
-	
-	public void enableSpeedPID() {
-		right.enableSpeedPID();
-		left.enableSpeedPID();
-	}
-	
-	public void enablePositionPID(){
-		right.enablePositionPID();
-		left.enablePositionPID();
-	}
-	
-	public void disablePID() {
-		right.disablePID();
-		left.disablePID();
-	}
-	
-	public void setSetpoint(double leftSpeed, double rightSpeed) {
-		right.setSetpoint(rightSpeed);
-		left.setSetpoint(leftSpeed);
 	}
 
 	public double getAverageSpeed(){
@@ -238,7 +212,6 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	}
 	
 	public double getTurning(){
-		//return Math.abs(oi.getDriver().getAxis(Logitech.RIGHT_HORIZONTAL));
 		return gyro.getRate();
 	}
 	
@@ -254,24 +227,12 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	
 	public void resetGyro(){
 		gyro.zeroYaw();
-		//gyro.reset();
 		gyro.resetDisplacement();
 	}
 	
 	public void resetEncoders() {
 		left.zeroEncoder();
 		right.zeroEncoder();
-	}
-	
-	public double getLeftFeetPerSecond(){
-		//System.out.println(getLeftSpeed() + "," + WHEEL_CIRCUMFERENCE);
-		return getLeftSpeed() /* WHEEL_CIRCUMFERENCE //*/
-				/*(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME)*/;
-	}
-	
-	public double getRightFeetPerSecond(){
-		return getRightSpeed() /* WHEEL_CIRCUMFERENCE /
-				(ENCODER_COUNTS_PER_REVOLUTION * ENCODER_REFRESH_TIME)*/;
 	}
 	
 	public double getLeftSpeed(){
@@ -290,14 +251,6 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	}
 	public double getAveragePosition() {
 		return (getLeftPosition() + getRightPosition())/2;
-	}
-	
-	public double getLeftSetpoint(){
-		return left.getSetpoint();
-	}
-	
-	public double getRightSetpoint(){
-		return right.getSetpoint();
 	}
 	
 	private class DriveSide {
@@ -319,16 +272,6 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 			
 			//TODO: not necessarily motor1
 			motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
-			//TODO: motor1.reverseSensor(isInverted);		
-			motor1.configNominalOutputVoltage(+0.0f, -0.0f);
-			//TODO: possibly +12.0f, -0.0f
-			motor1.configPeakOutputVoltage(+12.0f, -12.0f);
-			motor1.setProfile(0);
-			motor1.setNominalClosedLoopVoltage(12.0);
-		}
-		
-		public double getSetpoint() {
-			return motor1.getSetpoint();
 		}
 
 		public void setPIDF(double Kp, double Ki, double Kd, double Kf) {
@@ -338,29 +281,9 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 			motor1.setF(this.Kf = Kf);
 		}
 		
-		public void enableSpeedPID() {
-			motor1.changeControlMode(TalonControlMode.Speed);
-			motor2.changeControlMode(TalonControlMode.Follower);
-		}
-		
-		public void enablePositionPID(){
-			motor1.changeControlMode(TalonControlMode.Position);
-			motor2.changeControlMode(TalonControlMode.Follower);
-		}
-		
-		public void disablePID() {
-			motor1.changeControlMode(TalonControlMode.PercentVbus);
-			motor2.changeControlMode(TalonControlMode.PercentVbus);
-		}
-		
 		public void setPower(double power) {
 			motor1.set(power);
 			motor2.set(power);
-		}
-		
-		public void setSetpoint(double speed) {
-			motor1.set(speed);
-			motor2.set(motor1.getDeviceID());
 		}
 		
 		public double getSpeed() {
@@ -368,7 +291,6 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 		}
 		public double getPosition(){
 			return motor1.getPosition();
-			
 		}
 		
 		public void setScaling(double scaling){

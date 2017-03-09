@@ -22,14 +22,14 @@ public class BackupBoilerVerticalAlign extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	//System.out.println("Running");
-    	drive.enableSpeedPID();
+    	//drive.enableSpeedPID();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	offset = SmartDashboard.getNumber("Boiler Vertical", 1);
     	System.out.print(offset);
-    	drive.setSetpoint(-MAX_SPEED*offset, -MAX_SPEED*offset);
+    	//drive.setSetpoint(-MAX_SPEED*offset, -MAX_SPEED*offset);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -40,12 +40,12 @@ public class BackupBoilerVerticalAlign extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	System.out.println("Aligned");
-    	drive.setSetpoint(0, 0);
+    	//drive.setSetpoint(0, 0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	drive.setSetpoint(0,0);
+    	//drive.setSetpoint(0,0);
     }
 }

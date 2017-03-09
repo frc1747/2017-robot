@@ -24,7 +24,7 @@ public class BoilerVerticalAutoAlign extends PIDCommand {
     }
 
     protected void initialize() {
-    	drive.enableSpeedPID();
+    	//drive.enableSpeedPID();
     	super.setSetpoint(0);
     	SmartDashboard.putString("Boiler Aligned (Robot Side)", "RUNNING");
     }
@@ -40,8 +40,8 @@ public class BoilerVerticalAutoAlign extends PIDCommand {
     }
 
     protected void end() {
-    	drive.setSetpoint(0.0, 0.0);
-    	drive.disablePID();
+    	//drive.setSetpoint(0.0, 0.0);
+    	//drive.disablePID();
     	//SmartDashboard.putString("Boiler Aligned (Robot Side)", "Aligned");
     }
 
@@ -57,6 +57,6 @@ public class BoilerVerticalAutoAlign extends PIDCommand {
 
 	@Override
 	protected void usePIDOutput(double output) {
-		drive.setSetpoint(MAX_DRIVE_SPEED * output, MAX_DRIVE_SPEED * output);
+		//drive.setSetpoint(MAX_DRIVE_SPEED * output, MAX_DRIVE_SPEED * output);
 	}
 }

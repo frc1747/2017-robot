@@ -30,8 +30,7 @@ public class DriveCoast extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//drive.setPower(0.0, 0.0);
-    	drive.disablePID();
+    	drive.setPower(0.0, 0.0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
