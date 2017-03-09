@@ -66,7 +66,7 @@ public class OI {
 		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.RT).whileHeld(new TakeIn());
 		//driver.getButton(Logitech.B).whenPressed(new Boiler());
-		driver.getButton(Logitech.B).whenPressed(new AutoDrive());
+		driver.getButton(Logitech.B).whenPressed(new AutoDrive(false));
 		driver.getButton(Logitech.X).whileHeld(new ConveyOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());

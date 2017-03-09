@@ -16,6 +16,8 @@ import lib.frc1747.controller.Logitech;
 
 import com.frc1747.subsystems.DriveSubsystem;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,7 +26,7 @@ public class AutoDrive extends Command {
 
 	// Timing in the motion profile
 	private Timer timer;
-	double startTime;
+	long startTime;
 
 	// Feedback constants
 	private double s_kp = 0.;
@@ -73,9 +75,13 @@ public class AutoDrive extends Command {
 	private File file;
 	private PrintWriter print;
 	
-	double dt = 0.02;
+	private double dt = 0.02;
+	
+	// Red is true, blue is false
+	private boolean alliance;
 
-    public AutoDrive() {
+    public AutoDrive(boolean alliance) {
+    	this.alliance = alliance;
     	// Command initialization
     	requires(drive = DriveSubsystem.getInstance());
     	setInterruptible(true);
@@ -106,7 +112,7 @@ public class AutoDrive extends Command {
         	startTime = System.currentTimeMillis();
         	
 			timer = new Timer();
-			timer.scheduleAtFixedRate(new CalculateClass(), 1500,
+			timer.scheduleAtFixedRate(new CalculateClass(), 1000,
 					(long) (dt * 1000));
 
 			// Reset sensors
@@ -130,7 +136,14 @@ public class AutoDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(System.currentTimeMillis() - startTime > 3000){
+    	long time = System.currentTimeMillis() - startTime;
+    	if(time >= 100 && time < 900) {
+    		drive.setPower(alliance ? 0.4 : -0.4, alliance ? -0.4 : 0.4);
+    	}
+    	else if(time >= 900 && time < 1000) {
+    		drive.setPower(0, 0);
+    	}
+    	else if(time > 2500) {
     		end();
     	}
     }
