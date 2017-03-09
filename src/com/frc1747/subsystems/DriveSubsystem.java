@@ -66,8 +66,6 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	PrintWriter write;
 	
 	private DriveSubsystem() {
-
-		// TODO: Determine which side is inverted
 		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2,
 				RobotMap.LEFT_DRIVE_MOTOR1_INVERTED, RobotMap.LEFT_DRIVE_MOTOR2_INVERTED, RobotMap.LEFT_DRIVE_SENSOR_REVERSED);
 		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2,
@@ -91,7 +89,6 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	
 	@Override
 	public void pidWrite(double output) {
-		// TODO Auto-generated method stub
 		SmartDashboard.putNumber("Gyro Output Before Correction", output);
 		if(Math.abs(output) > DEADBAND){
 			output += GYRO_OFFSET * Math.signum(output);
@@ -194,12 +191,10 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	}
 	
 	public double getForwardAcceleration(){
-		//TODO: Replace axis name when possible
 		return gyro.getRawAccelY();
 	}
 	
 	public double getLateralAcceleration(){
-		//TODO: Replace axis name when possible
 		return gyro.getRawAccelZ();
 	}
 	
@@ -218,12 +213,6 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	public double getAngle() {
 		return gyro.getAngle();
 	}
-	
-	/**
-	 * Determines if the robot should shift into high gear
-	 * @return True if robot should be in high gear, false if it should be in low gear
-	 */
-
 	
 	public void resetGyro(){
 		gyro.zeroYaw();
@@ -267,10 +256,7 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 			motor1.setInverted(motor1Inverted);
 			motor2.setInverted(motor2Inverted);
 			
-			motor1.reverseSensor(sensorReversed);
-			//motor1.setScaling(ENCODER_SCALING_CONSTANT);
-			
-			//TODO: not necessarily motor1
+			motor1.reverseSensor(sensorReversed);			
 			motor1.setFeedbackDevice(FeedbackDevice.QuadEncoder);
 		}
 
