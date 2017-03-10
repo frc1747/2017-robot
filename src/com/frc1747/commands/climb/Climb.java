@@ -17,7 +17,7 @@ public class Climb extends Command {
 	private PrintWriter print;
 	
 	public Climb() {
-		System.out.println("Climb constructor");
+		//System.out.println("Climb constructor");
 		climber = ClimbSubsystem.getInstance();
 		requires(climber);
 		
@@ -39,7 +39,7 @@ public class Climb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	climber.setMotorPower(Math.abs(OI.getInstance().getOperator().getAxis(Logitech.LEFT_VERTICAL)));   
+    	//climber.setMotorPower(Math.abs(OI.getInstance().getOperator().getAxis(Logitech.LEFT_VERTICAL)));   
     	
     	// Logging
 		if(print != null) {
