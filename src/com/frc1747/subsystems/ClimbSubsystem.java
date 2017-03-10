@@ -2,6 +2,7 @@ package com.frc1747.subsystems;
 
 import com.ctre.CANTalon;
 import com.frc1747.RobotMap;
+import com.frc1747.commands.climb.Climb;
 
 import lib.frc1747.subsystems.HBRSubsystem;
 
@@ -43,6 +44,7 @@ public class ClimbSubsystem extends HBRSubsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
+		setDefaultCommand(new Climb());
 	}
 
 	@Override

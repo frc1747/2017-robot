@@ -12,7 +12,7 @@ public class RobotMap {
 	
 	public static final boolean LEFT_DRIVE_MOTOR1_INVERTED = true;
 	public static final boolean LEFT_DRIVE_MOTOR2_INVERTED = true;
-	public static final boolean RIGHT_DRIVE_MOTOR1_INVERTED = true; // one of the right motors needs to be inverted
+	public static final boolean RIGHT_DRIVE_MOTOR1_INVERTED = false; // one of the right motors needs to be inverted
 	public static final boolean RIGHT_DRIVE_MOTOR2_INVERTED = true; // don't know which one it is yet
 	
 	public static final boolean LEFT_DRIVE_SENSOR_REVERSED = true;

@@ -29,14 +29,17 @@ public class AutoDrive extends Command {
 	long startTime;
 
 	// Feedback constants
-	private double s_kp = 0.;
+	private double s_kp = 0.0;
 	private double s_ki = 0;
 	private double s_kd = 0;
 	
-	private double a_kp = 0.02;
-	private double a_ki = 0;
-	private double a_kd = 0.04*0.05;
-
+	private double a_kp = 0.04;
+	private double a_ki = .01/.05;
+	private double a_kd = 0.1*0.05;
+	
+	private final long hopperTurnTime = 300;
+	private final long hopperRecoverTime = 400;
+	private final long hopperPauseTime = 100;
 
 	// Clamping variables
 	private double s_lim_p = 1;
@@ -65,7 +68,7 @@ public class AutoDrive extends Command {
 	private double a_ed;
 	
 	private double deadband = 0.01;
-	private double offset = 0.125;
+	private double offset = 0.3;
 	
 	//Setpoint
 	private double s_p_p;
@@ -91,7 +94,7 @@ public class AutoDrive extends Command {
 		
 		// Initialize logging
 		try{
-			file = File.createTempFile("log_drive_", ".csv", new File("/home/lvuser"));
+			file = File.createTempFile("log_autodrive_", ".csv", new File("/home/lvuser"));
 			print = new PrintWriter(new FileOutputStream(file.getAbsolutePath()));
 		}
 		catch(IOException ex) {
@@ -112,7 +115,7 @@ public class AutoDrive extends Command {
         	startTime = System.currentTimeMillis();
         	
 			timer = new Timer();
-			timer.scheduleAtFixedRate(new CalculateClass(), 1000,
+			timer.scheduleAtFixedRate(new CalculateClass(), 800,
 					(long) (dt * 1000));
 
 			// Reset sensors
@@ -137,13 +140,19 @@ public class AutoDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	long time = System.currentTimeMillis() - startTime;
-    	if(time >= 100 && time < 900) {
+    	if(time >= 100 && time < 100 + hopperTurnTime) {
     		drive.setPower(alliance ? 0.4 : -0.4, alliance ? -0.4 : 0.4);
     	}
-    	else if(time >= 900 && time < 1000) {
+    	else if(time >= 400 && time < 400 + hopperPauseTime) {
     		drive.setPower(0, 0);
     	}
-    	else if(time > 2500) {
+    	else if(time >= 400 && time < 400 + hopperRecoverTime) {
+    		drive.setPower(!alliance ? 0.4 : -0.4, !alliance ? -0.4 : 0.4);
+    	}
+    	else if(time >= 700 && time < 700 + hopperPauseTime) {
+    		drive.setPower(0, 0);
+    	}
+    	else if(time > 5000) {
     		end();
     	}
     }
@@ -195,6 +204,7 @@ public class AutoDrive extends Command {
 			s_output += Math.min(s_lim_p, Math.max(-s_lim_p, s_kp * s_ep));
 			s_output += Math.min(s_lim_i, Math.max(-s_lim_i, s_ki * s_ei));
 			s_output += Math.min(s_lim_d, Math.max(-s_lim_d, s_kd * s_ed));
+			SmartDashboard.putNumber("New Translational PID Offset",s_ep);
 
 			// Limit and scale the output
 			s_output = Math.min(1, Math.max(-1, s_output)) * s_lim_q;

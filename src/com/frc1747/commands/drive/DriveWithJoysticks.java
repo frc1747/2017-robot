@@ -13,6 +13,7 @@ import java.util.TimerTask;
 import java.util.UUID;
 
 import lib.frc1747.controller.Logitech;
+import lib.frc1747.controller.Xbox;
 
 import com.frc1747.subsystems.DriveSubsystem;
 
@@ -33,7 +34,7 @@ public class DriveWithJoysticks extends Command {
 	private double a_kf_v = 1 / 6.71;
 
 	// Feedback constants
-	private double s_kp = 0.1;
+	private double s_kp = 0.01;
 	private double s_ki = 0;
 	private double s_kd = 0;
 	
@@ -158,6 +159,7 @@ public class DriveWithJoysticks extends Command {
 			if(OI.getInstance().getDriver().getButton(Logitech.LT).get()) {
 				s_p_v *= 0.5;
 			}
+			s_p_v += s_v_max * 0.3 * Math.pow(OI.getInstance().getOperator().getAxis(Xbox.LEFT_VERTICAL), 1.0);
 
 			// Read the velocity
 			double s_m_v = drive.getAverageSpeed();//intentionally out of phase
@@ -190,6 +192,8 @@ public class DriveWithJoysticks extends Command {
 			if(OI.getInstance().getDriver().getButton(Logitech.LT).get()) {
 				a_p_v *= 0.5;
 			}
+			
+			a_p_v += a_p_v * 0.3 * Math.pow(OI.getInstance().getOperator().getAxis(Xbox.RIGHT_HORIZONTAL), 1.0);
 			
 			// Read the heading
 			double a_m_v = -drive.getGyro().getRate();

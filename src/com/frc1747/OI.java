@@ -10,6 +10,7 @@ import com.frc1747.commands.auton.BoilerAlign;
 //import com.frc1747.commands.auton.BoilerHorizontalAutoAlign;
 import com.frc1747.commands.auton.BoilerVerticalAutoAlign;
 import com.frc1747.commands.climb.Climb;
+import com.frc1747.commands.climb.ClimbPower;
 import com.frc1747.commands.climb.StopClimb;
 import com.frc1747.commands.collector.Extend;
 import com.frc1747.commands.collector.Retract;
@@ -33,16 +34,18 @@ public class OI {
 	private static OI instance;
 	
 	private Logitech driver;
-	private Logitech operator;
+	private Xbox operator;
 	
 	private POVButton dPadUp;
 	private POVButton dPadLeft;
 	private POVButton dPadRight;
 	private POVButton dPadDown;
+	
+	static final double CLIMBER_POWER = 1.0;
 		
 	private OI() {		
 		driver = new Logitech(RobotMap.DRIVER);
-		operator = new Logitech(RobotMap.OPERATOR);
+		operator = new Xbox(RobotMap.OPERATOR);
 		
 		createDriver();
 		createOperator();
@@ -52,16 +55,17 @@ public class OI {
 	private void createDriver() {
 		
 		dPadUp = new POVButton(driver, Logitech.UP);
-		dPadUp.whenPressed(new Climb());
+		dPadUp.whenPressed(new ClimbPower(1));
 		
 		dPadLeft = new POVButton(driver, Logitech.LEFT);
-		dPadLeft.whileHeld(new OpenGates());
+		dPadLeft.whenPressed(new ClimbPower(0.2));
 		
 		dPadRight = new POVButton(driver, Logitech.RIGHT);
-		dPadRight.whileHeld(new CloseGates());
+		dPadRight.whileHeld(new Climb());
 		
 		dPadDown = new POVButton(driver, Logitech.DOWN);
 		dPadDown.whenPressed(new StopClimb());
+		
 		
 		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.RT).whileHeld(new TakeIn());
@@ -74,8 +78,9 @@ public class OI {
 	}
 	
 	private void createOperator() {
-		operator.getButton(Logitech.LT).whileHeld(new Extend());
-		operator.getButton(Logitech.LB).whileHeld(new Retract());
+//		operator.getButton(Xbox.LT).whileHeld(new Extend());
+//		operator.getButton(Xbox.LB).whileHeld(new Retract());
+		//operator.getAxis()
 	}
 	
 	private void createDashboard() {
@@ -91,7 +96,7 @@ public class OI {
 		return driver;
 	}
 	
-	public Logitech getOperator() {
+	public Xbox getOperator() {
 		return operator;
 	}
 }

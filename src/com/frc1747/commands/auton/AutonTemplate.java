@@ -1,12 +1,9 @@
-package com.frc1747.subsystems;
+package com.frc1747.commands.auton;
 
 import com.frc1747.Robot;
 import com.frc1747.Robot.Autons;
 import com.frc1747.commands.AutoDrive;
 import com.frc1747.commands.Delay;
-import com.frc1747.commands.auton.AutoShoot;
-import com.frc1747.commands.auton.AutonExtend;
-import com.frc1747.commands.auton.AutonRetract;
 //import com.frc1747.commands.auton.BoilerHorizontalAutoAlign;
 import com.frc1747.commands.collector.Extend;
 import com.frc1747.commands.collector.Retract;
@@ -36,7 +33,7 @@ public class AutonTemplate extends CommandGroup{
 			addSequential(DriveProfile.fromFile("/home/lvuser/hopper2_blue.csv"));
 //			addSequential(new Rotate(-10));
 //			addSequential(new Rotate(13));
-			addSequential(new AutoDrive(false));
+//			addSequential(new AutoDrive(false));
 //			addSequential(new AutonExtend());
 //			addSequential(new AutonRetract());
 			break;

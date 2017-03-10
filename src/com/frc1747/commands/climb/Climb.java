@@ -5,9 +5,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import com.frc1747.OI;
 import com.frc1747.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
+import lib.frc1747.controller.Logitech;
 
 public class Climb extends Command {
 
@@ -15,6 +17,7 @@ public class Climb extends Command {
 	private PrintWriter print;
 	
 	public Climb() {
+		System.out.println("Climb constructor");
 		climber = ClimbSubsystem.getInstance();
 		requires(climber);
 		
@@ -36,7 +39,7 @@ public class Climb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	climber.setMotorPower(climber.CLIMBER_POWER);   
+    	climber.setMotorPower(Math.abs(OI.getInstance().getOperator().getAxis(Logitech.LEFT_VERTICAL)));   
     	
     	// Logging
 		if(print != null) {

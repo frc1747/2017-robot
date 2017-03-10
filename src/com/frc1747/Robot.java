@@ -1,8 +1,8 @@
 package com.frc1747;
 
 import com.frc1747.commands.UpdateDashboard;
+import com.frc1747.commands.auton.AutonTemplate;
 import com.frc1747.commands.drive.DriveProfile;
-import com.frc1747.subsystems.AutonTemplate;
 import com.frc1747.subsystems.ClimbSubsystem;
 import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
