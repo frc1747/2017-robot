@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutoDrive extends Command {
+public class AutonAlign extends Command {
 	private DriveSubsystem drive;
 
 	// Timing in the motion profile
@@ -37,10 +37,6 @@ public class AutoDrive extends Command {
 	private double a_ki = .01/.05;
 	private double a_kd = 0.1*0.05;
 	
-	private final long hopperTurnTime = 300;
-	private final long hopperRecoverTime = 400;
-	private final long hopperPauseTime = 100;
-
 	// Clamping variables
 	private double s_lim_p = 1;
 	private double s_lim_i = 1;
@@ -83,7 +79,7 @@ public class AutoDrive extends Command {
 	// Red is true, blue is false
 	private boolean alliance;
 
-    public AutoDrive(boolean alliance) {
+    public AutonAlign(boolean alliance) {
     	this.alliance = alliance;
     	// Command initialization
     	requires(drive = DriveSubsystem.getInstance());
@@ -115,7 +111,7 @@ public class AutoDrive extends Command {
         	startTime = System.currentTimeMillis();
         	
 			timer = new Timer();
-			timer.scheduleAtFixedRate(new CalculateClass(), 800,
+			timer.scheduleAtFixedRate(new CalculateClass(), 1000,
 					(long) (dt * 1000));
 
 			// Reset sensors
@@ -140,19 +136,22 @@ public class AutoDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	long time = System.currentTimeMillis() - startTime;
-    	if(time >= 100 && time < 100 + hopperTurnTime) {
+    	if(time < 100) {
+    		drive.setPower(0, 0);
+    	}
+    	else if(time < 400) {
     		drive.setPower(alliance ? 0.4 : -0.4, alliance ? -0.4 : 0.4);
     	}
-    	else if(time >= 400 && time < 400 + hopperPauseTime) {
+    	else if(time < 500) {
     		drive.setPower(0, 0);
     	}
-    	else if(time >= 400 && time < 400 + hopperRecoverTime) {
+    	else if(time < 900) {
     		drive.setPower(!alliance ? 0.4 : -0.4, !alliance ? -0.4 : 0.4);
     	}
-    	else if(time >= 700 && time < 700 + hopperPauseTime) {
+    	else if(time < 1000){
     		drive.setPower(0, 0);
     	}
-    	else if(time > 5000) {
+    	else if(time >= 5000) {
     		end();
     	}
     }

@@ -37,10 +37,9 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Auton Shoot Time", 5000);
 		
 		autonChoice = new SendableChooser<>();
-		autonChoice.addObject("Correct gear order", Autons.GEAR_LEFT);
-		autonChoice.addObject("reversed gear order", Autons.GEAR_RIGHT);
-		autonChoice.addObject("Red Hopper", Autons.HOPPER_RED);
-		autonChoice.addObject("Blu Hopper", Autons.HOPPER_BLUE);
+//		autonChoice.addObject("Correct gear order", Autons.GEAR_LEFT);
+//		autonChoice.addObject("reversed gear order", Autons.GEAR_RIGHT);
+		autonChoice.addObject("Hopper", Autons.HOPPER);
 		SmartDashboard.putData("Auton profile", autonChoice);
 	}
 
@@ -97,7 +96,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public enum Autons {
-		HOPPER_BLUE, HOPPER_RED, GEAR_LEFT, GEAR_RIGHT
+		HOPPER, GEAR_LEFT, GEAR_RIGHT
 	}
 	
 	public static Compressor getCompressor(){

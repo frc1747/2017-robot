@@ -2,7 +2,7 @@
 package com.frc1747;
 
 import com.frc1747.commands.IntakeShoot;
-import com.frc1747.commands.AutoDrive;
+import com.frc1747.commands.AutonAlign;
 import com.frc1747.commands.BoilerHorizontal;
 import com.frc1747.commands.auton.AutoShoot;
 import com.frc1747.commands.auton.BackupBoilerVerticalAlign;
@@ -41,6 +41,9 @@ public class OI {
 	private POVButton dPadRight;
 	private POVButton dPadDown;
 	
+	private POVButton operatorDPadUp;
+	private POVButton operatorDPadDown;
+	
 	static final double CLIMBER_POWER = 1.0;
 		
 	private OI() {		
@@ -70,7 +73,7 @@ public class OI {
 		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.RT).whileHeld(new TakeIn());
 		//driver.getButton(Logitech.B).whenPressed(new Boiler());
-		driver.getButton(Logitech.B).whenPressed(new AutoDrive(false));
+		//driver.getButton(Logitech.B).whenPressed(new AutonAlign(false));
 		driver.getButton(Logitech.X).whileHeld(new ConveyOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
@@ -81,6 +84,15 @@ public class OI {
 //		operator.getButton(Xbox.LT).whileHeld(new Extend());
 //		operator.getButton(Xbox.LB).whileHeld(new Retract());
 		//operator.getAxis()
+		
+		operatorDPadUp = new POVButton(operator, Xbox.UP);
+		operatorDPadUp.whileHeld(new ShiftUp());
+		
+		operatorDPadDown = new POVButton(operator, Xbox.DOWN);
+		operatorDPadDown.whileHeld(new ShiftDown());
+		
+		operator.getButton(Xbox.Y).whenPressed(new Extend());
+		operator.getButton(Xbox.B).whenPressed(new Retract());
 	}
 	
 	private void createDashboard() {

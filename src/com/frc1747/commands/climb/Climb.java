@@ -10,6 +10,7 @@ import com.frc1747.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 import lib.frc1747.controller.Logitech;
+import lib.frc1747.controller.Xbox;
 
 public class Climb extends Command {
 
@@ -39,7 +40,8 @@ public class Climb extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//climber.setMotorPower(Math.abs(OI.getInstance().getOperator().getAxis(Logitech.LEFT_VERTICAL)));   
+    	//climber.setMotorPower(Math.abs(OI.getInstance().getOperator().getAxis(Logitech.LEFT_VERTICAL)));
+    	climber.setMotorPower(OI.getInstance().getOperator().getLTAngle());
     	
     	// Logging
 		if(print != null) {

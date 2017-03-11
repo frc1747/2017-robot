@@ -157,7 +157,7 @@ public class DriveWithJoysticks extends Command {
 			// Profile variables
 			double s_p_v = s_v_max * Math.pow(OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL), 1.0);
 			if(OI.getInstance().getDriver().getButton(Logitech.LT).get()) {
-				s_p_v *= 0.5;
+				s_p_v *= 0.3;
 			}
 			s_p_v += s_v_max * 0.3 * Math.pow(OI.getInstance().getOperator().getAxis(Xbox.LEFT_VERTICAL), 1.0);
 
@@ -190,7 +190,7 @@ public class DriveWithJoysticks extends Command {
 			// Profile variables
 			double a_p_v = -a_v_max * Math.pow(OI.getInstance().getDriver().getAxis(Logitech.RIGHT_HORIZONTAL), 1.0);
 			if(OI.getInstance().getDriver().getButton(Logitech.LT).get()) {
-				a_p_v *= 0.5;
+				a_p_v *= 0.3;
 			}
 			
 			a_p_v += a_p_v * 0.3 * Math.pow(OI.getInstance().getOperator().getAxis(Xbox.RIGHT_HORIZONTAL), 1.0);
