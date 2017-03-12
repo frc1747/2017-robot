@@ -159,7 +159,7 @@ public class DriveWithJoysticks extends Command {
 			if(OI.getInstance().getDriver().getButton(Logitech.LT).get()) {
 				s_p_v *= 0.3;
 			}
-			s_p_v += s_v_max * 0.3 * Math.pow(OI.getInstance().getOperator().getAxis(Xbox.LEFT_VERTICAL), 1.0);
+			s_p_v += s_v_max * 0.2 * Math.pow(OI.getInstance().getOperator().getAxis(Xbox.LEFT_VERTICAL), 1.0);
 
 			// Read the velocity
 			double s_m_v = drive.getAverageSpeed();//intentionally out of phase
@@ -193,7 +193,7 @@ public class DriveWithJoysticks extends Command {
 				a_p_v *= 0.3;
 			}
 			
-			a_p_v += a_p_v * 0.3 * Math.pow(OI.getInstance().getOperator().getAxis(Xbox.RIGHT_HORIZONTAL), 1.0);
+			a_p_v += a_v_max * 0.2 * Math.pow(-OI.getInstance().getOperator().getAxis(Xbox.RIGHT_HORIZONTAL), 1.0);
 			
 			// Read the heading
 			double a_m_v = -drive.getGyro().getRate();

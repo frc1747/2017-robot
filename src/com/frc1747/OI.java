@@ -2,6 +2,7 @@
 package com.frc1747;
 
 import com.frc1747.commands.IntakeShoot;
+import com.frc1747.commands.TeleopAlign;
 import com.frc1747.commands.AutonAlign;
 import com.frc1747.commands.BoilerHorizontal;
 import com.frc1747.commands.auton.AutoShoot;
@@ -73,7 +74,7 @@ public class OI {
 		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.RT).whileHeld(new TakeIn());
 		//driver.getButton(Logitech.B).whenPressed(new Boiler());
-		//driver.getButton(Logitech.B).whenPressed(new AutonAlign(false));
+		driver.getButton(Logitech.B).whenPressed(new TeleopAlign());
 		driver.getButton(Logitech.X).whileHeld(new ConveyOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
@@ -93,6 +94,8 @@ public class OI {
 		
 		operator.getButton(Xbox.Y).whenPressed(new Extend());
 		operator.getButton(Xbox.B).whenPressed(new Retract());
+		operator.getButton(Xbox.A).whileHeld(new ConveyIn());
+		operator.getButton(Xbox.X).whileActive(new ConveyOut());
 	}
 	
 	private void createDashboard() {

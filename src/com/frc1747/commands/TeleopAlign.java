@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class AutonAlign extends Command {
+public class TeleopAlign extends Command {
 	private DriveSubsystem drive;
 
 	// Timing in the motion profile
@@ -33,7 +33,7 @@ public class AutonAlign extends Command {
 	private double s_ki = 0;
 	private double s_kd = 0;
 	
-	private double a_kp = 0.04;
+	private double a_kp = 0.08;
 	private double a_ki = .01/.05;
 	private double a_kd = 0.1*0.05;
 	
@@ -77,10 +77,10 @@ public class AutonAlign extends Command {
 	private double dt = 0.02;
 	
 	// Red is true, blue is false
-	private boolean alliance;
+//	private boolean alliance;
 
-    public AutonAlign(boolean alliance) {
-    	this.alliance = alliance;
+    public TeleopAlign(/*boolean alliance*/) {
+//    	this.alliance = alliance;
     	// Command initialization
     	requires(drive = DriveSubsystem.getInstance());
     	setInterruptible(true);
@@ -90,7 +90,7 @@ public class AutonAlign extends Command {
 		
 		// Initialize logging
 		try{
-			file = File.createTempFile("log_autondrive_", ".csv", new File("/home/lvuser"));
+			file = File.createTempFile("log_teleopalign_", ".csv", new File("/home/lvuser"));
 			print = new PrintWriter(new FileOutputStream(file.getAbsolutePath()));
 		}
 		catch(IOException ex) {
@@ -136,22 +136,10 @@ public class AutonAlign extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	long time = System.currentTimeMillis() - startTime;
-    	/*if(time < 100) {
+    	if(time < 100) {
     		drive.setPower(0, 0);
     	}
-    	else if(time < 300) {
-    		drive.setPower(alliance ? 1 : -1, alliance ? -1 : 1);
-    	}
-    	else if(time < 400) {
-    		drive.setPower(0, 0);
-    	}
-    	else if(time < 700) {
-    		drive.setPower(!alliance ? 1 : -1, !alliance ? -1 : 1);
-    	}
-    	else if(time < 800){
-    		drive.setPower(0, 0);
-    	}
-    	else */if(time >= 5000) {
+    	else if(time >= 2000) {
     		end();
     	}
     }

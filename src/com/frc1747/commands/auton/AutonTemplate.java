@@ -22,13 +22,21 @@ public class AutonTemplate extends CommandGroup{
 		
 		switch(profile){
 		case HOPPER:
+			addParallel(new AutonExtend());
+			//these two run in parallel
 			if(alliance == Alliance.Red){
-				addSequential(DriveProfile.fromFile("/home/lvuser/hopper2_red.csv"));
+				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3a_red.csv"));
+				addSequential(new Delay());
+				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3b_red.csv"));
+				addSequential(new Rotate(45));
 			}else{
-				addSequential(DriveProfile.fromFile("/home/lvuser/hopper2_blue.csv"));
+				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3a_blue.csv"));
+				addSequential(new Delay());
+				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3b_blue.csv"));
+				addSequential(new Rotate(-45));
 			}
-			addSequential(new AutonExtend());
-			addSequential(new AutonAlign(alliance == Alliance.Red));
+
+			addParallel(new AutonAlign(alliance == Alliance.Red));
 			addSequential(new Shoot());
 			break;
 		default:

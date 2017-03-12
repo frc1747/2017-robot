@@ -34,15 +34,15 @@ public class DriveProfile extends Command {
 	private double s_kf_a = 0.0325;
 	
 	private double a_kf_p = 0;
-	private double a_kf_v = 0.16;
+	private double a_kf_v = 0.18;
 	private double a_kf_a = 0.05;
 
 	// Feedback constants
-	private double s_kp = 0.74;
+	private double s_kp = 0.75;
 	private double s_ki = 0.015;
 	private double s_kd = 0;
 	
-	private double a_kp = 1.36;
+	private double a_kp = 1.66;
 	private double a_ki = 0.01;
 	private double a_kd = 0;
 
