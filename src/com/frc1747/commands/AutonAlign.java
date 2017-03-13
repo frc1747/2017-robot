@@ -29,8 +29,8 @@ public class AutonAlign extends Command {
 	long startTime;
 
 	// Feedback constants
-	private double s_kp = 0.0;
-	private double s_ki = 0;
+	private double s_kp = 0.2;
+	private double s_ki = .01/.05;
 	private double s_kd = 0;
 	
 	private double a_kp = 0.04;
@@ -151,9 +151,9 @@ public class AutonAlign extends Command {
     	else if(time < 800){
     		drive.setPower(0, 0);
     	}
-    	else */if(time >= 5000) {
+    	else if(time >= 5000) {
     		end();
-    	}
+    	}*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -186,7 +186,7 @@ public class AutonAlign extends Command {
     		// Calculate for translational
 
 			// Read the velocity
-			double s_m_p = -drive.getAveragePosition();
+			double s_m_p = drive.getAveragePosition();
 			System.out.println("                             " + s_p_p + " , " + s_m_p);
 			// Proportional error
 			s_ep = s_p_p - s_m_p;

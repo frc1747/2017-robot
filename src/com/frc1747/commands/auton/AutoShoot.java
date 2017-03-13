@@ -142,7 +142,7 @@ public class AutoShoot extends Command {
     }
 
     protected boolean isFinished() {
-        return System.currentTimeMillis() - commandStartTime >= 7000;
+        return false/*System.currentTimeMillis() - commandStartTime >= 7000*/;
     }
 
     protected void end() {

@@ -26,16 +26,18 @@ public class AutonTemplate extends CommandGroup{
 			//these two run in parallel
 			if(alliance == Alliance.Red){
 				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3a_red.csv"));
-				addSequential(new Delay());
+				addSequential(new Delay(1250));
+				addParallel(new AutonBallClear());
 				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3b_red.csv"));
-				addSequential(new Rotate(45));
+				addSequential(new Rotate(42));
 			}else{
 				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3a_blue.csv"));
-				addSequential(new Delay());
+				addSequential(new Delay(1250));
+				addParallel(new AutonBallClear());
 				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3b_blue.csv"));
-				addSequential(new Rotate(-45));
+				addSequential(new Rotate(-42));
 			}
-
+			addSequential(new Delay(750));
 			addParallel(new AutonAlign(alliance == Alliance.Red));
 			addSequential(new Shoot());
 			break;

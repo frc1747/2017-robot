@@ -1,18 +1,19 @@
-package com.frc1747.commands;
+package com.frc1747.commands.auton;
+
+import com.frc1747.subsystems.CollectorSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class Delay extends Command {
+public class AutonBallClear extends Command {
 	
+	private CollectorSubsystem intake;
 	private long startTime;
-	private long duration;
 
-    public Delay(long duration) {
-    	this.duration = duration;
-       
+    public AutonBallClear() {
+        requires(intake = CollectorSubsystem.getInstance());
     }
 
     // Called just before this Command runs the first time
@@ -22,15 +23,17 @@ public class Delay extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	intake.setPower(0.85);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return System.currentTimeMillis() - startTime >= duration;
+        return startTime >= 1000;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	intake.setPower(0.0);
     }
 
     // Called when another command which requires one or more of the same
