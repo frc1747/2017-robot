@@ -4,19 +4,23 @@ import java.util.ArrayList;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
-public abstract class HBRSubsystem extends Subsystem {
+public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 
-	private static ArrayList<HBRSubsystem> hbrSubsystem = new ArrayList<>();
-	private static boolean debug = true;
+	//private static ArrayList<HBRSubsystem> hbrSubsystem = new ArrayList<>();
+	//private static boolean debug = true;
 	
 	public HBRSubsystem() {
 		super();
-		hbrSubsystem.add(this);
+		
+		
+		//hbrSubsystem.add(this);
 	}
 	
 	public HBRSubsystem(String name) {
 		super(name);
-		hbrSubsystem.add(this);
+		
+		
+		//hbrSubsystem.add(this);
 	}
 	
 	/*
@@ -24,18 +28,18 @@ public abstract class HBRSubsystem extends Subsystem {
 	 * dashboard
 	 */
 	public void updateDashboard() {
-		if(debug)
-			debug();
+//		if(debug)
+//			debug();
 	}
 	
 	public abstract void debug();
 	
 	public static void update() {
-		for(HBRSubsystem subsystem : hbrSubsystem)
-			subsystem.updateDashboard();
+//		for(HBRSubsystem subsystem : hbrSubsystem)
+//			subsystem.updateDashboard();
 	}
 	
 	public static void setDebug(boolean toDebug) {
-		debug = toDebug;
+//		debug = toDebug;
 	}
 }
