@@ -1,6 +1,6 @@
-public class TestSubsystem3 extends HBRSubsystem<TestSubsystem3.Profile> {
+public class TestSubsystem3 extends HBRSubsystem<TestSubsystem3.Follower> {
 	// The the systems being profiled/PID controlled
-	public enum Profile {}
+	public enum Follower {}
 
 	// The singleton instance of this subsystem
 	private static TestSubsystem3 instance;
@@ -15,12 +15,24 @@ public class TestSubsystem3 extends HBRSubsystem<TestSubsystem3.Profile> {
 
 	// Prevent direct initialization Constructor
 	protected TestSubsystem3() {
-		super();
+		super("Test Subsystem 3", 0.01);
 		System.out.println("TS3");
 	}
 
 	// Testing methods
 	public static void main(String[] args) {
 		TestSubsystem3 testSubsystem = TestSubsystem3.getInstance();
+	}
+
+	@Override
+	public void pidWrite(double[] output) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double[] pidRead() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

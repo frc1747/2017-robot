@@ -1,6 +1,6 @@
-public class TestSubsystem extends HBRSubsystem<TestSubsystem.Profile> {
+public class TestSubsystem extends HBRSubsystem<TestSubsystem.Follower> {
 	// The the systems being profiled/PID controlled
-	public enum Profile {
+	public enum Follower {
 		DISTANCE, ANGLE
 	}
 	
@@ -17,13 +17,25 @@ public class TestSubsystem extends HBRSubsystem<TestSubsystem.Profile> {
 
 	// Prevent direct initialization Constructor
 	protected TestSubsystem() {
-		super();
+		super("Test Subsystem 1", 1);
 		System.out.println("TS");
 	}
 
 	// Testing methods
 	public static void main(String[] args) {
 		TestSubsystem testSubsystem = TestSubsystem.getInstance();
-		System.out.println(testSubsystem.getProfileIndex(Profile.ANGLE));
+		System.out.println(testSubsystem.getFollowerIndex(Follower.ANGLE));
+	}
+
+	@Override
+	public void pidWrite(double[] output) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public double[] pidRead() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
