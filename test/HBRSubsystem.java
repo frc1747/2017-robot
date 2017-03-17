@@ -58,7 +58,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	
 	/**
 	 * Creates a new HBRSubsystem. The name is by default derived from the class name.
-	 * @param dt - the timestep to use for PID and motion profiling
+	 * @param dt - the timestep to use for PID and motion profiling (rounded to the nearest millisecond)
 	 */
 	protected HBRSubsystem(double dt) {
 		this(null, dt);
@@ -84,12 +84,16 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	/**
 	 * Creates a new HBRSubsystem
 	 * @param name - the name to use for logging
-	 * @param dt - the timestep to use for PID and motion profiling
+	 * @param dt - the timestep to use for PID and motion profiling (rounded to the nearest millisecond)
 	 */
 	protected HBRSubsystem(String name, double dt) {
 		// Initialize subsystem
 		super();
 		
+		// Error if anything is unreasonable
+		if(!(dt >= 0)) {
+			throw new IllegalArgumentException(dt + " is not a valid time step (must be positive or zero).");
+		}
 		// Set some reasonable defaults
 		if(name == null) {
 			name = getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1);
@@ -106,10 +110,15 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 		while(type.getSuperclass().getName() != "HBRSubsystem") {
 			type = type.getSuperclass();
 		}
-		ParameterizedType superType = (ParameterizedType)type.getGenericSuperclass();
-		Class<?> typeArguments = (Class<?>)superType.getActualTypeArguments()[0];
-		followers = (E[])typeArguments.getEnumConstants();
-		n_followers = followers.length;
+		if(type.getGenericSuperclass() instanceof ParameterizedType) {
+			ParameterizedType superType = (ParameterizedType)type.getGenericSuperclass();
+			Class<?> typeArguments = (Class<?>)superType.getActualTypeArguments()[0];
+			followers = (E[])typeArguments.getEnumConstants();
+			n_followers = followers.length;
+		}
+		else {
+			n_followers = 0;
+		}
 		
 		// Initialize PID/Follower only if there is at least one follower requested
 		if(n_followers > 0) {
@@ -133,9 +142,15 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 			ed = new double[n_followers];
 			output = new double[n_followers];
 			
+			// Set up reasonable defaults
+			for(int i = 0;i < n_followers;i++) {
+				setMode(followers[i], Mode.PID);
+				setPIDMode(followers[i], PIDMode.POSITION);
+			}
+			
 			// Initialize loop
 			timer = new Timer();
-			timer.scheduleAtFixedRate(new Calculate(), 0, (long)(dt * 1000));
+			timer.scheduleAtFixedRate(new Calculate(), (long)Math.round(dt * 1000), (long)Math.round(dt * 1000));
 			oldTime = System.nanoTime();
 		}
 	}
@@ -146,7 +161,11 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 * @return the constant index that is used to refer to the profile follower internally
 	 */
 	public int getFollowerIndex(E follower) {
-		return Arrays.asList(followers).indexOf(follower);
+		int i = Arrays.asList(followers).indexOf(follower);
+		if(i < 0) {
+			throw new IllegalArgumentException(follower + " is not a valid PID/follower in this subssytem.");
+		}
+		return i;
 	}
 	
 	/**
@@ -185,6 +204,9 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 */
 	public void setILimit(E follower, double limit) {
 		int i = getFollowerIndex(follower);
+		if(!(limit >= 0)) {
+			throw new IllegalArgumentException(limit + " is not a valid integral limit (must be positive or zero).");
+		}
 		this.lim_i[i] = limit;
 	}
 	
@@ -196,6 +218,9 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 */
 	public void setOutputLimit(E follower, double limit) {
 		int i = getFollowerIndex(follower);
+		if(!(limit >= 0)) {
+			throw new IllegalArgumentException(limit + " is not a valid output limit (must be positive or zero).");
+		}
 		this.lim_q[i] = limit;
 	}
 	
@@ -210,31 +235,37 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	
 	/**
 	 * Pauses the execution of one PID/follower when it is in motion profile follower mode.
-	 * Does nothing if the PID/follower is in PID mode.
 	 * @param follower - which PID/follower to use when stopping
 	 */
 	public void pause(E follower) {
 		int i = getFollowerIndex(follower);
+		if(!(this.mode[i] == Mode.FOLLOWER)) {
+			throw new IllegalStateException("pause can only be called when in motion profile follower mode.");
+		}
 		this.running[i] = false;
 	}
 	
 	/**
 	 * Resumes the execution of one PID/follower when it is in motion profile follower mode.
-	 * Does nothing if the PID/follower is in PID mode.
 	 * @param follower - which PID/follower to use when starting
 	 */
 	public void resume(E follower) {
 		int i = getFollowerIndex(follower);
-		this.running[i] = this.mode[i] == Mode.FOLLOWER;
+		if(!(this.mode[i] == Mode.FOLLOWER)) {
+			throw new IllegalStateException("resume can only be called when in motion profile follower mode.");
+		}
+		this.running[i] = true;
 	}
 	
 	/**
 	 * Rewinds the to the start of a profile for a single PID/follower if it is in motion profile follower mode.
-	 * Does nothing if the PID/follower is in PID mode.
 	 * @param follower - which PID/follower to use when rewinding
 	 */
 	public void rewind(E follower) {
 		int i = getFollowerIndex(follower);
+		if(!(this.mode[i] == Mode.FOLLOWER)) {
+			throw new IllegalStateException("rewind can only be called when in motion profile follower mode.");
+		}
 		this.index[i] = 0;
 	}
 	
@@ -245,10 +276,16 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 */
 	public void setPIDMode(E follower, PIDMode pidMode) {
 		int i = getFollowerIndex(follower);
+
+		// Set the pid mode
+		int j = Arrays.asList(PIDMode.values()).indexOf(pidMode);
+		if(j < 0) {
+			throw new IllegalArgumentException(pidMode + " is not a valid PID mode.");
+		}
 		this.pidMode[i] = pidMode;
 		
 		// Prevent a spike in the derivative reading
-		sensor = pidRead();
+		sensor = internalPidRead();
 	}
 	
 	/**
@@ -258,17 +295,16 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 */
 	public void setMode(E follower, Mode mode) {
 		int i = getFollowerIndex(follower);
+		
+		// Set the mode
+		int j = Arrays.asList(Mode.values()).indexOf(mode);
+		if(j < 0) {
+			throw new IllegalArgumentException(mode + " is not a valid PID/follower mode.");
+		}
 		this.mode[i] = mode;
 		
-		// Ensure the profile variable is set correctly
-		switch(mode) {
-		case PID:
-			this.profile[i] = new double[1][3];
-			break;
-		case FOLLOWER:
-			this.profile[i] = null;
-			break;
-		}
+		// Ensure a profile variable exists
+		this.profile[i] = new double[1][3];
 	}
 	
 	/**
@@ -279,6 +315,9 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 */
 	public void setProfile(E follower, double profile[][]) {
 		int i = getFollowerIndex(follower);
+		if(!(this.mode[i] == Mode.FOLLOWER)) {
+			throw new IllegalStateException("setProfile can only be called when in motion profile follower mode.");
+		}
 		this.profile[i] = profile;
 	}
 	
@@ -289,7 +328,10 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 */
 	public void setSetpoint(E follower, double setpoint) {
 		int i = getFollowerIndex(follower);
-		
+
+		if(!(this.mode[i] == Mode.PID)) {
+			throw new IllegalStateException("setSetpoint can only be called when in PID mode.");
+		}
 		// Save the setpoint data
 		switch(this.pidMode[i]) {
 		case POSITION:
@@ -314,6 +356,21 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	public abstract double[] pidRead();
 	
 	/**
+	 * An internal method that gets sensor data from pidRead and performs some validation
+	 * @return an array of sensor inputs to be consumed by the PID/followers
+	 */
+	private double[] internalPidRead() {
+		double[] pv = pidRead();
+		if(pv == null) {
+			throw new IllegalArgumentException("The sensor array returned by pidRead cannot be null.");
+		}
+		if(pv.length != n_followers) {
+			throw new IllegalArgumentException("The number of sensors returned by pidRead must match the number of PID/followers.");
+		}
+		return pv;
+	}
+	
+	/**
 	 * An abstract method that needs to be implemented in order to recieve data from the PID/followers.
 	 * @param output - the outputs of the PID/followers<br>
 	 * The index of each profile can be determined with getFollowerIndex
@@ -330,7 +387,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 		@Override
 		public void run() {
 			// Read in the sensors
-			double[] pv = pidRead();
+			double[] pv = internalPidRead();
 			
 			// Calculate delta time
 			long time = System.nanoTime();
