@@ -161,6 +161,9 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 * @return the constant index that is used to refer to the profile follower internally
 	 */
 	public int getFollowerIndex(E follower) {
+		if(n_followers <= 0) {
+			throw new IllegalStateException("There are no PID/followers in this subsystem to control.");
+		}
 		int i = Arrays.asList(followers).indexOf(follower);
 		if(i < 0) {
 			throw new IllegalArgumentException(follower + " is not a valid PID/follower in this subssytem.");
