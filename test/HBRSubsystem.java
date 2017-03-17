@@ -271,6 +271,19 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 		}
 		this.index[i] = 0;
 	}
+
+	/**
+	 * Checks to see if a single PID/follower is running if it is in motion profile follower mode.
+	 * @param follower - which PID/follower to use when checking state
+	 * @return if the motion profile follower is running
+	 */
+	public boolean isRunning(E follower) {
+		int i = getFollowerIndex(follower);
+		if(!(this.mode[i] == Mode.FOLLOWER)) {
+			throw new IllegalStateException("isRunning can only be called when in motion profile follower mode.");
+		}
+		return this.running[i];
+	}
 	
 	/**
 	 * Sets a specific PID/follower use either position or velocity PID.
@@ -308,6 +321,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 		
 		// Ensure a profile variable exists
 		this.profile[i] = new double[1][3];
+		this.index[i] = 0;
 	}
 	
 	/**
