@@ -3,6 +3,16 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * A subclass of Subsystem written for 1747 that includes extra features such as
+ * multiple motion profiles and PID loops with feed forward.
+ * 
+ * Examples of how this class is used can be found in the tests directory.
+ * 
+ * @author Tiger
+ *
+ * @param <E> An enum that lists the different PID/followers (e.g. distance & angle).
+ */
 public abstract class HBRSubsystem<E extends Enum<E>> {
 	// Followers to use
 	private E[] followers;
@@ -12,6 +22,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	private double dt;
 	private String name;
 	private Timer timer;
+	private long oldTime;
 	
 	// Profile variables
 	private double[][][] profile;
@@ -45,10 +56,47 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	// Output variables
 	private double[] output;
 	
+	/**
+	 * Creates a new HBRSubsystem. The name is by default derived from the class name.
+	 * @param dt - the timestep to use for PID and motion profiling
+	 */
+	protected HBRSubsystem(double dt) {
+		this(null, dt);
+	}
+	
+	/**
+	 * Creates a new HBRSubsystem. 
+	 * The time step is a default of 0.01s.
+	 * The name is by default derived from the class name.
+	 */
+	protected HBRSubsystem() {
+		this(null, 0);
+	}
+	
+	/**
+	 * Creates a new HBRSubsystem. The time step is a default of 0.01s.
+	 * @param name - the name to use for logging
+	 */
+	protected HBRSubsystem(String name) {
+		this(name, 0);
+	}
+	
+	/**
+	 * Creates a new HBRSubsystem
+	 * @param name - the name to use for logging
+	 * @param dt - the timestep to use for PID and motion profiling
+	 */
 	protected HBRSubsystem(String name, double dt) {
 		// Initialize subsystem
 		super();
 		
+		// Set some reasonable defaults
+		if(name == null) {
+			name = getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1);
+		}
+		if(dt == 0) {
+			dt = 0.01;
+		}
 		// Set global parameters
 		this.name = name;
 		this.dt = dt;
@@ -61,9 +109,9 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 		ParameterizedType superType = (ParameterizedType)type.getGenericSuperclass();
 		Class<?> typeArguments = (Class<?>)superType.getActualTypeArguments()[0];
 		followers = (E[])typeArguments.getEnumConstants();
+		n_followers = followers.length;
 		
 		// Initialize PID/Follower only if there is at least one follower requested
-		n_followers = followers.length;
 		if(n_followers > 0) {
 			// Initialize variables
 			profile = new double[n_followers][][];
@@ -88,13 +136,26 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 			// Initialize loop
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new Calculate(), 0, (long)(dt * 1000));
+			oldTime = System.nanoTime();
 		}
 	}
 	
+	/**
+	 * Returns a constant index for the specified PID/follower. Useful for the pidRead and pidWrite methods.
+	 * @param follower - the PID/follower for which to get the index
+	 * @return the constant index that is used to refer to the profile follower internally
+	 */
 	public int getFollowerIndex(E follower) {
 		return Arrays.asList(followers).indexOf(follower);
 	}
 	
+	/**
+	 * Sets the feed forward constants for one PID/follower.
+	 * @param follower - which PID/follower to use when setting the constants
+	 * @param kf_x - position feed forward constant
+	 * @param kf_v - velocity feed forward constant
+	 * @param kf_a - acceleration feed forward constant
+	 */
 	public void setFeedforward(E follower, double kf_x, double kf_v, double kf_a) {
 		int i = getFollowerIndex(follower);
 		this.kf_x[i] = kf_x;
@@ -102,6 +163,13 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 		this.kf_a[i] = kf_a;
 	}
 	
+	/**
+	 * Sets the PID feedback constants for one PID/follower.
+	 * @param follower - which PID/follower to use when setting the constants
+	 * @param kp - proportional feedback constant
+	 * @param ki - integral feedback constant
+	 * @param kd - derivative feedback constant
+	 */
 	public void setFeedback(E follower, double kp, double ki, double kd) {
 		int i = getFollowerIndex(follower);
 		this.kp[i] = kp;
@@ -109,30 +177,88 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 		this.kd[i] = kd;
 	}
 	
-	public void setPIDMode(E follower, PIDMode pidMode) {
+	/**
+	 * Sets the limit for the integral accumulator for one PID/follower.
+	 * @param follower - which PID/follower to use when setting the constants
+	 * @param limit - the maximum values the integral accumulator is allowed to reach<br>
+	 * Set to 0 to disable the integral accumulator limit
+	 */
+	public void setILimit(E follower, double limit) {
 		int i = getFollowerIndex(follower);
-		this.pidMode[i] = pidMode;
+		this.lim_i[i] = limit;
 	}
 	
-	public void stop(E follower) {
+	/**
+	 * Sets the limit for the output of one PID/follower.
+	 * @param follower - which PID/follower to use when setting the constants
+	 * @param limit - the maximum values the output is allowed to reach<br>
+	 * Set to 0 to disable the output limit
+	 */
+	public void setOutputLimit(E follower, double limit) {
+		int i = getFollowerIndex(follower);
+		this.lim_q[i] = limit;
+	}
+	
+	/**
+	 * Zeros the integrator for one PID/follower.
+	 * @param follower - which PID/follower to use when setting this parameter
+	 */
+	public void resetIntegrator(E follower) {
+		int i = getFollowerIndex(follower);
+		this.ei[i] = 0;
+	}
+	
+	/**
+	 * Pauses the execution of one PID/follower when it is in motion profile follower mode.
+	 * Does nothing if the PID/follower is in PID mode.
+	 * @param follower - which PID/follower to use when stopping
+	 */
+	public void pause(E follower) {
 		int i = getFollowerIndex(follower);
 		this.running[i] = false;
 	}
 	
-	public void start(E follower) {
+	/**
+	 * Resumes the execution of one PID/follower when it is in motion profile follower mode.
+	 * Does nothing if the PID/follower is in PID mode.
+	 * @param follower - which PID/follower to use when starting
+	 */
+	public void resume(E follower) {
 		int i = getFollowerIndex(follower);
 		this.running[i] = this.mode[i] == Mode.FOLLOWER;
 	}
 	
+	/**
+	 * Rewinds the to the start of a profile for a single PID/follower if it is in motion profile follower mode.
+	 * Does nothing if the PID/follower is in PID mode.
+	 * @param follower - which PID/follower to use when rewinding
+	 */
+	public void rewind(E follower) {
+		int i = getFollowerIndex(follower);
+		this.index[i] = 0;
+	}
+	
+	/**
+	 * Sets a specific PID/follower use either position or velocity PID.
+	 * @param follower - which PID/follower to use when setting this parameter
+	 * @param pidMode - either position or velocity mode
+	 */
+	public void setPIDMode(E follower, PIDMode pidMode) {
+		int i = getFollowerIndex(follower);
+		this.pidMode[i] = pidMode;
+		
+		// Prevent a spike in the derivative reading
+		sensor = pidRead();
+	}
+	
+	/**
+	 * Sets a specific PID/follower to either PID mode or motion profile follower mode.
+	 * @param follower - which PID/follower to use when setting this parameter
+	 * @param mode - either PID mode or motion profile follower mode
+	 */
 	public void setMode(E follower, Mode mode) {
 		int i = getFollowerIndex(follower);
-		
-		// Save the mode
 		this.mode[i] = mode;
-		
-		// Pause the profile for safety
-		this.running[i] = false;
-		this.index[i] = 0;
 		
 		// Ensure the profile variable is set correctly
 		switch(mode) {
@@ -145,17 +271,22 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 		}
 	}
 	
+	/**
+	 * Sets a motion profile to follow for a specific PID/follower.
+	 * @param follower - which PID/follower to use when setting this parameter
+	 * @param profile - the profile to follower<br>
+	 * The format is [x0, v0, a0; x1, v1, a1; ...]
+	 */
 	public void setProfile(E follower, double profile[][]) {
 		int i = getFollowerIndex(follower);
-		
-		// Save the profile
 		this.profile[i] = profile;
-		
-		// Pause the profile for safety
-		this.running[i] = false;
-		this.index[i] = 0;
 	}
 	
+	/**
+	 * Sets a setpoint for a specific PID/follower.
+	 * @param follower - which PID/follower to use when setting this parameter
+	 * @param setpoint - the position or velocity setpoint depending on the current PID mode
+	 */
 	public void setSetpoint(E follower, double setpoint) {
 		int i = getFollowerIndex(follower);
 		
@@ -163,22 +294,48 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 		switch(this.pidMode[i]) {
 		case POSITION:
 			this.profile[i][0][0] = setpoint;
+			this.profile[i][0][1] = 0;
+			this.profile[i][0][2] = 0;
 			break;
 		case VELOCITY:
 			this.profile[i][0][1] = setpoint;
+			this.profile[i][0][0] = 0;
+			this.profile[i][0][2] = 0;
 			break;
 		}
 	}
 	
+	/**
+	 * An abstract method that needs to be implemented in order to send data to the PID/followers.
+	 * @return an array of sensor inputs to be consumed by the PID/followers<br>
+	 * The size is expected to match the number of profiles. The index of each profile
+	 * can be determined with getFollowerIndex
+	 */
 	public abstract double[] pidRead();
+	
+	/**
+	 * An abstract method that needs to be implemented in order to recieve data from the PID/followers.
+	 * @param output - the outputs of the PID/followers<br>
+	 * The index of each profile can be determined with getFollowerIndex
+	 */
 	public abstract void pidWrite(double[] output);
 	
+	/**
+	 * Internal class to actually calculate the PID/follower stuff.
+	 * @author Tiger
+	 *
+	 */
 	private class Calculate extends TimerTask {
 		// Main calculation loop
 		@Override
 		public void run() {
 			// Read in the sensors
 			double[] pv = pidRead();
+			
+			// Calculate delta time
+			long time = System.nanoTime();
+			double deltaT = (time - oldTime)/1000000000.;
+			oldTime = time;
 			
 			// Process data
 			for(int i = 0;i < n_followers;i++) {
@@ -201,10 +358,9 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 				}
 				
 				// Calculate errors
-				// TODO: Use measured dt
 				ep[i] = sp - pv[i];
-				ei[i] += ep[i] * dt;
-				ed[i] = (sensor[i] - pv[i]) / dt;
+				ei[i] += ep[i] * deltaT;
+				ed[i] = (sensor[i] - pv[i]) / deltaT;
 				
 				// Limit integral
 				if(lim_i[i] > 0) {
@@ -222,6 +378,17 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 					if(output[i] > lim_q[i]) output[i] = lim_q[i];
 					if(output[i] < -lim_q[i]) output[i] = -lim_q[i];
 				}
+				
+				// Update index
+				if(running[i]) {
+					index[i]++;
+				}
+				
+				// Stop the profile if the end is reached
+				if(index[i] > profile[i].length-1) {
+					index[i] = profile[i].length-1;
+					running[i] = false;
+				}
 			}
 			
 			// Update sensor values
@@ -232,10 +399,24 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 		}
 	}
 	
+	/**
+	 * Possible modes for the PID/Follower.<br>
+	 * PID mode runs just a PID with feedforward.<br>
+	 * Follower mode follows a motion profile that is provided.
+	 * @author Tiger
+	 *
+	 */
 	public enum Mode {
 		PID, FOLLOWER
 	}
 	
+	/**
+	 * Possible modes for the PID controller.<br>
+	 * Position mode runs the PID loop for position.<br>
+	 * Velocity mode runs the PID loop for Velocity.
+	 * @author Tiger
+	 *
+	 */
 	public enum PIDMode {
 		POSITION, VELOCITY
 	}
