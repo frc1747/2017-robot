@@ -428,6 +428,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 					}
 				}
 			}
+			br.close();
 		}
 		catch (IOException ex) {
 			ex.printStackTrace();
