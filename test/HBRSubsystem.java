@@ -1,7 +1,12 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import com.frc1747.commands.drive.DriveProfile;
 
 /**
  * A subclass of Subsystem written for 1747 that includes extra features such as
@@ -393,6 +398,37 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 * The index of each profile can be determined with getFollowerIndex
 	 */
 	public abstract void pidWrite(double[] output);
+	
+	/**
+	 * Attempts to read a motion profile from a file.
+	 * @param filename - the file to read the profile from
+	 * @return an array containing the profile, or null if there was an error reading the file
+	 */
+	public static double[][][] readProfilesFromFile(String filename) {
+		double[][][] profile = null;
+		try {
+			BufferedReader br = new BufferedReader(new FileReader(filename));
+			String[] parts = br.readLine().split(",");
+			int count = Integer.parseInt(parts[0].trim());	// Profile count
+			int length = Integer.parseInt(parts[1].trim());	// Number of time points
+			
+			profile = new double[count][length][3];
+			
+			for(int i = 0;i < length;i++) {
+				parts = br.readLine().split(",");
+				for(int j = 0;j < count;j++) {
+					for(int k = 0;k < 3;k++) {
+						profile[j][i][k] = Double.parseDouble(parts[j * 3 + k].trim());
+					}
+				}
+			}
+		}
+		catch (IOException ex) {
+			ex.printStackTrace();
+			return null;
+		}
+		return profile;
+	}
 	
 	/**
 	 * Internal class to actually calculate the PID/follower stuff.
