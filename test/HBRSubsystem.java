@@ -446,7 +446,12 @@ public abstract class HBRSubsystem<E extends Enum<E>> implements LiveWindowSenda
 				if(this.kp[i] != table.getNumber("kp" + i, 0.0)
 						|| this.ki[i] != table.getNumber("ki" + i, 0.0)
 						|| this.kd[i] != table.getNumber("kd" + i, 0.0)) {
-					this.setFeedback(followers[i], table.getNumber("kp" + i, 0.0), table.getNumber("ki" + i, 0.0), table.getNumber("kd" + i, 0.0));
+					setFeedback(followers[i], table.getNumber("kp" + i, 0.0), table.getNumber("ki" + i, 0.0), table.getNumber("kd" + i, 0.0));
+				}
+				if(this.kf_x[i] != table.getNumber("kf_x" + i, 0.0)
+						|| this.kf_v[i] != table.getNumber("kf_v" + i, 0.0)
+						|| this.kf_a[i] != table.getNumber("kf_a" + i, 0.0)) {
+					setFeedforward(followers[i], table.getNumber("kf_x" + i, 0.0), table.getNumber("kf_v" + i, 0.0), table.getNumber("kf_a" + i, 0.0));
 				}
 			}
 		}
