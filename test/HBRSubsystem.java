@@ -3,6 +3,10 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.wpi.first.wpilibj.livewindow.LiveWindowSendable;
+import edu.wpi.first.wpilibj.tables.ITable;
+import edu.wpi.first.wpilibj.tables.ITableListener;
+
 /**
  * A subclass of Subsystem written for 1747 that includes extra features such as
  * multiple motion profiles and PID loops with feed forward.
@@ -13,7 +17,7 @@ import java.util.TimerTask;
  *
  * @param <E> An enum that lists the different PID/followers (e.g. distance & angle).
  */
-public abstract class HBRSubsystem<E extends Enum<E>> {
+public abstract class HBRSubsystem<E extends Enum<E>> implements LiveWindowSendable {
 	// Followers to use
 	private E[] followers;
 	private int n_followers;
@@ -55,6 +59,8 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	
 	// Output variables
 	private double[] output;
+	
+	private ITable table;
 	
 	/**
 	 * Creates a new HBRSubsystem. The name is by default derived from the class name.
@@ -419,5 +425,62 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 */
 	public enum PIDMode {
 		POSITION, VELOCITY
+	}
+	
+	@Override
+	public void updateTable() {
+	}
+
+	@Override
+	public void startLiveWindowMode() {
+	}
+
+	@Override
+	public void stopLiveWindowMode() {
+	}
+	
+	private final ITableListener listener = (table, key, value, isNew) -> {
+		//TODO fix this section
+		for(int i = 0; i < n_followers; i++) {
+			if(key.equals("kp" + i) || key.equals("ki" + i) || key.equals("kd" + i)) {
+				if(this.kp[i] != table.getNumber("kp" + i, 0.0)
+						|| this.ki[i] != table.getNumber("ki" + i, 0.0)
+						|| this.kd[i] != table.getNumber("kd" + i, 0.0)) {
+					this.setFeedback(followers[i], table.getNumber("kp" + i, 0.0), table.getNumber("ki" + i, 0.0), table.getNumber("kd" + i, 0.0));
+				}
+			}
+		}
+	};
+
+	@Override
+	public void initTable(ITable table) {
+		if (this.table != null) {
+			table.removeTableListener(listener);
+		}
+		this.table = table;
+		if(table != null) {
+			//TODO fix this section
+			for(int i = 0; i < n_followers; i++) {
+				// I have no idea if this is correct but whatever
+				table.putString("Follower" + i, followers[i].toString());
+				table.putNumber("kp" + i, this.kp[i]);
+				table.putNumber("ki" + i, this.ki[i]);
+				table.putNumber("kd" + i, this.kd[i]);
+				table.putNumber("kf_x" + i, this.kf_x[i]);
+				table.putNumber("kf_v" + i, this.kf_v[i]);
+				table.putNumber("kf_a" + i, this.kf_a[i]);
+			}
+		}
+		table.addTableListener(listener, false);
+	}
+
+	@Override
+	public ITable getTable() {
+		return table;
+	}
+
+	@Override
+	public String getSmartDashboardType() {
+		return "Subsystem";
 	}
 }

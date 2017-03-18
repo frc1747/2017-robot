@@ -1,3 +1,5 @@
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 public class TestSubsystem extends HBRSubsystem<TestSubsystem.Follower> {
 	// The the systems being profiled/PID controlled
 	public enum Follower {
@@ -19,6 +21,7 @@ public class TestSubsystem extends HBRSubsystem<TestSubsystem.Follower> {
 	protected TestSubsystem() {
 		super("Test Subsystem 1", 1);
 		System.out.println("TS");
+		SmartDashboard.putData("TestSubsystem", this);
 	}
 
 	// Testing methods
