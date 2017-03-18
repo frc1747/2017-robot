@@ -236,4 +236,16 @@ public class ShooterSubsystem extends HBRSubsystem {
 	public boolean temp;
 	public double sumSpeed;
 	public double samples;
+
+	@Override
+	public double[] pidRead() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void pidWrite(double[] output) {
+		// TODO Auto-generated method stub
+		
+	}
 }

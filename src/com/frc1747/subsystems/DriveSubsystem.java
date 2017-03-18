@@ -289,6 +289,16 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 		
 	}
 
+	@Override
+	public double[] pidRead() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public void pidWrite(double[] output) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

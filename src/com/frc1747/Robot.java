@@ -1,5 +1,7 @@
 package com.frc1747;
 
+import lib.frc1747.subsystems.HBRSubsystem;
+
 import com.frc1747.commands.UpdateDashboard;
 import com.frc1747.commands.auton.AutonTemplate;
 import com.frc1747.commands.drive.DriveProfile;
@@ -65,6 +67,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		HBRSubsystem.update();
 	}
 
 	@Override
@@ -72,16 +75,19 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		System.out.println(drive.getAveragePosition());
 //		System.out.println(SmartDashboard.getNumber("Test",0));
+		HBRSubsystem.update();
 	}
 	
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		HBRSubsystem.update();
 	}
 
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+		HBRSubsystem.update();
 	}	
 	
 	public void initSubsystems() {

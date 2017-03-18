@@ -57,4 +57,15 @@ public class ClimbSubsystem extends HBRSubsystem {
 		
 	}
 
+	@Override
+	public double[] pidRead() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void pidWrite(double[] output) {
+		// TODO Auto-generated method stub
+		
+	}
 }

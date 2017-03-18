@@ -1,3 +1,5 @@
+package lib.frc1747.instrumentation;
+
 public class Instrumentation {
 	private static Instrumentation instance;
 	

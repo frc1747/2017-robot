@@ -68,5 +68,17 @@ public class ShooterGateSubsystem extends HBRSubsystem {
 	public void debug() {
 		
 	}
+
+	@Override
+	public double[] pidRead() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void pidWrite(double[] output) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

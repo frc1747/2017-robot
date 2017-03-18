@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.frc1747.commands.drive.DriveProfile;
-
 /**
  * A subclass of Subsystem written for 1747 that includes extra features such as
  * multiple motion profiles and PID loops with feed forward.
