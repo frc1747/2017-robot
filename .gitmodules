@@ -1,0 +1,3 @@
+[submodule "submodules/motion_profile"]
+	path = submodules/motion_profile
+	url = https://github.com/frc1747/motion_profile.git

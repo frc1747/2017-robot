@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import lib.frc1747.motion_profile.Parameters;
+import lib.frc1747.motion_profile.generator._2d.SplineGenerator;
+
 /**
  * A subclass of Subsystem written for 1747 that includes extra features such as
  * multiple motion profiles and PID loops with feed forward.
@@ -426,6 +429,12 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 			return null;
 		}
 		return profile;
+	}
+	
+	public static double[][][] generatePseudoProfile(double ds, double dtheta) {
+		SplineGenerator.flattenPseudoProfile(0, 0, ds, dtheta, Parameters.I_SAMPLE_LENGTH);
+		
+		return null;
 	}
 	
 	/**
