@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -97,6 +98,9 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	protected HBRSubsystem(String name, double dt) {
 		// Initialize subsystem
 		super();
+		
+		// Maintaining compatibility with previous versions
+		subsystems.add(this);
 		
 		// Error if anything is unreasonable
 		if(!(dt >= 0)) {
@@ -562,6 +566,19 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 			// Write out the results
 			pidWrite(output);
 		}
+	}
+
+	/*
+	 * Maintaining compatibility with previous version
+	 */
+	private static ArrayList<HBRSubsystem> subsystems = new ArrayList<>();
+	public void debug() {}
+	public void updateDashboard() {
+		debug();
+	}
+	public static void update() {
+		for(HBRSubsystem subsystem : subsystems)
+			subsystem.updateDashboard();
 	}
 	
 	/**
