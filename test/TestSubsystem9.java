@@ -1,4 +1,5 @@
 import lib.frc1747.instrumentation.Instrumentation;
+import lib.frc1747.instrumentation.Logger;
 
 public class TestSubsystem9 extends HBRSubsystem<TestSubsystem9.Follower> {
 	// The the systems being profiled/PID controlled
@@ -21,10 +22,11 @@ public class TestSubsystem9 extends HBRSubsystem<TestSubsystem9.Follower> {
 	protected TestSubsystem9() {
 		super(.01);
 	}
+	
 
 	// Testing methods
 	public static void main(String[] args) {
-		Instrumentation instrumentation = Instrumentation.getInstance();
+		Logger logger = Instrumentation.getLogger("TestSubsystem9");
 		
 		// Test of normal PID features
 		TestSubsystem9 testSubsystem = TestSubsystem9.getInstance();
