@@ -69,7 +69,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 * Creates a new HBRSubsystem. The name is by default derived from the class name.
 	 * @param dt - the timestep to use for PID and motion profiling (rounded to the nearest millisecond)
 	 */
-	protected HBRSubsystem(double dt) {
+	public HBRSubsystem(double dt) {
 		this(null, dt);
 	}
 	
@@ -78,7 +78,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 * The time step is a default of 0.01s.
 	 * The name is by default derived from the class name.
 	 */
-	protected HBRSubsystem() {
+	public HBRSubsystem() {
 		this(null, 0);
 	}
 	
@@ -86,7 +86,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 * Creates a new HBRSubsystem. The time step is a default of 0.01s.
 	 * @param name - the name to use for logging
 	 */
-	protected HBRSubsystem(String name) {
+	public HBRSubsystem(String name) {
 		this(name, 0);
 	}
 	
@@ -95,7 +95,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 	 * @param name - the name to use for logging
 	 * @param dt - the timestep to use for PID and motion profiling (rounded to the nearest millisecond)
 	 */
-	protected HBRSubsystem(String name, double dt) {
+	public HBRSubsystem(String name, double dt) {
 		// Initialize subsystem
 		super();
 		
