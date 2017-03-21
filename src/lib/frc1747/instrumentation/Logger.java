@@ -1,5 +1,6 @@
 package lib.frc1747.instrumentation;
 
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 
@@ -11,6 +12,7 @@ public class Logger {
 	private String name;
 	private Level level;
 	private Instrumentation instrumentation;
+	private Hashtable<String, LoggedValue> loggedValues;
 	
 	/**
 	 * Only Instrumentation should be initializing Loggers
@@ -21,6 +23,22 @@ public class Logger {
 		this.name = name;
 		level = Level.INFO;
 		this.instrumentation = instrumentation;
+		loggedValues = new Hashtable<>();
+		
+		log(Level.INFO, "Logger initialized with name: %s", this.name);
+	}
+	
+	protected Hashtable<String, LoggedValue> getLoggedValues() {
+		return loggedValues;
+	}
+	
+	public void registerDouble(String key, boolean logToSD, boolean logToFile) {
+		loggedValues.put(key, new LoggedDouble(key, name, logToSD, logToFile));
+	}
+	
+	public void putDouble(String key, double value) {
+		LoggedDouble loggedValue = (LoggedDouble)loggedValues.get(key);
+		loggedValue.value = value;
 	}
 	
 	/**
@@ -68,5 +86,12 @@ public class Logger {
 		record.setSourceClassName(Thread.currentThread().getStackTrace()[2].toString());
 		record.setThrown(thrown);
 		instrumentation.addMessage(record);
+	}
+
+	/**
+	 * Flushes all output of the single instrumentation
+	 */
+	public void flushAll() {
+		instrumentation.flushAll();
 	}
 }

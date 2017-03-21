@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -14,6 +13,8 @@ import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Contains most of the backend work of the logging framework.
@@ -43,7 +44,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	private ConcurrentLinkedQueue<LogRecord> messages;
 	
 	// Constantly logged data
-	private ArrayList<LoggedValue> values;
+	private Vector<LoggedValue> values;
 	
 	// Offset times based on when logging starts
 	private long startTime;
@@ -55,7 +56,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	 * Gets the singleton instance of instrumentation. Creates it if it does not exist yet.
 	 * @return the single instance of instrumentation
 	 */
-	public static Instrumentation getInstance() {
+	protected static Instrumentation getInstance() {
 		if(instance == null) {
 			instance = new Instrumentation();
 		}
@@ -65,7 +66,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	/**
 	 * Flushes all output buffers
 	 */
-	public void flushAll() {
+	protected void flushAll() {
 		System.out.flush();
 		if(messageWriter != null) messageWriter.flush();
 		if(valueWriter != null) valueWriter.flush();
@@ -88,7 +89,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 		timer = new Timer();
 		messages = new ConcurrentLinkedQueue<>();
 		loggers = new Vector<>();
-		values = new ArrayList<>();
+		values = new Vector<>();
 		
 		// Set default exception handler
 		Thread.setDefaultUncaughtExceptionHandler(this);
@@ -172,8 +173,23 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 				logger.exception(ex, "Logging values to a file will be disabled for this session.");
 				valueWriter = null;
 			}
-			if(messageWriter != null) {
+			if(valueWriter != null) {
 				logger.log(Level.INFO, "Logging values to file: %s", valueFileName);
+			}
+			
+			// Add all logged values
+			for(Logger logger:loggers) {
+				values.addAll(logger.getLoggedValues().values());
+			}
+			
+			// Make headers
+			if(valueWriter != null) {
+				for(LoggedValue value:values) {
+					if(value.willLogToFile()) {
+						valueWriter.print(value.getName() + ", ");
+					}
+				}
+				valueWriter.println();
 			}
 
 			// Actually start other tasks
@@ -202,9 +218,9 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 				String message = record.getMessage();
 				
 				// Handle elements that may or may not be present
-				String logger = "";
+				String loggerName = "";
 				if(record.getLoggerName() != null) {
-					logger = "from " + record.getLoggerName();
+					loggerName = "from " + record.getLoggerName();
 				}
 				
 				String source = "";
@@ -221,7 +237,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 				
 				// Actually create the message
 				String output = String.format(format,
-						time, thread, logger, source,
+						time, thread, loggerName, source,
 						level, message, thrown);
 				
 				// Output the message
@@ -229,9 +245,6 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 				if(messageWriter != null) {
 					messageWriter.print(output);
 				}
-				
-				// TODO Remove (Testing right now)
-				flushAll();
 			}
 		}
 	}
@@ -243,7 +256,12 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	private class ValueSDPeriodic extends TimerTask {
 		@Override
 		public void run() {
-			
+			for(LoggedValue value:values) {
+				if(value.willLogToSD()) {
+					if(value instanceof LoggedDouble)
+						SmartDashboard.putNumber(value.getName(), ((LoggedDouble)value).value);
+				}
+			}
 		}
 	}
 	
@@ -254,7 +272,17 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	private class ValueFilePeriodic extends TimerTask {
 		@Override
 		public void run() {
+			if(valueWriter != null) {
+				for(LoggedValue value:values) {
+					if(value.willLogToFile()) {
+						valueWriter.print(value.toString() + ", ");
+					}
+				}
+				valueWriter.println();
+			}
 			
+			// TODO Remove (Testing right now)
+			flushAll();
 		}	
 	}
 

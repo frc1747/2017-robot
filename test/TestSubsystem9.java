@@ -1,3 +1,5 @@
+import java.util.logging.Level;
+
 import lib.frc1747.instrumentation.Instrumentation;
 import lib.frc1747.instrumentation.Logger;
 
@@ -27,10 +29,16 @@ public class TestSubsystem9 extends HBRSubsystem<TestSubsystem9.Follower> {
 	// Testing methods
 	public static void main(String[] args) {
 		Logger logger = Instrumentation.getLogger("TestSubsystem9");
+		logger.setLevel(Level.INFO);
+		logger.registerDouble("position", false, true);
+		logger.registerDouble("angle", false, true);
+		
+		// Let logger initialize first
+		delay(2000);
 		
 		// Test of normal PID features
 		TestSubsystem9 testSubsystem = TestSubsystem9.getInstance();
-
+		
 		testSubsystem.setMode(Follower.DISTANCE, Mode.FOLLOWER);
 		testSubsystem.setPIDMode(Follower.DISTANCE, PIDMode.POSITION);
 		testSubsystem.setILimit(Follower.DISTANCE, 10);
@@ -50,10 +58,15 @@ public class TestSubsystem9 extends HBRSubsystem<TestSubsystem9.Follower> {
 		testSubsystem.setProfile(Follower.ANGLE, profiles[1]);
 		testSubsystem.resume(Follower.DISTANCE);
 		testSubsystem.resume(Follower.ANGLE);
+		
+		logger.log(Level.FINE, "Fine logging test");
+		logger.log(Level.INFO, "Starting Motion Profile");
 
 		while(testSubsystem.isRunning(Follower.DISTANCE) ||
 				testSubsystem.isRunning(Follower.ANGLE))
 			delay(1);
+		
+		logger.log(Level.INFO, "Motion profile finished");
 		//System.exit(0);
 	}
 	
@@ -63,6 +76,9 @@ public class TestSubsystem9 extends HBRSubsystem<TestSubsystem9.Follower> {
 	@Override
 	public void pidWrite(double[] output) {
 		//System.out.println(position + "\t" + angle);
+		//Instrumentation.getLogger("TestSubsystem9").log(Level.FINE, "%.4f\t%.4f", position, angle);
+		Instrumentation.getLogger("TestSubsystem9").putDouble("position", position);
+		Instrumentation.getLogger("TestSubsystem9").putDouble("angle", angle);
 		position += output[0] * 1.5 * 0.01;
 		angle += output[1] * 1.5 * 0.01;
 	}
