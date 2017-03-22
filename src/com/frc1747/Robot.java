@@ -46,9 +46,10 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopInit() {
 		Scheduler.getInstance().removeAll();
-		System.out.println(SmartDashboard.getNumber("Test", 0));
+		//System.out.println(SmartDashboard.getNumber("Test", 0));
 		ShifterSubsystem.getInstance().enableAutoshifting();
 		drive = DriveSubsystem.getInstance();
+		drive.debug();
 	}
 
 	@Override
@@ -70,8 +71,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		System.out.println(drive.getAveragePosition());
-//		System.out.println(SmartDashboard.getNumber("Test",0));
+		//System.out.println(drive.getAveragePosition());
+//		//System.out.println(SmartDashboard.getNumber("Test",0));
 	}
 	
 	@Override

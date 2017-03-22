@@ -25,7 +25,7 @@ public class TakeIn extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println(stalled);
+    	//System.out.println(stalled);
     	if (intake.isCurrentHigh() && !stalled){
     		stalled = true;
     		stallTime = System.currentTimeMillis();
@@ -36,7 +36,7 @@ public class TakeIn extends Command {
     	}
     	
     	if(!stalled){
-    		System.out.println("forward");
+    		//System.out.println("forward");
     		intake.setPower(intake.COLLECTOR_POWER);
     		stalled = false;
     	}else{

@@ -100,7 +100,7 @@ public class TeleopAlign extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("DRIVE INIT");
+    	//System.out.println("DRIVE INIT");
     	
     	if (isFinished()) {        	
         	s_p_p = SmartDashboard.getNumber("Boiler Vertical", 0);
@@ -146,13 +146,13 @@ public class TeleopAlign extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	System.out.println("DRIVE FINISHED?");
+    	//System.out.println("DRIVE FINISHED?");
         return timer == null;
     }
 
     // May be called multiple times in this class
     protected void end() {
-    	System.out.println("DRIVE END");
+    	//System.out.println("DRIVE END");
 		if (!isFinished()) {
 			timer.cancel();
 			timer.purge();
@@ -169,13 +169,13 @@ public class TeleopAlign extends Command {
     	// Main calculation loop
     	@Override
     	public void run() {
-    		System.out.println("DRIVE_LOOP");
+    		//System.out.println("DRIVE_LOOP");
     		// ----------------------------------------
     		// Calculate for translational
 
 			// Read the velocity
 			double s_m_p = -drive.getAveragePosition();
-			System.out.println("                             " + s_p_p + " , " + s_m_p);
+			//System.out.println("                             " + s_p_p + " , " + s_m_p);
 			// Proportional error
 			s_ep = s_p_p - s_m_p;
 			// Integral error
@@ -233,7 +233,7 @@ public class TeleopAlign extends Command {
 
 			// Logging
 			if(print != null) {
-				System.out.println("LOG");
+				//System.out.println("LOG");
 				print.format("%.4f, %.4f, %.4f, %.4f\n", s_p_p, s_m_p, a_p_p, a_m_p);
 			}
     	}

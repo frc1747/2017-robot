@@ -161,7 +161,7 @@ public class TalonMotionProfileFollower {
 				 * something is wrong. Talon is not present, unplugged, breaker
 				 * tripped
 				 */
-				System.out.println("Talon motion profile stalled!!!");
+				//System.out.println("Talon motion profile stalled!!!");
 			} else {
 				--loopTimeout;
 			}
@@ -235,7 +235,7 @@ public class TalonMotionProfileFollower {
 			}
 		}
 		/* printfs and/or logging */
-		System.out.println(status);
+		//System.out.println(status);
 	}
 
 	/** Start filling the MPs to all of the involved Talons. */
@@ -247,7 +247,7 @@ public class TalonMotionProfileFollower {
 		/* did we get an underrun condition since last time we checked ? */
 		if (status.hasUnderrun) {
 			/* better log it so we know about it */
-			System.out.println("Talon motion profile underrun!!!");
+			//System.out.println("Talon motion profile underrun!!!");
 			/*
 			 * clear the error. This flag does not auto clear, this way 
 			 * we never miss logging it.

@@ -166,8 +166,8 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 		
 		SmartDashboard.putNumber("Left Drive FPS", getLeftSpeed());
 		SmartDashboard.putNumber("Right Drive FPS", getRightSpeed());
-		//System.out.println("left " + getLeftSpeed());
-		//System.out.println("right " + getRightSpeed());
+		////System.out.println("left " + getLeftSpeed());
+		////System.out.println("right " + getRightSpeed());
 		SmartDashboard.putNumber("Left Drive Position", getLeftPosition());
 		SmartDashboard.putNumber("Right Drive Position", getRightPosition());
 		SmartDashboard.putNumber("Average Position", getAveragePosition());

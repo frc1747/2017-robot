@@ -109,7 +109,7 @@ public class DriveProfile_old extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("PROFILE INIT");
+    	//System.out.println("PROFILE INIT");
     	if (isFinished()) {
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new CalculateClass(), 0,
@@ -142,13 +142,13 @@ public class DriveProfile_old extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	System.out.println("PROFILE FINISHED?");
+    	//System.out.println("PROFILE FINISHED?");
         return timer == null;
     }
 
     // May be called multiple times in this class
     protected void end() {
-    	System.out.println("PROFILE END");
+    	//System.out.println("PROFILE END");
 		if (!isFinished()) {
 			timer.cancel();
 			timer.purge();
@@ -165,7 +165,7 @@ public class DriveProfile_old extends Command {
     	// Main calculation loop
     	@Override
     	public void run() {
-    		System.out.println("PROFILE_LOOP");
+    		//System.out.println("PROFILE_LOOP");
     		// ----------------------------------------
     		// Calculate for translational
     		

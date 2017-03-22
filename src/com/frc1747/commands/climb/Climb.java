@@ -18,7 +18,7 @@ public class Climb extends Command {
 	private PrintWriter print;
 	
 	public Climb() {
-		//System.out.println("Climb constructor");
+		////System.out.println("Climb constructor");
 		climber = ClimbSubsystem.getInstance();
 		requires(climber);
 		
@@ -46,7 +46,7 @@ public class Climb extends Command {
     	// Logging
 		if(print != null) {
 			print.format("%.4f, %.4f, %.4f\n", climber.getCurrent(), climber.getVoltage(), climber.getBusVoltage());
-			System.out.println("LOG");
+			//System.out.println("LOG");
 		}
     }
 

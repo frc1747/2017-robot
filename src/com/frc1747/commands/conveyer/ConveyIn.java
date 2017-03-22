@@ -22,12 +22,12 @@ public class ConveyIn extends Command{
 	 // Called just before this Command runs the first time
     protected void initialize() {
     	conveyor.enablePID();
-    	System.out.println("INIT");
+    	//System.out.println("INIT");
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("EXEC");
+    	//System.out.println("EXEC");
     	//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
     	if(intake.isIntakeOut()){
     		conveyor.setSetpoint(200.0);

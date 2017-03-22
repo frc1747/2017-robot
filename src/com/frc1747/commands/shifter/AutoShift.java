@@ -55,22 +55,22 @@ public class AutoShift extends Command {
 			lastRightVel = driveSubsystem.getRightSpeed();
 			sinceLastMeasure = System.currentTimeMillis();
 			avgAccel = (leftAccel + rightAccel) / 2;
-//			System.out.println(avgAccel);
+//			//System.out.println(avgAccel);
 		}
-    	//System.out.println("EXECUTE: " + shifter.isHighGear() + ", " + driveSubsystem.getLeftSpeed());
+    	////System.out.println("EXECUTE: " + shifter.isHighGear() + ", " + driveSubsystem.getLeftSpeed());
 		if (shifter.isHighGear() && Math.abs(driveSubsystem.getAverageSpeed()) < shiftDownVel/*Math.abs(shiftDownVel - shiftDownSlope * avgAccel)*/){
-			System.out.println("Shifting down");
+			//System.out.println("Shifting down");
 			shifter.setTransmission(shifter.LOW_GEAR);
 			Scheduler.getInstance().add(new DriveCoast());
 		} else if (shifter.isLowGear() && Math.abs(driveSubsystem.getAverageSpeed()) > shiftUpVel/*Math.abs(shiftUpVel - shiftUpSlope*avgAccel)*/){
-			System.out.println("Shifting up");
+			//System.out.println("Shifting up");
 			shifter.setTransmission(shifter.HIGH_GEAR);
 			Scheduler.getInstance().add(new DriveCoast());
 		} else {
 			shifter.setTransmission(shifter.getGear());
 		}
 		
-		System.out.println("Average Speed " + driveSubsystem.getAverageSpeed());
+		//System.out.println("Average Speed " + driveSubsystem.getAverageSpeed());
     }
 
     // Make this return true when this Command no longer needs to run execute()

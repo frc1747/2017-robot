@@ -79,15 +79,15 @@ public class DriveProfile extends Command {
 		DriveProfile profile = null;
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(filename));
-			int count = Integer.parseInt(br.readLine().trim());
+			int count = Integer.parseInt(br.readLine().split(",")[1].trim());
 			double[][] profileS = new double[count][3];
 			double[][] profileA = new double[count][3];
 			
 			for(int i = 0;i < count;i++) {
 				String[] parts = br.readLine().split(",");
 				for(int j = 0;j < 3;j++) {
-					profileS[i][j] = Double.parseDouble(parts[j].trim());
-					profileA[i][j] = Double.parseDouble(parts[j+3].trim());
+					profileS[i][2-j] = Double.parseDouble(parts[j].trim());
+					profileA[i][2-j] = Double.parseDouble(parts[j+3].trim());
 				}
 			}
 			
@@ -126,7 +126,7 @@ public class DriveProfile extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("PROFILE INIT");
+    	//System.out.println("PROFILE INIT");
     	if (isFinished()) {
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new CalculateClass(), 100,
@@ -159,13 +159,13 @@ public class DriveProfile extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	System.out.println("PROFILE FINISHED?");
+    	//System.out.println("PROFILE FINISHED?");
         return timer == null;
     }
 
     // May be called multiple times in this class
     protected void end() {
-    	System.out.println("PROFILE END");
+    	//System.out.println("PROFILE END");
 		if (!isFinished()) {
 			timer.cancel();
 			timer.purge();
@@ -182,7 +182,7 @@ public class DriveProfile extends Command {
     	// Main calculation loop
     	@Override
     	public void run() {
-    		System.out.println("PROFILE_LOOP");
+    		//System.out.println("PROFILE_LOOP");
     		// ----------------------------------------
     		// Calculate for translational
     		
@@ -257,7 +257,7 @@ public class DriveProfile extends Command {
 			// Logging
 			if(print != null) {
 				print.format("%.4f, %.4f, %.4f, %.4f\n", s_p_p, s_m_p, a_p_p, a_m_p);
-				System.out.println("LOG");
+//				//System.out.println("LOG");
 			}
 			
 			// Check end conditions

@@ -29,8 +29,8 @@ public class AutonAlign extends Command {
 	long startTime;
 
 	// Feedback constants
-	private double s_kp = 0.0;
-	private double s_ki = 0;
+	private double s_kp = 0.2;
+	private double s_ki = .01/.05;
 	private double s_kd = 0;
 	
 	private double a_kp = 0.04;
@@ -100,7 +100,7 @@ public class AutonAlign extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("DRIVE INIT");
+    	//System.out.println("DRIVE INIT");
     	
     	if (isFinished()) {        	
         	s_p_p = SmartDashboard.getNumber("Boiler Vertical", 0);
@@ -151,20 +151,20 @@ public class AutonAlign extends Command {
     	else if(time < 800){
     		drive.setPower(0, 0);
     	}
-    	else */if(time >= 5000) {
+    	else if(time >= 5000) {
     		end();
-    	}
+    	}*/
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	System.out.println("DRIVE FINISHED?");
+    	//System.out.println("DRIVE FINISHED?");
         return timer == null;
     }
 
     // May be called multiple times in this class
     protected void end() {
-    	System.out.println("DRIVE END");
+    	//System.out.println("DRIVE END");
 		if (!isFinished()) {
 			timer.cancel();
 			timer.purge();
@@ -181,13 +181,13 @@ public class AutonAlign extends Command {
     	// Main calculation loop
     	@Override
     	public void run() {
-    		System.out.println("DRIVE_LOOP");
+    		//System.out.println("DRIVE_LOOP");
     		// ----------------------------------------
     		// Calculate for translational
 
 			// Read the velocity
-			double s_m_p = -drive.getAveragePosition();
-			System.out.println("                             " + s_p_p + " , " + s_m_p);
+			double s_m_p = drive.getAveragePosition();
+			//System.out.println("                             " + s_p_p + " , " + s_m_p);
 			// Proportional error
 			s_ep = s_p_p - s_m_p;
 			// Integral error
@@ -245,7 +245,7 @@ public class AutonAlign extends Command {
 
 			// Logging
 			if(print != null) {
-				System.out.println("LOG");
+				//System.out.println("LOG");
 				print.format("%.4f, %.4f, %.4f, %.4f\n", s_p_p, s_m_p, a_p_p, a_m_p);
 			}
     	}

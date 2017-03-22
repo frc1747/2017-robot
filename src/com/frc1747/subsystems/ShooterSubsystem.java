@@ -220,7 +220,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 		avg_speed = avg_speed * .9 + getFrontRPS() * .1;
 		SmartDashboard.putNumber("Front Shooter Filter Speed", avg_speed);
 		SmartDashboard.putNumber("Front Shooter Speed", getFrontRPS());
-		System.out.println(getFrontRPS());
+		//System.out.println(getFrontRPS());
 		SmartDashboard.putNumber("Front Shooter Surface Speed", avg_speed);
 		SmartDashboard.putNumber("Front Shooter Position", getFrontPosition());
 		SmartDashboard.putNumber("Back Shooter Voltage", getBackVoltage());

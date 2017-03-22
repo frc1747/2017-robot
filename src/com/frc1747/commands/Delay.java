@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.command.Command;
 public class Delay extends Command {
 	
 	private long startTime;
+	private long duration;
 
-    public Delay() {
+    public Delay(long duration) {
+    	this.duration = duration;
        
     }
 
@@ -24,7 +26,7 @@ public class Delay extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return System.currentTimeMillis() - startTime >= 1250;
+        return System.currentTimeMillis() - startTime >= duration;
     }
 
     // Called once after isFinished returns true

@@ -21,7 +21,7 @@ public class BackupBoilerVerticalAlign extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	//System.out.println("Running");
+    	////System.out.println("Running");
     	//drive.enableSpeedPID();
     }
 
@@ -39,7 +39,7 @@ public class BackupBoilerVerticalAlign extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	System.out.println("Aligned");
+    	//System.out.println("Aligned");
     	//drive.setSetpoint(0, 0);
     }
 

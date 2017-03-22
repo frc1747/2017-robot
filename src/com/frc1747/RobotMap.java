@@ -38,7 +38,7 @@ public class RobotMap {
 	public static final boolean BACK_SHOOTER1_INVERTED = true;
 	public static final boolean BACK_SHOOTER2_INVERTED = false;
 	
-	public static final int SHIFT_SOLENOID = 0;
+	public static final int SHIFT_SOLENOID = 7;
 	public static final int INTAKE_SOLENOID_PORT_1 = 1;
 	public static final int INTAKE_SOLENOID_PORT_2 = 2;
 	

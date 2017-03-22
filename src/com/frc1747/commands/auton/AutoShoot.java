@@ -109,7 +109,7 @@ public class AutoShoot extends Command {
 	    		shooterGate.gatesClose();
 	    		
 	    		if(shooter.onTarget()) {
-	    			System.out.println("on target");
+	    			//System.out.println("on target");
 		    		if (counter % 2 == 0) {
 		    			if(shooter.onTarget()){
 		    				shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_OPEN);
@@ -137,12 +137,12 @@ public class AutoShoot extends Command {
 			print.format("%.4f, %.4f, %.4f, %.4f, %b, %b\n", desiredFrontSetpoint, shooter.getFrontRPS(), 
 					desiredBackSetpoint, shooter.getBackRPS(), 
 					shooterGate.getSolenoidState(0), shooterGate.getSolenoidState(1));
-			System.out.println("LOG");
+			//System.out.println("LOG");
 		}   	
     }
 
     protected boolean isFinished() {
-        return System.currentTimeMillis() - commandStartTime >= 7000;
+        return false/*System.currentTimeMillis() - commandStartTime >= 7000*/;
     }
 
     protected void end() {

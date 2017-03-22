@@ -97,7 +97,7 @@ public class DriveWithJoysticks extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	System.out.println("DRIVE INIT");
+    	//System.out.println("DRIVE INIT");
     	if (isFinished()) {
 			timer = new Timer();
 			timer.scheduleAtFixedRate(new CalculateClass(), 0,
@@ -127,13 +127,13 @@ public class DriveWithJoysticks extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	System.out.println("DRIVE FINISHED?");
+    	//System.out.println("DRIVE FINISHED?");
         return timer == null;
     }
 
     // May be called multiple times in this class
     protected void end() {
-    	System.out.println("DRIVE END");
+    	//System.out.println("DRIVE END");
 		if (!isFinished()) {
 			timer.cancel();
 			timer.purge();
@@ -150,7 +150,7 @@ public class DriveWithJoysticks extends Command {
     	// Main calculation loop
     	@Override
     	public void run() {
-    		System.out.println("DRIVE_LOOP");
+    		//System.out.println("DRIVE_LOOP");
     		// ----------------------------------------
     		// Calculate for translational
     		
@@ -163,7 +163,9 @@ public class DriveWithJoysticks extends Command {
 
 			// Read the velocity
 			double s_m_v = drive.getAverageSpeed();//intentionally out of phase
-			System.out.println("                             " + s_p_v + " , " + s_m_v);
+			////System.out.println("                             " + s_p_v + " , " + s_m_v);
+			//System.out.println("                                 " + s_m_v);
+			System.out.println("                                 " + drive.getLeftSpeed() + ", " + drive.getRightSpeed());
 			// Proportional error
 			s_ep = s_p_v - s_m_v;
 			// Integral error
@@ -228,7 +230,7 @@ public class DriveWithJoysticks extends Command {
 
 			// Logging
 			if(print != null) {
-				System.out.println("LOG");
+				//System.out.println("LOG");
 				print.format("%.4f, %.4f, %.4f, %.4f\n", s_p_v, s_m_v, a_p_v, a_m_v);
 			}
     	}
