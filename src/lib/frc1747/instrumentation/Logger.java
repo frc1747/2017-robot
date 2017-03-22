@@ -41,6 +41,24 @@ public class Logger {
 		loggedValue.value = value;
 	}
 	
+	public void registerString(String key, boolean logToSD, boolean logToFile) {
+		loggedValues.put(key, new LoggedString(key, name, logToSD, logToFile));
+	}
+	
+	public void putString(String key, String value) {
+		LoggedString loggedValue = (LoggedString)loggedValues.get(key);
+		loggedValue.value = value;
+	}
+	
+	public void registerBoolean(String key, boolean logToSD, boolean logToFile) {
+		loggedValues.put(key, new LoggedBoolean(key, name, logToSD, logToFile));
+	}
+	
+	public void putBoolean(String key, boolean value) {
+		LoggedBoolean loggedValue = (LoggedBoolean)loggedValues.get(key);
+		loggedValue.value = value;
+	}
+	
 	/**
 	 * Sets the minimum level of messages that will be logged
 	 * @param level the minimum level to log

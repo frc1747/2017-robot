@@ -260,6 +260,12 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 				if(value.willLogToSD()) {
 					if(value instanceof LoggedDouble)
 						SmartDashboard.putNumber(value.getName(), ((LoggedDouble)value).value);
+					if(value instanceof LoggedString)
+						SmartDashboard.putString(value.getName(), ((LoggedString)value).value);
+					if(value instanceof LoggedBoolean)
+						SmartDashboard.putBoolean(value.getName(), ((LoggedBoolean)value).value);
+					if(value instanceof LoggedSendable)
+						SmartDashboard.putData(value.getName(), ((LoggedSendable)value).value);
 				}
 			}
 		}
