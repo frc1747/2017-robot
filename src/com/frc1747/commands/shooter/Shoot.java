@@ -134,7 +134,7 @@ public class Shoot extends Command {
 			shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_OPEN);
 		}
 		
-		if(System.currentTimeMillis() - pidStartTime > 2250){
+		if(System.currentTimeMillis() - pidStartTime > 2350){
 			shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
 		}
     }

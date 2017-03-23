@@ -28,8 +28,8 @@ public class ShooterSubsystem extends HBRSubsystem {
 		SHOOTER_TOLERANCE = 5/*,
 		SHOOTER_POWER = 0*/; //TODO: put actual value
 		
-	private final PIDValues backPID = new PIDValues(0.125, 0, 0.19, 0.122); //TODO try increasing D to prevent overshoot after shooting
-	private final PIDValues frontPID = new PIDValues(0.423, 0.00027, 0.3, 0.17);
+	private final PIDValues backPID = new PIDValues(1.12, 0.001, 12.8, 0.1285); //TODO try increasing D to prevent overshoot after shooting
+	private final PIDValues frontPID = new PIDValues(1, 0.001, 12, 0.17);
 	//20,0.05,360 2/20/17
 	//private final PIDValues backPID = new PIDValues(0, 0, 0, 5.3);
 
@@ -83,7 +83,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 
 		// Set PIDF Constants for Back Shooter Motors
     	backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
-    	backShooterMotor1.setIZone(25 * 7.0);
+    	backShooterMotor1.setIZone(4.0);
     	//backShooterMotor1.setPID(backPID.P, backPID.I, backPID.D);
 		//backShooterMotor1.setF(backPID.F);
     	// Set PIDF Constants for Front Shooter Motor
