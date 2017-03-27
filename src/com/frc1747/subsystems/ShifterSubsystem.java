@@ -90,5 +90,17 @@ public class ShifterSubsystem extends HBRSubsystem {
 	public void debug() {
 		SmartDashboard.putBoolean("Gear state", getGear());
 	}
+
+	@Override
+	public double[] pidRead() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void pidWrite(double[] output) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

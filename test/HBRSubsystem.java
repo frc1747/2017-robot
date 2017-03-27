@@ -1,7 +1,3 @@
-package lib.frc1747.subsystems;
-
-import edu.wpi.first.wpilibj.command.Subsystem;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -26,7 +22,7 @@ import lib.frc1747.motion_profile.gui._1d.BoxcarFilter;
  *
  * @param <E> An enum that lists the different PID/followers (e.g. distance & angle).
  */
-public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
+public abstract class HBRSubsystem<E extends Enum<E>> {
 	// Followers to use
 	private E[] followers;
 	private int n_followers;
@@ -73,7 +69,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	 * Creates a new HBRSubsystem. The name is by default derived from the class name.
 	 * @param dt - the timestep to use for PID and motion profiling (rounded to the nearest millisecond)
 	 */
-	protected HBRSubsystem(double dt) {
+	public HBRSubsystem(double dt) {
 		this(null, dt);
 	}
 	
@@ -82,7 +78,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	 * The time step is a default of 0.01s.
 	 * The name is by default derived from the class name.
 	 */
-	protected HBRSubsystem() {
+	public HBRSubsystem() {
 		this(null, 0);
 	}
 	
@@ -90,7 +86,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	 * Creates a new HBRSubsystem. The time step is a default of 0.01s.
 	 * @param name - the name to use for logging
 	 */
-	protected HBRSubsystem(String name) {
+	public HBRSubsystem(String name) {
 		this(name, 0);
 	}
 	
@@ -99,7 +95,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	 * @param name - the name to use for logging
 	 * @param dt - the timestep to use for PID and motion profiling (rounded to the nearest millisecond)
 	 */
-	protected HBRSubsystem(String name, double dt) {
+	public HBRSubsystem(String name, double dt) {
 		// Initialize subsystem
 		super();
 		
@@ -433,6 +429,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 					}
 				}
 			}
+			
 			br.close();
 		}
 		catch (IOException ex) {

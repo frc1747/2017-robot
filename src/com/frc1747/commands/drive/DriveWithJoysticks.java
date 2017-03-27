@@ -154,7 +154,7 @@ public class DriveWithJoysticks extends Command {
     		// ----------------------------------------
     		// Calculate for translational
     		
-			// Profile variables
+			// Follower variables
 			double s_p_v = s_v_max * Math.pow(OI.getInstance().getDriver().getAxis(Logitech.LEFT_VERTICAL), 1.0);
 			if(OI.getInstance().getDriver().getButton(Logitech.LT).get()) {
 				s_p_v *= 0.3;
@@ -189,7 +189,7 @@ public class DriveWithJoysticks extends Command {
     		// ----------------------------------------			
 			// Calculate for rotational
     		
-			// Profile variables
+			// Follower variables
 			double a_p_v = -a_v_max * Math.pow(OI.getInstance().getDriver().getAxis(Logitech.RIGHT_HORIZONTAL), 1.0);
 			if(OI.getInstance().getDriver().getButton(Logitech.LT).get()) {
 				a_p_v *= 0.3;

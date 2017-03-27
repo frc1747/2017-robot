@@ -169,7 +169,7 @@ public class DriveProfile_old extends Command {
     		// ----------------------------------------
     		// Calculate for translational
     		
-			// Profile variables
+			// Follower variables
 			double s_p_p = s_profile[index][2];
 			double s_p_v = s_profile[index][1];
 			double s_p_a = s_profile[index][0];
@@ -202,7 +202,7 @@ public class DriveProfile_old extends Command {
     		// ----------------------------------------			
 			// Calculate for rotational
     		
-			// Profile variables
+			// Follower variables
 			double a_p_p = a_profile[index][2];
 			double a_p_v = a_profile[index][1];
 			double a_p_a = a_profile[index][0];

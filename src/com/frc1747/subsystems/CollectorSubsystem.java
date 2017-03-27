@@ -90,5 +90,17 @@ public class CollectorSubsystem extends HBRSubsystem {
 	public void debug() {
 		SmartDashboard.putNumber("Intake current", getMotorCurrent());
 	}
+
+	@Override
+	public double[] pidRead() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void pidWrite(double[] output) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 

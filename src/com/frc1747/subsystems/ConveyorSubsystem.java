@@ -105,4 +105,16 @@ public class ConveyorSubsystem extends HBRSubsystem {
 		SmartDashboard.putNumber("Conveyer Voltage", getVoltage());
 		SmartDashboard.putNumber("Conveyer Speed", getSpeed());
 	}
+
+	@Override
+	public double[] pidRead() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void pidWrite(double[] output) {
+		// TODO Auto-generated method stub
+		
+	}
 }
