@@ -107,6 +107,9 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 		
 	}
 	
+	
+	
+	
 
 	@Override
 	public PIDSourceType getPIDSourceType() {
@@ -296,14 +299,12 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 
 	@Override
 	public double[] pidRead() {
-		// TODO Auto-generated method stub
-		return null;
+		return new double[2];
 	}
 
 	@Override
 	public void pidWrite(double[] output) {
-		// TODO Auto-generated method stub
-		
+
 	}
 }
 

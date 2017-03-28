@@ -25,7 +25,8 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	private static Instrumentation instance;
 	
 	// Logging directory location
-	private static final String logDir = "C:/Users/Tiger/Documents/logs";
+	//private static final String logDir = "C:/Users/Tiger/Documents/logs";
+	private static final String logDir = "/home/lvuser/logs";
 	
 	// Message log format
 	private static final String format = "[%1$+d]{%2$d} %3$s\n" + "%4$s" + "%5$s: %6$s\n" + "%7$s\n";
@@ -96,6 +97,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 		
 		// Init self logger
 		logger = getLoggerInternal("Instrumentation");
+		logger.setLevel(Level.INFO);
 		
 		// Give other code 1 second to initialize
 		timer.schedule(new DelayedInit(), 1 * 1000);

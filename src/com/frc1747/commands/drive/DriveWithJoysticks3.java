@@ -165,7 +165,7 @@ public class DriveWithJoysticks3 extends Command {
 			double s_m_v = drive.getAverageSpeed();//intentionally out of phase
 			////System.out.println("                             " + s_p_v + " , " + s_m_v);
 			//System.out.println("                                 " + s_m_v);
-			System.out.println("                                 " + drive.getLeftSpeed() + ", " + drive.getRightSpeed());
+			//System.out.println("                                 " + drive.getLeftSpeed() + ", " + drive.getRightSpeed());
 			// Proportional error
 			s_ep = s_p_v - s_m_v;
 			// Integral error

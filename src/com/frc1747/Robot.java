@@ -1,6 +1,10 @@
 package com.frc1747;
 
+import java.util.logging.Level;
+
 import lib.frc1747.subsystems.HBRSubsystem;
+import lib.frc1747.instrumentation.Instrumentation;
+import lib.frc1747.instrumentation.Logger;
 import lib.frc1747.motion_profile.generator._1d.ProfileGenerator;
 
 import com.frc1747.commands.UpdateDashboard;
@@ -29,11 +33,16 @@ public class Robot extends IterativeRobot {
 	Command auton;
 	SendableChooser<Autons> autonChoice;
 	DriveSubsystem drive;
+	
+	Logger logger;
 
 	@Override
 	public void robotInit() {
 //		SendableChooser autoChooser = new SendableChooser();
 //		autoChooser.addDefault("Position 1", object);
+		
+		logger = Instrumentation.getLogger("Robot");
+		logger.log(Level.INFO, "Robot Init");
 		
 		(new UpdateDashboard()).start();
 		initSubsystems();

@@ -119,7 +119,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> {
 
 		// Get the enum containing the systems to control (followers to use)
 		Class<?> type = this.getClass();
-		while(type.getSuperclass().getName() != "HBRSubsystem") {
+		while(!type.getSuperclass().getName().equals(HBRSubsystem.class.getName())) {
 			type = type.getSuperclass();
 		}
 		if(type.getGenericSuperclass() instanceof ParameterizedType) {
