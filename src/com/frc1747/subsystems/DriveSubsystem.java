@@ -22,7 +22,7 @@ import lib.frc1747.pid.PIDValues;
 import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 
-public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput{
+public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implements PIDSource, PIDOutput{
 
 	// CONSTANTS
 	private final double LEFT_SCALING_CONSTANT = 609.6;
@@ -64,6 +64,11 @@ public class DriveSubsystem extends HBRSubsystem implements PIDSource, PIDOutput
 	private double oldYAccel = 0;
 	private double oldZAccel = 0;
 	PrintWriter write;
+	
+	//profile followers
+	public enum Follower {
+		DISTANCE, ANGLE
+	}
 	
 	private DriveSubsystem() {
 		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2,

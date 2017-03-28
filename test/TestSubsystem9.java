@@ -29,9 +29,14 @@ public class TestSubsystem9 extends HBRSubsystem<TestSubsystem9.Follower> {
 	// Testing methods
 	public static void main(String[] args) {
 		Logger logger = Instrumentation.getLogger("TestSubsystem9");
+		
 		logger.setLevel(Level.INFO);
 		logger.registerDouble("position", false, true);
 		logger.registerDouble("angle", false, true);
+		
+		
+//		logger.log(Level.FINE, "Hello World");
+//		logger.exception(thrown, message, args);
 		
 		// Let logger initialize first
 		delay(2000);

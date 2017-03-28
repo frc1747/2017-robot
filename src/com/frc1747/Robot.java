@@ -1,6 +1,7 @@
 package com.frc1747;
 
 import lib.frc1747.subsystems.HBRSubsystem;
+import lib.frc1747.motion_profile.generator._1d.ProfileGenerator;
 
 import com.frc1747.commands.UpdateDashboard;
 import com.frc1747.commands.auton.AutonTemplate;
