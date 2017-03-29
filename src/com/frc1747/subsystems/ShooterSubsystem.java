@@ -238,7 +238,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 	public double samples;
 
 	@Override
-	public double[] pidRead() {
+	public double[][] pidRead() {
 		// TODO Auto-generated method stub
 		return null;
 	}

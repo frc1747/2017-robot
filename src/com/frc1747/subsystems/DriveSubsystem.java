@@ -109,10 +109,6 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 	public void setPIDSourceType(PIDSourceType pidSource) {
 		
 	}
-	
-	
-	
-	
 
 	@Override
 	public PIDSourceType getPIDSourceType() {
@@ -198,9 +194,6 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 	}
 
 	public double getAverageSpeed(){
-		if(right == null || left == null){
-			return 0;
-		}
 		return (right.getSpeed() + left.getSpeed()) / 2;
 	}
 	
@@ -304,15 +297,13 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 	}
 
 	@Override
-	public double[] pidRead(){
-		double[] output = new double[2];
-		output[0] = -getAverageSpeed();
-		if(getGyro() != null){
-			output[1] = getGyro().getRate();
-		}else{
-			Instrumentation.getLogger("DriveSubsystem").log(Level.INFO, "Gyro null");
-		}
-		return new double[2];
+	public double[][] pidRead(){
+		double[][] output = new double[2][2];
+		output[0][0] = getAveragePosition();
+		output[0][1] = -getGyro().getAngle();
+		output[1][0] = getAverageSpeed();
+		output[1][1] = -getGyro().getRate();
+		return output;
 	}
 
 	@Override

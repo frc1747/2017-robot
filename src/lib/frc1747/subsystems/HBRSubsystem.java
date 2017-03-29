@@ -40,6 +40,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	// Profile variables
 	private double[][][] profile;
 	private boolean[] running;
+	private boolean enabled;
 	private int[] index;
 	private Mode[] mode;
 	private PIDMode[] pidMode;
@@ -141,6 +142,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 			// Initialize variables
 			profile = new double[n_followers][][];
 			running = new boolean[n_followers];
+			enabled = false;
 			index = new int[n_followers];
 			mode = new Mode[n_followers];
 			pidMode = new PIDMode[n_followers];
@@ -166,7 +168,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 			
 			// Initialize loop
 			timer = new Timer();
-			timer.scheduleAtFixedRate(new Calculate(), 2000, (long)Math.round(dt * 1000));
+			timer.scheduleAtFixedRate(new Calculate(), 1000, (long)Math.round(dt * 1000));
 			oldTime = System.nanoTime();
 		}
 	}
@@ -315,9 +317,6 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 			throw new IllegalArgumentException(pidMode + " is not a valid PID mode.");
 		}
 		this.pidMode[i] = pidMode;
-		
-		// Prevent a spike in the derivative reading
-		sensor = internalPidRead();
 	}
 	
 	/**
@@ -381,23 +380,50 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	}
 	
 	/**
+	 * Enables or disables all PID/followers
+	 * @param enabled if the PID/followers should be enabled or disabled
+	 */
+	public void setEnabled(boolean enabled) {
+		// Need to run some initialization of we are enabling
+		if(enabled && !this.enabled) {
+			double[][] pv_raw = internalPidRead();
+			for(int i = 0;i < n_followers;i++) {
+				switch(pidMode[i]) {
+				case POSITION:
+					sensor[i] = pv_raw[0][i];
+					break;
+				case VELOCITY:
+					sensor[i] = pv_raw[1][i];
+					break;
+				}
+			}
+		}
+		
+		// Save the state
+		this.enabled = enabled;
+	}
+	
+	/**
 	 * An abstract method that needs to be implemented in order to send data to the PID/followers.
 	 * @return an array of sensor inputs to be consumed by the PID/followers<br>
 	 * The size is expected to match the number of profiles. The index of each profile
 	 * can be determined with getFollowerIndex
 	 */
-	public abstract double[] pidRead();
+	public abstract double[][] pidRead();
 	
 	/**
 	 * An internal method that gets sensor data from pidRead and performs some validation
 	 * @return an array of sensor inputs to be consumed by the PID/followers
 	 */
-	private double[] internalPidRead() {
-		double[] pv = pidRead();
+	private double[][] internalPidRead() {
+		double[][] pv = pidRead();
 		if(pv == null) {
 			throw new IllegalArgumentException("The sensor array returned by pidRead cannot be null.");
 		}
-		if(pv.length != n_followers) {
+		if(pv.length != 2) {
+			throw new IllegalArgumentException("The sensor array must include both position and velocity components.");
+		}
+		if(pv[0].length != n_followers) {
 			throw new IllegalArgumentException("The number of sensors returned by pidRead must match the number of PID/followers.");
 		}
 		return pv;
@@ -501,8 +527,12 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 		// Main calculation loop
 		@Override
 		public void run() {
+			// Do nothing if we are not enabled
+			if(!enabled) return;
+			
 			// Read in the sensors
-			double[] pv = internalPidRead();
+			double[][] pv_raw = internalPidRead();
+			double[] pv = new double[n_followers];
 			
 			// Calculate delta time
 			long time = System.nanoTime();
@@ -518,14 +548,16 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 				output[i] += kf_v[i] * profile[i][index[i]][1];
 				output[i] += kf_a[i] * profile[i][index[i]][2];
 				
-				// Get the setpoint depending on the pid mode
+				// Get the setpoint and process variable depending on the pid mode
 				double sp = 0;
 				switch(pidMode[i]) {
 				case POSITION:
 					sp = profile[i][index[i]][0];
+					pv[i] = pv_raw[0][i];
 					break;
 				case VELOCITY:
 					sp = profile[i][index[i]][1];
+					pv[i] = pv_raw[1][i];
 					break;
 				}
 				
