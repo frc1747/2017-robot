@@ -10,14 +10,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+import java.util.logging.Level;
 
 import com.ctre.CANTalon.FeedbackDevice;
 import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
 import com.frc1747.commands.drive.DriveWithJoysticks_OLD;
 import com.frc1747.commands.drive.DriveWithJoysticks;
+import com.frc1747.commands.drive.DriveWithJoysticks3;
 import com.kauailabs.navx.frc.AHRS;
 
+import lib.frc1747.instrumentation.Instrumentation;
 import lib.frc1747.pid.PIDValues;
 import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
@@ -147,7 +150,7 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 	}
 
 	public void initDefaultCommand() {
-		setDefaultCommand(new DriveWithJoysticks());
+		setDefaultCommand(new DriveWithJoysticks3());
     }
 
 	@Override
@@ -195,6 +198,9 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 	}
 
 	public double getAverageSpeed(){
+		if(right == null || left == null){
+			return 0;
+		}
 		return (right.getSpeed() + left.getSpeed()) / 2;
 	}
 	
@@ -298,13 +304,20 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 	}
 
 	@Override
-	public double[] pidRead() {
+	public double[] pidRead(){
+		double[] output = new double[2];
+		output[0] = -getAverageSpeed();
+		if(getGyro() != null){
+			output[1] = getGyro().getRate();
+		}else{
+			Instrumentation.getLogger("DriveSubsystem").log(Level.INFO, "Gyro null");
+		}
 		return new double[2];
 	}
 
 	@Override
 	public void pidWrite(double[] output) {
-
+		driveArcadeMode(output[0], -output[1]);
 	}
 }
 

@@ -20,7 +20,7 @@ public class AutonTemplate extends CommandGroup{
 		profile = Autons.HOPPER;
 		Alliance alliance = DriverStation.getInstance().getAlliance();
 		
-		switch(profile){
+		/*switch(profile){
 		case HOPPER:
 			addParallel(new AutonExtend());
 			//these two run in parallel
@@ -43,6 +43,10 @@ public class AutonTemplate extends CommandGroup{
 			break;
 		default:
 			break;
-		}
+		}*/
+		
+		addParallel(new AutonExtend());
+		addSequential(DriveProfile.fromFile("/home/lvuser/hopper4_blue.csv"));
+		addSequential(new Shoot());
 	}	
 }

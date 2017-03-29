@@ -166,7 +166,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 			
 			// Initialize loop
 			timer = new Timer();
-			timer.scheduleAtFixedRate(new Calculate(), (long)Math.round(dt * 1000), (long)Math.round(dt * 1000));
+			timer.scheduleAtFixedRate(new Calculate(), 2000, (long)Math.round(dt * 1000));
 			oldTime = System.nanoTime();
 		}
 	}
