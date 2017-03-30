@@ -1,5 +1,10 @@
 package com.frc1747.commands.auton;
 
+import java.util.logging.Level;
+
+import lib.frc1747.instrumentation.Instrumentation;
+import lib.frc1747.instrumentation.Logger;
+
 import com.frc1747.Robot;
 import com.frc1747.Robot.Autons;
 import com.frc1747.commands.AutonAlign;
@@ -17,8 +22,11 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutonTemplate extends CommandGroup{
-	public AutonTemplate(Autons profile){
-		profile = Autons.HOPPER;
+	public AutonTemplate(Autons auton){
+		Logger logger = Instrumentation.getLogger("Auton Template");
+		logger.log(Level.INFO, "Running auton: " + auton.toString());
+		
+		auton = Autons.HOPPER;
 		Alliance alliance = DriverStation.getInstance().getAlliance();
 		
 		/*switch(profile){

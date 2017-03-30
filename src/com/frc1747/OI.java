@@ -50,6 +50,8 @@ public class OI {
 	private POVButton operatorDPadDown;
 	
 	static final double CLIMBER_POWER = 1.0;
+	
+	private AutonChooser chooser;
 		
 	private OI() {		
 		driver = new Logitech(RobotMap.DRIVER);
@@ -102,10 +104,14 @@ public class OI {
 		operator.getButton(Xbox.X).whileActive(new ConveyOut());
 		
 		// Auton chooser stuff
-		AutonChooser chooser = new AutonChooser(Autons.class);
+		chooser = new AutonChooser(Autons.class);
 		operatorDPadUp.whenPressed(new AutonNext(chooser));
 		operatorDPadDown.whenPressed(new AutonPrev(chooser));
 		chooser.start();
+	}
+	
+	public Enum<?> getSelectedAuton() {
+		return chooser.getSelectedAuton();
 	}
 	
 	private void createDashboard() {

@@ -70,7 +70,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		Scheduler.getInstance().removeAll();
 		ShifterSubsystem.getInstance().disableAutoshifting();
-		(auton = new AutonTemplate(autonChoice.getSelected())).start();
+		//(auton = new AutonTemplate(autonChoice.getSelected())).start();
+		(auton = new AutonTemplate((Autons)(OI.getInstance().getSelectedAuton()))).start();
 	}
 	
 	@Override

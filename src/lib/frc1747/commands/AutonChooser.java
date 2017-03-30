@@ -62,4 +62,8 @@ public class AutonChooser extends Command {
     	index--;
     	if(index < 0) index += modes.length;
     }
+    
+    public Enum<?> getSelectedAuton() {
+    	return modes[index];
+    }
 }
