@@ -25,8 +25,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	private static Instrumentation instance;
 	
 	// Logging directory location
-	//private static final String logDir = "C:/Users/Tiger/Documents/logs";
-	private static final String logDir = "/home/lvuser/logs";
+	private static final String logDir = "logs";
 	
 	// Message log format
 	private static final String format = "[%1$+d]{%2$d} %3$s\n" + "%4$s" + "%5$s: %6$s\n" + "%7$s\n";
@@ -149,8 +148,11 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 			// Log start information
 			logger.log(Level.INFO, "Logging started at %s", date);
 
+			// Get home directory
+			String homeDir = System.getProperty("user.home");
+			
 			// Attempt to initialize message log file
-			String messageFileName = logDir + "/" + dateString + ".log";
+			String messageFileName = homeDir + "/" + logDir + "/" + dateString + ".log";
 			try {
 				messageWriter = new PrintWriter(
 						new BufferedWriter(
@@ -165,7 +167,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 			}
 
 			// Attempt to initialize value log file
-			String valueFileName = logDir + "/" + dateString + ".csv";
+			String valueFileName = homeDir + "/" + logDir + "/" + dateString + ".csv";
 			try {
 				valueWriter = new PrintWriter(
 						new BufferedWriter(
