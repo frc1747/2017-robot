@@ -1,3 +1,6 @@
+package lib.frc1747.commands;
+
+import edu.wpi.first.wpilibj.command.Command;
 import lib.frc1747.instrumentation.Instrumentation;
 import lib.frc1747.instrumentation.Logger;
 
@@ -7,7 +10,7 @@ import lib.frc1747.instrumentation.Logger;
  * @author Tiger Huang
  *
  */
-public class AutonChooser {
+public class AutonChooser extends Command {
 	// Possible modes
 	private Enum<?>[] modes;
 	

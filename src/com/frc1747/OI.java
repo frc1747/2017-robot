@@ -1,6 +1,7 @@
 
 package com.frc1747;
 
+import com.frc1747.Robot.Autons;
 import com.frc1747.commands.IntakeShoot;
 import com.frc1747.commands.TeleopAlign;
 import com.frc1747.commands.AutonAlign;
@@ -26,6 +27,9 @@ import com.frc1747.commands.shooter.OpenGates;
 import com.frc1747.commands.shooter.Shoot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import lib.frc1747.commands.AutonChooser;
+import lib.frc1747.commands.AutonNext;
+import lib.frc1747.commands.AutonPrev;
 import lib.frc1747.controller.Logitech;
 import lib.frc1747.controller.Xbox;
 import lib.frc1747.controller.button.POVButton;
@@ -96,6 +100,12 @@ public class OI {
 		operator.getButton(Xbox.B).whenPressed(new Retract());
 		operator.getButton(Xbox.A).whileHeld(new ConveyIn());
 		operator.getButton(Xbox.X).whileActive(new ConveyOut());
+		
+		// Auton chooser stuff
+		AutonChooser chooser = new AutonChooser(Autons.class);
+		operatorDPadUp.whenPressed(new AutonNext(chooser));
+		operatorDPadDown.whenPressed(new AutonPrev(chooser));
+		chooser.start();
 	}
 	
 	private void createDashboard() {

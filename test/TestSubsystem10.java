@@ -21,12 +21,12 @@ public class TestSubsystem10 extends HBRSubsystem {
 	}
 	
 	enum test {
-		ONE, TWO
+		NONE, HOPPER, DRIVE_STRAIGHT
 	}
 
 	// Testing methods
 	public static void main(String[] args) {
-		new AutonChooser<test>();
+		new AutonChooser(test.class);
 	}
 	
 	double position = 0;

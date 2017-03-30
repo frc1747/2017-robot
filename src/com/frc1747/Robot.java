@@ -3,12 +3,12 @@ package com.frc1747;
 import java.util.logging.Level;
 
 import lib.frc1747.subsystems.HBRSubsystem;
+import lib.frc1747.commands.AutonChooser;
 import lib.frc1747.instrumentation.Instrumentation;
 import lib.frc1747.instrumentation.Logger;
 import lib.frc1747.motion_profile.generator._1d.ProfileGenerator;
 
 import com.frc1747.commands.UpdateDashboard;
-import com.frc1747.commands.auton.AutonChooser;
 import com.frc1747.commands.auton.AutonTemplate;
 import com.frc1747.commands.drive.DriveProfile;
 import com.frc1747.subsystems.ClimbSubsystem;
@@ -55,7 +55,6 @@ public class Robot extends IterativeRobot {
 		autonChoice.addObject("Hopper", Autons.HOPPER);
 		SmartDashboard.putData("Auton profile", autonChoice);
 		
-		(new AutonChooser<Autons>()).start();
 	}
 
 	@Override
@@ -116,7 +115,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public enum Autons {
-		HOPPER, GEAR_LEFT, GEAR_RIGHT
+		NONE, HOPPER, GEAR_LEFT, GEAR_RIGHT
 	}
 	
 	public static Compressor getCompressor(){
