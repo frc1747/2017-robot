@@ -406,6 +406,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	/**
 	 * An abstract method that needs to be implemented in order to send data to the PID/followers.
 	 * @return an array of sensor inputs to be consumed by the PID/followers<br>
+	 * The first set of values are the position values, and the second set of values are velocity values.
 	 * The size is expected to match the number of profiles. The index of each profile
 	 * can be determined with getFollowerIndex
 	 */
@@ -560,6 +561,8 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 					pv[i] = pv_raw[1][i];
 					break;
 				}
+				
+				System.out.println(pv[i] + "," + sp);
 				
 				// Calculate errors
 				ep[i] = sp - pv[i];

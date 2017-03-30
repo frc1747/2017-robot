@@ -13,14 +13,12 @@ import java.io.PrintWriter;
 import java.util.logging.Level;
 
 import com.ctre.CANTalon.FeedbackDevice;
-import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
-import com.frc1747.commands.drive.DriveWithJoysticks_OLD;
-import com.frc1747.commands.drive.DriveWithJoysticks;
 import com.frc1747.commands.drive.DriveWithJoysticks3;
 import com.kauailabs.navx.frc.AHRS;
 
 import lib.frc1747.instrumentation.Instrumentation;
+import lib.frc1747.instrumentation.Logger;
 import lib.frc1747.pid.PIDValues;
 import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
@@ -68,21 +66,27 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 	private double oldZAccel = 0;
 	PrintWriter write;
 	
+	private Logger logger;
+	
 	//profile followers
 	public enum Follower {
 		DISTANCE, ANGLE
 	}
 	
 	private DriveSubsystem() {
+		logger = Instrumentation.getLogger("Drive Subsystem");
+		
 		left = new DriveSide(RobotMap.LEFT_DRIVE_MOTOR1, RobotMap.LEFT_DRIVE_MOTOR2,
 				RobotMap.LEFT_DRIVE_MOTOR1_INVERTED, RobotMap.LEFT_DRIVE_MOTOR2_INVERTED, RobotMap.LEFT_DRIVE_SENSOR_REVERSED);
 		right = new DriveSide(RobotMap.RIGHT_DRIVE_MOTOR1, RobotMap.RIGHT_DRIVE_MOTOR2,
 				RobotMap.RIGHT_DRIVE_MOTOR1_INVERTED, RobotMap.RIGHT_DRIVE_MOTOR2_INVERTED, RobotMap.RIGHT_DRIVE_SENSOR_REVERSED);
 		left.setPIDF(leftLowPIDForward.P, leftLowPIDForward.I, leftLowPIDForward.D, leftLowPIDForward.F);
 		right.setPIDF(rightLowPIDForward.P, rightLowPIDForward.I, rightLowPIDForward.D, rightLowPIDForward.F);
-		gyro = new AHRS(SPI.Port.kMXP);
 		left.setScaling(LEFT_SCALING_CONSTANT);
 		right.setScaling(RIGHT_SCALING_CONSTANT);
+		
+		gyro = new AHRS(SPI.Port.kMXP);
+		
 		pidController = new PIDController(gyroPIDValues.P, gyroPIDValues.I, gyroPIDValues.D, gyroPIDValues.F, gyro, this);
 		pidController.setAbsoluteTolerance(1);
 		pidController.setOutputRange(-1, 1);
@@ -92,6 +96,8 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 		}catch(Exception e){
 			e.printStackTrace();
 		}*/
+		
+		
 		SmartDashboard.putData("Gyro PID",pidController);
 	}
 	
@@ -179,7 +185,6 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 		SmartDashboard.putNumber("Right Drive Position", getRightPosition());
 		SmartDashboard.putNumber("Average Position", getAveragePosition());
 		SmartDashboard.putNumber("Average speed", getAverageSpeed());
-		
 	}
 
 	
@@ -300,9 +305,9 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 	public double[][] pidRead(){
 		double[][] output = new double[2][2];
 		output[0][0] = getAveragePosition();
-		output[0][1] = -getGyro().getAngle();
+		output[0][1] = (2 * Math.PI) * ((-getGyro().getAngle()) / 360);
 		output[1][0] = getAverageSpeed();
-		output[1][1] = -getGyro().getRate();
+		output[1][1] = (2 * Math.PI) * (-getGyro().getRate() / 360);
 		return output;
 	}
 

@@ -186,6 +186,15 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 			
 			// Make headers
 			if(valueWriter != null) {
+				// Which logger
+				for(LoggedValue value:values) {
+					if(value.willLogToFile()) {
+						valueWriter.print(value.getLogger() + ", ");
+					}
+				}
+				valueWriter.println();
+				
+				// The value name
 				for(LoggedValue value:values) {
 					if(value.willLogToFile()) {
 						valueWriter.print(value.getName() + ", ");
@@ -261,13 +270,13 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 			for(LoggedValue value:values) {
 				if(value.willLogToSD()) {
 					if(value instanceof LoggedDouble)
-						SmartDashboard.putNumber(value.getName(), ((LoggedDouble)value).value);
+						SmartDashboard.putNumber(value.getLogger() + ": " + value.getName(), ((LoggedDouble)value).value);
 					if(value instanceof LoggedString)
-						SmartDashboard.putString(value.getName(), ((LoggedString)value).value);
+						SmartDashboard.putString(value.getLogger() + ": " + value.getName(), ((LoggedString)value).value);
 					if(value instanceof LoggedBoolean)
-						SmartDashboard.putBoolean(value.getName(), ((LoggedBoolean)value).value);
+						SmartDashboard.putBoolean(value.getLogger() + ": " + value.getName(), ((LoggedBoolean)value).value);
 					if(value instanceof LoggedSendable)
-						SmartDashboard.putData(value.getName(), ((LoggedSendable)value).value);
+						SmartDashboard.putData(value.getLogger() + ": " + value.getName(), ((LoggedSendable)value).value);
 				}
 			}
 		}
@@ -289,7 +298,6 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 				valueWriter.println();
 			}
 			
-			// TODO Remove (Testing right now)
 			flushAll();
 		}	
 	}

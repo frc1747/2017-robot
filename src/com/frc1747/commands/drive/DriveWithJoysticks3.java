@@ -28,6 +28,7 @@ public class DriveWithJoysticks3 extends Command {
     	// Setup left side
     	drive.setMode(DriveSubsystem.Follower.DISTANCE, HBRSubsystem.Mode.PID);
     	drive.setPIDMode(DriveSubsystem.Follower.DISTANCE, HBRSubsystem.PIDMode.VELOCITY);
+    	drive.setILimit(DriveSubsystem.Follower.DISTANCE, 0);
     	drive.setFeedforward(DriveSubsystem.Follower.DISTANCE, 0, 1 / s_v_max, 0);
     	drive.setFeedback(DriveSubsystem.Follower.DISTANCE, -0.01, 0, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.DISTANCE);
@@ -35,6 +36,7 @@ public class DriveWithJoysticks3 extends Command {
     	// Setup right side
     	drive.setMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.Mode.PID);
     	drive.setPIDMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.PIDMode.VELOCITY);
+    	drive.setILimit(DriveSubsystem.Follower.ANGLE, 0);
     	drive.setFeedforward(DriveSubsystem.Follower.ANGLE, 0, 1 / 6.71, 0);
     	drive.setFeedback(DriveSubsystem.Follower.ANGLE, 0.4, 0, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.ANGLE);

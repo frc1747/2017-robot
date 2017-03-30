@@ -8,6 +8,7 @@ import com.frc1747.commands.Delay;
 import com.frc1747.commands.collector.Extend;
 import com.frc1747.commands.collector.Retract;
 import com.frc1747.commands.drive.DriveProfile;
+import com.frc1747.commands.drive.DriveProfile2;
 import com.frc1747.commands.drive.Rotate;
 import com.frc1747.commands.shooter.Shoot;
 
@@ -46,7 +47,9 @@ public class AutonTemplate extends CommandGroup{
 		}*/
 		
 		addParallel(new AutonExtend());
-		addSequential(DriveProfile.fromFile("/home/lvuser/hopper4_blue.csv"));
+		//addSequential(DriveProfile.fromFile("/home/lvuser/hopper4_blue.csv"));
+		addSequential(new DriveProfile2("/home/lvuser/hopper4_blue.csv"));
+		addParallel(new AutonStopMotors());
 		addSequential(new Shoot());
 	}	
 }
