@@ -54,10 +54,12 @@ public class AutonTemplate extends CommandGroup{
 			break;
 		}*/
 		
-		addParallel(new AutonExtend());
 		//addSequential(DriveProfile.fromFile("/home/lvuser/hopper4_blue.csv"));
+		addSequential(new AutonStopMotors());
 		addSequential(new DriveProfile2("/home/lvuser/hopper4_blue.csv"));
+		addParallel(new AutonExtend());
 		addParallel(new AutonStopMotors());
+		addParallel(new Rotate(27.6));
 		addSequential(new Shoot());
 	}	
 }

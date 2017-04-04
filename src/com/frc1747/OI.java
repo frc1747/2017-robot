@@ -46,8 +46,7 @@ public class OI {
 	private POVButton dPadRight;
 	private POVButton dPadDown;
 	
-	private POVButton operatorDPadUp;
-	private POVButton operatorDPadDown;
+	private POVButton operatorDPadUp, operatorDPadDown, operatorDPadLeft, operatorDPadRight;
 	
 	static final double CLIMBER_POWER = 1.0;
 	
@@ -105,7 +104,11 @@ public class OI {
 		
 		// Auton chooser stuff
 		chooser = new AutonChooser(Autons.class);
-		operatorDPadUp.whenPressed(new AutonNext(chooser));
+		
+		operatorDPadLeft = new POVButton(operator, Xbox.LEFT);
+		operatorDPadLeft.whenPressed(new AutonNext(chooser));
+		
+		operatorDPadRight = new POVButton(operator, Xbox.RIGHT);
 		operatorDPadDown.whenPressed(new AutonPrev(chooser));
 		chooser.start();
 	}

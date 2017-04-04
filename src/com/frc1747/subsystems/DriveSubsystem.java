@@ -302,12 +302,17 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower> implem
 	}
 
 	@Override
-	public double[][] pidRead(){
+	public double[][] pidRead(){		
 		double[][] output = new double[2][2];
-		output[0][0] = getAveragePosition();
-		output[0][1] = (2 * Math.PI) * ((-getGyro().getAngle()) / 360);
 		output[1][0] = getAverageSpeed();
+		output[0][0] = getAveragePosition();
+		if(!isPIDMode(Follower.ANGLE)){
+		output[0][1] = (2 * Math.PI) * ((-getGyro().getAngle()) / 360);
 		output[1][1] = (2 * Math.PI) * (-getGyro().getRate() / 360);
+		}else{
+			output[0][1] = -getGyro().getAngle();
+			output[1][1] = -getGyro().getRate();
+		}
 		return output;
 	}
 
