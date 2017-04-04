@@ -320,6 +320,17 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	}
 	
 	/**
+	 * Checks if the mode of the follower is PID (e.g. when driving in teleop)
+	 * @param follower - which follower to check
+	 * @return whether the follower is in PID mode or not (boolean)
+	 */
+	public boolean isPIDMode(E follower){
+		int i = getFollowerIndex(follower);
+		
+		return this.mode[i] == Mode.PID;
+	}
+	
+	/**
 	 * Sets a specific PID/follower to either PID mode or motion profile follower mode.
 	 * @param follower - which PID/follower to use when setting this parameter
 	 * @param mode - either PID mode or motion profile follower mode

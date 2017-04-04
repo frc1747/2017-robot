@@ -21,6 +21,9 @@ public class DriveProfile2 extends Command {
     	double[][][] profiles = HBRSubsystem.readProfilesFromFile(filename);
 
     	// Setup left side
+//    	drive.resetEncoders();
+//    	drive.getGyro().zeroYaw();
+
     	drive.setMode(DriveSubsystem.Follower.DISTANCE, HBRSubsystem.Mode.FOLLOWER);
     	drive.setPIDMode(DriveSubsystem.Follower.DISTANCE, HBRSubsystem.PIDMode.POSITION);
     	drive.setILimit(DriveSubsystem.Follower.DISTANCE, 0);
@@ -37,10 +40,7 @@ public class DriveProfile2 extends Command {
     	drive.setFeedback(DriveSubsystem.Follower.ANGLE, 1.66, 0.01, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.ANGLE);
     	drive.setProfile(DriveSubsystem.Follower.ANGLE, profiles[1]);
-    	
-    	drive.getGyro().zeroYaw();
-    	drive.resetEncoders();
-    	
+    	    	
     	// Enable the pids
     	drive.resume(DriveSubsystem.Follower.DISTANCE);
     	drive.resume(DriveSubsystem.Follower.ANGLE);
