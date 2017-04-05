@@ -330,7 +330,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	}
 	
 	/**
-	 * Sets a specific PID/follower use either position or velocity PID.
+	 * Sets a specific PID/follower to use either position or velocity PID.
 	 * @param follower - which PID/follower to use when setting this parameter
 	 * @param pidMode - either position or velocity mode
 	 */
@@ -343,6 +343,16 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 			throw new IllegalArgumentException(pidMode + " is not a valid PID mode.");
 		}
 		this.pidMode[i] = pidMode;
+	}
+	
+	/**
+	 * Checks if a specific PID/follower is using position or velocity PID.
+	 * @param follower - which PID/follower to use when getting this parameter
+	 * @return if the specified PID/follower is in position or velocity mode
+	 */
+	public PIDMode getPIDMode(E follower) {
+		int i = getFollowerIndex(follower);
+		return this.pidMode[i];
 	}
 	
 	/**
@@ -363,6 +373,16 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 		// Ensure a profile variable exists
 		this.profile[i] = new double[1][3];
 		this.index[i] = 0;
+	}
+	
+	/**
+	 * Checks if a specific PID/follower is in PID mode or motion profile follower mode.
+	 * @param follower - which PID/follower to use when getting this parameter
+	 * @return mode - if the specified PID/follower is in PID mode or motion profile follower mode.
+	 */
+	public Mode getMode(E follower) {
+		int i = getFollowerIndex(follower);
+		return this.mode[i];
 	}
 	
 	/**
