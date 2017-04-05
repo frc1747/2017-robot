@@ -35,7 +35,10 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	private PrintWriter valueWriter;
 	
 	// Timer to run async operations
-	private Timer timer;
+	private Timer timer_delayedInit;
+	private Timer timer_messagePeriodic;
+	private Timer timer_valueSDPeriodic;
+	private Timer timer_valueFilePeriodic;
 	
 	// Logger sources
 	private Vector<Logger> loggers;
@@ -64,15 +67,6 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	}
 	
 	/**
-	 * Flushes all output buffers
-	 */
-	protected void flushAll() {
-		System.out.flush();
-		if(messageWriter != null) messageWriter.flush();
-		if(valueWriter != null) valueWriter.flush();
-	}
-	
-	/**
 	 * Adds a message to the queue. Normal users should not be directly adding
 	 * messages to the queue.
 	 * @param message the message to be logged
@@ -86,7 +80,10 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	 */
 	private Instrumentation() {
 		// Init lists
-		timer = new Timer();
+		timer_delayedInit = new Timer();
+		timer_messagePeriodic = new Timer();
+		timer_valueSDPeriodic = new Timer();
+		timer_valueFilePeriodic = new Timer();
 		messages = new ConcurrentLinkedQueue<>();
 		loggers = new Vector<>();
 		values = new Vector<>();
@@ -99,7 +96,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 		logger.setLevel(Level.INFO);
 		
 		// Give other code 1 second to initialize
-		timer.schedule(new DelayedInit(), 10 * 1000);
+		timer_delayedInit.schedule(new DelayedInit(), 10 * 1000);
 	}
 	
 	/**
@@ -206,9 +203,9 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 			}
 
 			// Actually start other tasks
-			timer.scheduleAtFixedRate(new MessagePeriodic(), 0, 100);
-			timer.scheduleAtFixedRate(new ValueSDPeriodic(), 0, 100);
-			timer.scheduleAtFixedRate(new ValueFilePeriodic(), 0, 10);
+			timer_messagePeriodic.scheduleAtFixedRate(new MessagePeriodic(), 0, 100);
+			timer_valueSDPeriodic.scheduleAtFixedRate(new ValueSDPeriodic(), 0, 100);
+			timer_valueFilePeriodic.scheduleAtFixedRate(new ValueFilePeriodic(), 0, 10);
 		}
 	}
 	
@@ -257,6 +254,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 				System.out.print(output);
 				if(messageWriter != null) {
 					messageWriter.print(output);
+					messageWriter.flush();
 				}
 			}
 		}
@@ -299,9 +297,8 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 					}
 				}
 				valueWriter.println();
+				valueWriter.flush();
 			}
-			
-			flushAll();
 		}	
 	}
 

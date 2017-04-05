@@ -105,11 +105,4 @@ public class Logger {
 		record.setThrown(thrown);
 		instrumentation.addMessage(record);
 	}
-
-	/**
-	 * Flushes all output of the single instrumentation
-	 */
-	public void flushAll() {
-		instrumentation.flushAll();
-	}
 }
