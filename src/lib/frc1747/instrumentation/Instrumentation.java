@@ -100,7 +100,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 		logger.setLevel(Level.INFO);
 		
 		// Give other code 1 second to initialize
-		timer.schedule(new DelayedInit(), 1 * 1000);
+		timer.schedule(new DelayedInit(), 10 * 1000);
 	}
 	
 	/**
@@ -290,6 +290,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 		@Override
 		public void run() {
 			if(valueWriter != null) {
+				System.out.println(values.size());
 				for(LoggedValue value:values) {
 					if(value.willLogToFile()) {
 						valueWriter.print(value.toString() + ", ");

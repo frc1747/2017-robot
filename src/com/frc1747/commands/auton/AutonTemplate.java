@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import lib.frc1747.instrumentation.Instrumentation;
 import lib.frc1747.instrumentation.Logger;
 
+import com.frc1747.OI;
 import com.frc1747.Robot;
 import com.frc1747.Robot.Autons;
 import com.frc1747.commands.AutonAlign;
@@ -20,14 +21,23 @@ import com.frc1747.commands.shooter.Shoot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonTemplate extends CommandGroup{
+	
+	public String fromChooser;
+	private OI oi;
+	
 	public AutonTemplate(Autons auton){
 		Logger logger = Instrumentation.getLogger("Auton Template");
 		logger.log(Level.INFO, "Running auton: " + auton.toString());
 		
+		oi = OI.getInstance();
+		
 		auton = Autons.HOPPER;
 		Alliance alliance = DriverStation.getInstance().getAlliance();
+		
+		fromChooser = oi.getSelectedAuton().toString();
 		
 		/*switch(profile){
 		case HOPPER:
@@ -54,12 +64,16 @@ public class AutonTemplate extends CommandGroup{
 			break;
 		}*/
 		
+		logger.log(Level.INFO, fromChooser);
+		
+		SmartDashboard.putString("SendableChooser", fromChooser);
+		
 		//addSequential(DriveProfile.fromFile("/home/lvuser/hopper4_blue.csv"));
 		addSequential(new AutonStopMotors());
 		addSequential(new DriveProfile2("/home/lvuser/hopper4_blue.csv"));
 		addParallel(new AutonExtend());
 		addParallel(new AutonStopMotors());
-		addParallel(new Rotate(27.6));
+		addParallel(new Rotate(37.6));
 		addSequential(new Shoot());
-	}	
+	}
 }

@@ -120,6 +120,7 @@ public class OI {
 	private void createDashboard() {
 		SmartDashboard.putData("ShiftUp", new ShiftUp());
 		SmartDashboard.putData("ShiftDown", new ShiftDown());
+		SmartDashboard.putData("AutonNext", new AutonNext(chooser));
 	}
 	
 	public static OI getInstance(){
