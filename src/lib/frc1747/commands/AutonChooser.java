@@ -1,5 +1,9 @@
 package lib.frc1747.commands;
 
+import java.util.logging.Level;
+
+import com.frc1747.commands.auton.AutonTemplate;
+
 import edu.wpi.first.wpilibj.command.Command;
 import lib.frc1747.instrumentation.Instrumentation;
 import lib.frc1747.instrumentation.Logger;
@@ -36,7 +40,9 @@ public class AutonChooser extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	logger.log(Level.INFO, modes[index].toString());
     	logger.putString("Selected Auton", modes[index].toString());
+    	System.out.println("***********Auton*************");
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -54,16 +60,22 @@ public class AutonChooser extends Command {
     }
     
     public void nextAuton() {
+    	logger.log(Level.INFO, "***NEXT AUTON***");
     	index++;
     	if(index >= modes.length) index -= modes.length;
     }
     
     public void prevAuton() {
+    	logger.log(Level.INFO, "***PREV AUTON***");
     	index--;
     	if(index < 0) index += modes.length;
     }
     
     public Enum<?> getSelectedAuton() {
     	return modes[index];
+    }
+    
+    public String getAutonString(){
+    	return modes[index].toString();
     }
 }

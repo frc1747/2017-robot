@@ -96,6 +96,8 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		HBRSubsystem.update();
+		logger.log(Level.INFO, "*************Test**************");
+		//System.out.println(OI.getInstance().getDriver().getButton(3).get());
 	}
 
 	@Override

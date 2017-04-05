@@ -37,8 +37,8 @@ public class DriveWithJoysticks3 extends Command {
     	drive.setMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.Mode.PID);
     	drive.setPIDMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.PIDMode.VELOCITY);
     	drive.setILimit(DriveSubsystem.Follower.ANGLE, 0);
-    	drive.setFeedforward(DriveSubsystem.Follower.ANGLE, 0, 1 / 6.71, 0);
-    	drive.setFeedback(DriveSubsystem.Follower.ANGLE, 0.4, 0, 0);
+    	drive.setFeedforward(DriveSubsystem.Follower.ANGLE, 0, 0.0026/*1 / 6.71*/, 0);
+    	drive.setFeedback(DriveSubsystem.Follower.ANGLE, 0.0070/*0.4*/, 0, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.ANGLE);
     	
     	// Enable the pids

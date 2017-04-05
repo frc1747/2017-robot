@@ -3,14 +3,19 @@ package lib.frc1747.subsystems;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import lib.frc1747.instrumentation.Instrumentation;
+import lib.frc1747.instrumentation.Logger;
 import lib.frc1747.motion_profile.Parameters;
 import lib.frc1747.motion_profile.generator._1d.ProfileGenerator;
 import lib.frc1747.motion_profile.generator._2d.SplineGenerator;
@@ -27,6 +32,9 @@ import lib.frc1747.motion_profile.gui._1d.BoxcarFilter;
  * @param <E> An enum that lists the different PID/followers (e.g. distance & angle).
  */
 public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
+	Logger logger;
+	PrintWriter print;
+	
 	// Followers to use
 	private E[] followers;
 	private int n_followers;
@@ -101,8 +109,26 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	 * @param dt - the timestep to use for PID and motion profiling (rounded to the nearest millisecond)
 	 */
 	protected HBRSubsystem(String name, double dt) {
+		
+		
 		// Initialize subsystem
 		super();
+		
+		try{
+			print = new PrintWriter(
+					new FileOutputStream(
+					File.createTempFile("log_", ".csv",
+							new File("/home/lvuser")), true));
+		}
+		catch(IOException ex) {
+			ex.printStackTrace();
+		}
+		
+		logger = Instrumentation.getLogger("Drive Subsystem");
+		logger.registerDouble("ProfileDistance", false, true);
+		logger.registerDouble("ActualDistance", false, true);
+		logger.registerDouble("ProfileAngle", false, true);
+		logger.registerDouble("ActualAngle", false, true);
 		
 		// Maintaining compatibility with previous versions
 		subsystems.add(this);
@@ -320,17 +346,6 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	}
 	
 	/**
-	 * Checks if the mode of the follower is PID (e.g. when driving in teleop)
-	 * @param follower - which follower to check
-	 * @return whether the follower is in PID mode or not (boolean)
-	 */
-	public boolean isPIDMode(E follower){
-		int i = getFollowerIndex(follower);
-		
-		return this.mode[i] == Mode.PID;
-	}
-	
-	/**
 	 * Sets a specific PID/follower to either PID mode or motion profile follower mode.
 	 * @param follower - which PID/follower to use when setting this parameter
 	 * @param mode - either PID mode or motion profile follower mode
@@ -545,6 +560,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 			// Read in the sensors
 			double[][] pv_raw = internalPidRead();
 			double[] pv = new double[n_followers];
+			double[] setPoints = new double[n_followers];
 			
 			// Calculate delta time
 			long time = System.nanoTime();
@@ -572,8 +588,9 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 					pv[i] = pv_raw[1][i];
 					break;
 				}
+				setPoints[i] = sp;
 				
-				System.out.println(pv[i] + "," + sp);
+//				System.out.println(pv[i] + "," + sp);
 				
 				// Calculate errors
 				ep[i] = sp - pv[i];
@@ -608,7 +625,16 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 					running[i] = false;
 				}
 			}
+			if(print != null) {
+				print.format("%.4f, %.4f, %.4f, %.4f\n", setPoints[0], pv[0], setPoints[1], pv[1]);
+				//				//System.out.println("LOG")
+				print.flush();
+			}
 			
+			logger.putDouble("ActualDistance", pv[0]);
+			logger.putDouble("ActualAngle", pv[1]);
+			logger.putDouble("ProfileDistance", setPoints[0]);
+			logger.putDouble("ProfileAngle", setPoints[1]);
 			// Update sensor values
 			sensor = pv;
 			
