@@ -4,6 +4,7 @@ import java.util.logging.Level;
 
 import lib.frc1747.subsystems.HBRSubsystem;
 import lib.frc1747.commands.AutonChooser;
+import lib.frc1747.controller.Logitech;
 import lib.frc1747.instrumentation.Instrumentation;
 import lib.frc1747.instrumentation.Logger;
 import lib.frc1747.motion_profile.generator._1d.ProfileGenerator;
@@ -34,8 +35,12 @@ public class Robot extends IterativeRobot {
 	Command auton;
 	SendableChooser<Autons> autonChoice;
 	DriveSubsystem drive;
+	boolean aButtonState, bButtonState;
 	
 	Logger logger;
+	
+	Autons[] modes;
+	int index;
 
 	@Override
 	public void robotInit() {
@@ -55,6 +60,13 @@ public class Robot extends IterativeRobot {
 		autonChoice.addObject("Hopper", Autons.HOPPER);
 		SmartDashboard.putData("Auton profile", autonChoice);
 		
+		aButtonState = false;
+		bButtonState = false;
+		
+		modes = Autons.class.getEnumConstants();
+		index = 0;
+    	logger.registerString("Selected Auton", true, false);
+    	logger.putString("Selected Auton", modes[index].toString());
 	}
 
 	@Override
@@ -96,8 +108,17 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		HBRSubsystem.update();
-		logger.log(Level.INFO, "*************Test**************");
+    	logger.putString("Selected Auton", modes[index].toString());
 		//System.out.println(OI.getInstance().getDriver().getButton(3).get());
+		
+		if(!aButtonState && OI.getInstance().getOperator().getButton(Logitech.A).get()){
+			nextAuton();
+		}
+		aButtonState = OI.getInstance().getOperator().getButton(Logitech.A).get();
+		if(!bButtonState && OI.getInstance().getOperator().getButton(Logitech.B).get()){
+			prevAuton();
+		}
+		bButtonState = OI.getInstance().getOperator().getButton(Logitech.B).get();
 	}
 
 	@Override
@@ -127,5 +148,17 @@ public class Robot extends IterativeRobot {
 		}
 		return compressor;
 	}
+	
+    public void nextAuton() {
+    	logger.log(Level.INFO, "***NEXT AUTON***");
+    	index++;
+    	if(index >= modes.length) index -= modes.length;
+    }
+    
+    public void prevAuton() {
+    	logger.log(Level.INFO, "***PREV AUTON***");
+    	index--;
+    	if(index < 0) index += modes.length;
+    }
 }
 
