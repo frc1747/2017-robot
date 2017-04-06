@@ -271,8 +271,10 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 				if(value.willLogToSD()) {
 					if(value instanceof LoggedDouble)
 						SmartDashboard.putNumber(value.getLogger() + ": " + value.getName(), ((LoggedDouble)value).value);
-					if(value instanceof LoggedString)
-						SmartDashboard.putString(value.getLogger() + ": " + value.getName(), ((LoggedString)value).value);
+					if(value instanceof LoggedString) {
+						String stringValue = ((LoggedString)value).value;
+						SmartDashboard.putString(value.getLogger() + ": " + value.getName(), stringValue != null ? stringValue : "");
+					}
 					if(value instanceof LoggedBoolean)
 						SmartDashboard.putBoolean(value.getLogger() + ": " + value.getName(), ((LoggedBoolean)value).value);
 					if(value instanceof LoggedSendable)
@@ -290,7 +292,6 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 		@Override
 		public void run() {
 			if(valueWriter != null) {
-				System.out.println(values.size());
 				for(LoggedValue value:values) {
 					if(value.willLogToFile()) {
 						valueWriter.print(value.toString() + ", ");

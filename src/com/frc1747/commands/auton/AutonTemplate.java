@@ -6,13 +6,9 @@ import lib.frc1747.instrumentation.Instrumentation;
 import lib.frc1747.instrumentation.Logger;
 
 import com.frc1747.OI;
-import com.frc1747.Robot;
 import com.frc1747.Robot.Autons;
 import com.frc1747.commands.AutonAlign;
 import com.frc1747.commands.Delay;
-//import com.frc1747.commands.auton.BoilerHorizontalAutoAlign;
-import com.frc1747.commands.collector.Extend;
-import com.frc1747.commands.collector.Retract;
 import com.frc1747.commands.drive.DriveProfile;
 import com.frc1747.commands.drive.DriveProfile2;
 import com.frc1747.commands.drive.Rotate;
@@ -21,26 +17,17 @@ import com.frc1747.commands.shooter.Shoot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutonTemplate extends CommandGroup{
-	
-	public String fromChooser;
-	private OI oi;
-	
 	public AutonTemplate(Autons auton){
 		Logger logger = Instrumentation.getLogger("Auton Template");
 		logger.log(Level.INFO, "Running auton: " + auton.toString());
 		
-		oi = OI.getInstance();
-		
-		auton = Autons.HOPPER;
 		Alliance alliance = DriverStation.getInstance().getAlliance();
+		logger.log(Level.INFO, "Alliance: " + alliance.toString());
 		
-		fromChooser = oi.getSelectedAuton().toString();
-		
-		/*switch(profile){
-		case HOPPER:
+		switch(auton){
+		case HOPPER1:
 			addParallel(new AutonExtend());
 			//these two run in parallel
 			if(alliance == Alliance.Red){
@@ -49,7 +36,8 @@ public class AutonTemplate extends CommandGroup{
 				addParallel(new AutonBallClear());
 				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3b_red.csv"));
 				addSequential(new Rotate(42));
-			}else{
+			}
+			else {
 				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3a_blue.csv"));
 				addSequential(new Delay(1250));
 				addParallel(new AutonBallClear());
@@ -62,18 +50,6 @@ public class AutonTemplate extends CommandGroup{
 			break;
 		default:
 			break;
-		}*/
-		
-		logger.log(Level.INFO, fromChooser);
-		
-		SmartDashboard.putString("SendableChooser", fromChooser);
-		
-		//addSequential(DriveProfile.fromFile("/home/lvuser/hopper4_blue.csv"));
-		addSequential(new AutonStopMotors());
-		addSequential(new DriveProfile2("/home/lvuser/hopper4_blue.csv"));
-		addParallel(new AutonExtend());
-		addParallel(new AutonStopMotors());
-		addParallel(new Rotate(37.6));
-		addSequential(new Shoot());
+		}
 	}
 }

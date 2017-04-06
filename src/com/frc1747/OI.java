@@ -9,7 +9,6 @@ import com.frc1747.commands.BoilerHorizontal;
 import com.frc1747.commands.auton.AutoShoot;
 import com.frc1747.commands.auton.BackupBoilerVerticalAlign;
 import com.frc1747.commands.auton.BoilerAlign;
-//import com.frc1747.commands.auton.BoilerHorizontalAutoAlign;
 import com.frc1747.commands.auton.BoilerVerticalAutoAlign;
 import com.frc1747.commands.climb.Climb;
 import com.frc1747.commands.climb.ClimbPower;
@@ -27,9 +26,6 @@ import com.frc1747.commands.shooter.OpenGates;
 import com.frc1747.commands.shooter.Shoot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import lib.frc1747.commands.AutonChooser;
-import lib.frc1747.commands.AutonNext;
-import lib.frc1747.commands.AutonPrev;
 import lib.frc1747.controller.Logitech;
 import lib.frc1747.controller.Xbox;
 import lib.frc1747.controller.button.POVButton;
@@ -49,8 +45,6 @@ public class OI {
 	private POVButton operatorDPadUp, operatorDPadDown, operatorDPadLeft, operatorDPadRight;
 	
 	static final double CLIMBER_POWER = 1.0;
-	
-	private AutonChooser chooser;
 		
 	private OI() {		
 		driver = new Logitech(RobotMap.DRIVER);
@@ -101,26 +95,11 @@ public class OI {
 		operator.getButton(Xbox.B).whenPressed(new Retract());
 		operator.getButton(Xbox.A).whileHeld(new ConveyIn());
 		operator.getButton(Xbox.X).whileActive(new ConveyOut());
-		
-		// Auton chooser stuff
-		chooser = new AutonChooser(Autons.class);
-		
-		operatorDPadLeft = new POVButton(operator, Xbox.LEFT);
-		operatorDPadLeft.whenPressed(new AutonNext(chooser));
-		
-		operatorDPadRight = new POVButton(operator, Xbox.RIGHT);
-		operatorDPadDown.whenPressed(new AutonPrev(chooser));
-		chooser.start();
-	}
-	
-	public Enum<?> getSelectedAuton() {
-		return chooser.getSelectedAuton();
 	}
 	
 	private void createDashboard() {
 		SmartDashboard.putData("ShiftUp", new ShiftUp());
 		SmartDashboard.putData("ShiftDown", new ShiftDown());
-		SmartDashboard.putData("AutonNext", new AutonNext(chooser));
 	}
 	
 	public static OI getInstance(){

@@ -3,15 +3,12 @@ package com.frc1747;
 import java.util.logging.Level;
 
 import lib.frc1747.subsystems.HBRSubsystem;
-import lib.frc1747.commands.AutonChooser;
 import lib.frc1747.controller.Logitech;
 import lib.frc1747.instrumentation.Instrumentation;
 import lib.frc1747.instrumentation.Logger;
-import lib.frc1747.motion_profile.generator._1d.ProfileGenerator;
 
 import com.frc1747.commands.UpdateDashboard;
 import com.frc1747.commands.auton.AutonTemplate;
-import com.frc1747.commands.drive.DriveProfile;
 import com.frc1747.subsystems.ClimbSubsystem;
 import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
@@ -25,7 +22,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
@@ -33,7 +29,6 @@ public class Robot extends IterativeRobot {
 	static Compressor compressor;
 	
 	Command auton;
-	SendableChooser<Autons> autonChoice;
 	DriveSubsystem drive;
 	boolean aButtonState, bButtonState;
 	
@@ -44,9 +39,6 @@ public class Robot extends IterativeRobot {
 
 	@Override
 	public void robotInit() {
-//		SendableChooser autoChooser = new SendableChooser();
-//		autoChooser.addDefault("Position 1", object);
-		
 		logger = Instrumentation.getLogger("Robot");
 		logger.log(Level.INFO, "Robot Init");
 		
@@ -54,12 +46,7 @@ public class Robot extends IterativeRobot {
 		initSubsystems();
 		SmartDashboard.putNumber("Auton Shoot Time", 5000);
 		
-		autonChoice = new SendableChooser<>();
-//		autonChoice.addObject("Correct gear order", Autons.GEAR_LEFT);
-//		autonChoice.addObject("reversed gear order", Autons.GEAR_RIGHT);
-		autonChoice.addObject("Hopper", Autons.HOPPER);
-		SmartDashboard.putData("Auton profile", autonChoice);
-		
+		// Initialize the auton chooser
 		aButtonState = false;
 		bButtonState = false;
 		
@@ -83,7 +70,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().removeAll();
 		ShifterSubsystem.getInstance().disableAutoshifting();
 		//(auton = new AutonTemplate(autonChoice.getSelected())).start();
-		(auton = new AutonTemplate((Autons)(OI.getInstance().getSelectedAuton()))).start();
+		(auton = new AutonTemplate(modes[index])).start();
 	}
 	
 	@Override
@@ -108,9 +95,8 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		HBRSubsystem.update();
-    	logger.putString("Selected Auton", modes[index].toString());
-		//System.out.println(OI.getInstance().getDriver().getButton(3).get());
 		
+		// Auton chooser
 		if(!aButtonState && OI.getInstance().getOperator().getButton(Logitech.A).get()){
 			nextAuton();
 		}
@@ -119,6 +105,8 @@ public class Robot extends IterativeRobot {
 			prevAuton();
 		}
 		bButtonState = OI.getInstance().getOperator().getButton(Logitech.B).get();
+		
+    	logger.putString("Selected Auton", modes[index].toString());
 	}
 
 	@Override
@@ -139,7 +127,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public enum Autons {
-		NONE, HOPPER, GEAR_LEFT, GEAR_RIGHT
+		NONE, HOPPER1, HOPPER2, GEAR_LEFT, GEAR_RIGHT
 	}
 	
 	public static Compressor getCompressor(){
@@ -149,6 +137,7 @@ public class Robot extends IterativeRobot {
 		return compressor;
 	}
 	
+	// Auton Chooser handling
     public void nextAuton() {
     	logger.log(Level.INFO, "***NEXT AUTON***");
     	index++;
