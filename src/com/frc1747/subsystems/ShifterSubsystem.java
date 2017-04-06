@@ -24,7 +24,7 @@ public class ShifterSubsystem extends HBRSubsystem {
 	private static ShifterSubsystem instance;
 	
 	private ShifterSubsystem() {
-		shifter = new Solenoid(RobotMap.SHIFT_SOLENOID);
+		shifter = new Solenoid(RobotMap.SHIFT_SOLENOID_PORT);
 		//drive = DriveSubsystem.getInstance();
  	}
 	public static ShifterSubsystem getInstance() {

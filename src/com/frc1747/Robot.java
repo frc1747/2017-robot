@@ -15,6 +15,7 @@ import com.frc1747.subsystems.ClimbSubsystem;
 import com.frc1747.subsystems.CollectorSubsystem;
 import com.frc1747.subsystems.ConveyorSubsystem;
 import com.frc1747.subsystems.DriveSubsystem;
+import com.frc1747.subsystems.GearSubsystem;
 import com.frc1747.subsystems.ShifterSubsystem;
 import com.frc1747.subsystems.ShooterGateSubsystem;
 import com.frc1747.subsystems.ShooterSubsystem;
@@ -96,7 +97,7 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		HBRSubsystem.update();
-		logger.log(Level.INFO, "*************Test**************");
+		logger.log(Level.FINEST, "*************Test**************");
 		//System.out.println(OI.getInstance().getDriver().getButton(3).get());
 	}
 
@@ -115,6 +116,7 @@ public class Robot extends IterativeRobot {
 		ShooterGateSubsystem.getInstance();
 		OI.getInstance();
 		ShifterSubsystem.getInstance();
+		GearSubsystem.getInstance();
 	}
 	
 	public enum Autons {

@@ -125,10 +125,10 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 		}
 		
 		logger = Instrumentation.getLogger("Drive Subsystem");
-		logger.registerDouble("ProfileDistance", false, true);
-		logger.registerDouble("ActualDistance", false, true);
-		logger.registerDouble("ProfileAngle", false, true);
-		logger.registerDouble("ActualAngle", false, true);
+		logger.registerDouble("ProfileDistance", true, true);
+		logger.registerDouble("ActualDistance", true, true);
+		logger.registerDouble("ProfileAngle", true, true);
+		logger.registerDouble("ActualAngle", true, true);
 		
 		// Maintaining compatibility with previous versions
 		subsystems.add(this);

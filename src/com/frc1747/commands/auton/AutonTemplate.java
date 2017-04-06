@@ -71,9 +71,13 @@ public class AutonTemplate extends CommandGroup{
 		//addSequential(DriveProfile.fromFile("/home/lvuser/hopper4_blue.csv"));
 		addSequential(new AutonStopMotors());
 		addSequential(new DriveProfile2("/home/lvuser/hopper4_blue.csv"));
+		addSequential(new AutonStopMotors());
+		addSequential(new AutonDriveTurn(0.001, -40));
+		addSequential(new AutonStopMotors());
+		addSequential(new AutonDriveTurn(0.8, 0));
 		addParallel(new AutonExtend());
 		addParallel(new AutonStopMotors());
-		addParallel(new Rotate(37.6));
-		addSequential(new Shoot());
+		//addParallel(new Rotate(37.6));
+//		addSequential(new Shoot());
 	}
 }

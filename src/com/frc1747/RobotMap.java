@@ -38,12 +38,14 @@ public class RobotMap {
 	public static final boolean BACK_SHOOTER1_INVERTED = true;
 	public static final boolean BACK_SHOOTER2_INVERTED = false;
 	
-	public static final int SHIFT_SOLENOID = 7;
+	public static final int SHIFT_SOLENOID_PORT = 0;
 	public static final int INTAKE_SOLENOID_PORT_1 = 1;
 	public static final int INTAKE_SOLENOID_PORT_2 = 2;
 	
 	public static final int GATE_SOLENOID1_PORT_1 = 3;
 	public static final int GATE_SOLENOID1_PORT_2 = 4;
 	public static final int GATE_SOLENOID2_PORT_1 = 5;
-	public static final int GATE_SOLENOID2_PORT_2 = 6;	
+	public static final int GATE_SOLENOID2_PORT_2 = 6;
+	
+	public static final int GEAR_SOLENOID_PORT = 7;
 }
