@@ -22,6 +22,7 @@ import com.frc1747.commands.conveyer.ConveyIn;
 import com.frc1747.commands.conveyer.ConveyOut;
 import com.frc1747.commands.gear.GearMechClose;
 import com.frc1747.commands.gear.GearMechOpen;
+import com.frc1747.commands.gear.GearToggle;
 import com.frc1747.commands.shifter.ShiftDown;
 import com.frc1747.commands.shifter.ShiftUp;
 import com.frc1747.commands.shooter.CloseGates;
@@ -86,6 +87,7 @@ public class OI {
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
 		driver.getButton(Logitech.RB).whileHeld(new Shoot());
+		driver.getButton(Logitech.LB).whileHeld(new GearToggle());
 	}
 	
 	private void createOperator() {
@@ -101,7 +103,7 @@ public class OI {
 		
 		operator.getButton(Xbox.Y).whenPressed(new Extend());
 		operator.getButton(Xbox.B).whenPressed(new Retract());
-		operator.getButton(Xbox.A).whileHeld(new ConveyIn());
+		operator.getButton(Xbox.A).whileHeld(new GearToggle());
 		operator.getButton(Xbox.X).whileActive(new ConveyOut());
 		
 		// Auton chooser stuff
