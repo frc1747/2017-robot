@@ -1,28 +1,19 @@
-
 package com.frc1747;
 
-import com.frc1747.Robot.Autons;
-import com.frc1747.commands.IntakeShoot;
 import com.frc1747.commands.TeleopAlign;
-import com.frc1747.commands.AutonAlign;
-import com.frc1747.commands.BoilerHorizontal;
-import com.frc1747.commands.auton.AutoShoot;
-import com.frc1747.commands.auton.BackupBoilerVerticalAlign;
-import com.frc1747.commands.auton.BoilerAlign;
-import com.frc1747.commands.auton.BoilerVerticalAutoAlign;
 import com.frc1747.commands.climb.Climb;
 import com.frc1747.commands.climb.ClimbPower;
 import com.frc1747.commands.climb.StopClimb;
 import com.frc1747.commands.collector.Extend;
 import com.frc1747.commands.collector.Retract;
 import com.frc1747.commands.collector.TakeIn;
-import com.frc1747.commands.collector.TakeOut;
 import com.frc1747.commands.conveyer.ConveyIn;
 import com.frc1747.commands.conveyer.ConveyOut;
+import com.frc1747.commands.gear.GearMechClose;
+import com.frc1747.commands.gear.GearMechOpen;
+import com.frc1747.commands.gear.GearToggle;
 import com.frc1747.commands.shifter.ShiftDown;
 import com.frc1747.commands.shifter.ShiftUp;
-import com.frc1747.commands.shooter.CloseGates;
-import com.frc1747.commands.shooter.OpenGates;
 import com.frc1747.commands.shooter.Shoot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -78,6 +69,7 @@ public class OI {
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
 		driver.getButton(Logitech.RB).whileHeld(new Shoot());
+		driver.getButton(Logitech.LB).whileHeld(new GearToggle());
 	}
 	
 	private void createOperator() {
@@ -93,13 +85,16 @@ public class OI {
 		
 		operator.getButton(Xbox.Y).whenPressed(new Extend());
 		operator.getButton(Xbox.B).whenPressed(new Retract());
-		operator.getButton(Xbox.A).whileHeld(new ConveyIn());
+		operator.getButton(Xbox.A).whileHeld(new GearToggle());
 		operator.getButton(Xbox.X).whileActive(new ConveyOut());
 	}
 	
 	private void createDashboard() {
 		SmartDashboard.putData("ShiftUp", new ShiftUp());
 		SmartDashboard.putData("ShiftDown", new ShiftDown());
+		
+		SmartDashboard.putData("Gear Open", new GearMechOpen());
+		SmartDashboard.putData("Gear Close", new GearMechClose());
 	}
 	
 	public static OI getInstance(){

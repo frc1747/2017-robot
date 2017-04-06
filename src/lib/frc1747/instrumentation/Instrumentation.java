@@ -96,7 +96,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 		logger.setLevel(Level.INFO);
 		
 		// Give other code 1 second to initialize
-		timer_delayedInit.schedule(new DelayedInit(), 10 * 1000);
+		timer_delayedInit.schedule(new DelayedInit(), 2 * 1000);
 	}
 	
 	/**

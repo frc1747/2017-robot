@@ -5,7 +5,6 @@ import java.util.logging.Level;
 import lib.frc1747.instrumentation.Instrumentation;
 import lib.frc1747.instrumentation.Logger;
 
-import com.frc1747.OI;
 import com.frc1747.Robot.Autons;
 import com.frc1747.commands.AutonAlign;
 import com.frc1747.commands.Delay;
@@ -48,6 +47,23 @@ public class AutonTemplate extends CommandGroup{
 			addParallel(new AutonAlign(alliance == Alliance.Red));
 			addSequential(new Shoot());
 			break;
+		case HOPPER2:
+			addSequential(new AutonStopMotors());
+			if(alliance == Alliance.Red) {
+				addSequential(new DriveProfile2("/home/lvuser/hopper4_red.csv"));
+				addSequential(new AutonStopMotors());
+				addParallel(new AutonExtend());
+				addSequential(new AutonDriveTurn(0.001, 40));
+			}
+			else {
+				addSequential(new DriveProfile2("/home/lvuser/hopper4_blue.csv"));
+				addSequential(new AutonStopMotors());
+				addParallel(new AutonExtend());
+				addSequential(new AutonDriveTurn(0.001, -40));
+			}
+			addSequential(new AutonStopMotors());
+			addSequential(new AutonDriveTurn(0.8, 0));
+			addSequential(new AutonStopMotors());
 		default:
 			break;
 		}
