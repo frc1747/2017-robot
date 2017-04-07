@@ -31,7 +31,7 @@ public class AutonDriveTurn extends Command {
     	drive.setPIDMode(DriveSubsystem.Follower.DISTANCE, HBRSubsystem.PIDMode.POSITION);
     	drive.setILimit(DriveSubsystem.Follower.DISTANCE, 0);
     	drive.setFeedforward(DriveSubsystem.Follower.DISTANCE, 0, 0.12, 0.0325);
-    	drive.setFeedback(DriveSubsystem.Follower.DISTANCE, 0.2875/*0.75*/, 0.00745/*0.015*/, 0);
+    	drive.setFeedback(DriveSubsystem.Follower.DISTANCE, 0.2875 / 2/*0.75*/, 0.00745 / 2/*0.015*/, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.DISTANCE);
     	drive.setProfile(DriveSubsystem.Follower.DISTANCE, profiles[0]);
     	

@@ -37,8 +37,8 @@ public class DriveWithJoysticks3 extends Command {
     	drive.setMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.Mode.PID);
     	drive.setPIDMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.PIDMode.VELOCITY);
     	drive.setILimit(DriveSubsystem.Follower.ANGLE, 0);
-    	drive.setFeedforward(DriveSubsystem.Follower.ANGLE, 0, 0.0026/*1 / 6.71*/, 0);
-    	drive.setFeedback(DriveSubsystem.Follower.ANGLE, 0.0070/*0.4*/, 0, 0);
+    	drive.setFeedforward(DriveSubsystem.Follower.ANGLE, 0, /*0.0026*/10 / 6.71, 0);
+    	drive.setFeedback(DriveSubsystem.Follower.ANGLE, /*0.0070*//*0.4*/ 0.2, 0, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.ANGLE);
     	
     	// Enable the pids
@@ -52,7 +52,12 @@ public class DriveWithJoysticks3 extends Command {
 		if(OI.getInstance().getDriver().getButton(Logitech.LT).get()) {
 			s_p_v *= 0.3;
 		}
-		s_p_v += s_v_max * 0.2 * Math.pow(OI.getInstance().getOperator().getAxis(Xbox.LEFT_VERTICAL), 1.0);
+		
+		if(OI.getInstance().getOperator().getAxis(Xbox.RT) >= 0.5){
+			s_p_v += s_v_max * 0.8 * Math.pow(OI.getInstance().getOperator().getAxis(Xbox.LEFT_VERTICAL), 1.0);
+		}else{
+			s_p_v += s_v_max * 0.2 * Math.pow(OI.getInstance().getOperator().getAxis(Xbox.LEFT_VERTICAL), 1.0);
+		}
     	drive.setSetpoint(DriveSubsystem.Follower.DISTANCE, s_p_v);
     	
     	// Rotational
@@ -60,7 +65,12 @@ public class DriveWithJoysticks3 extends Command {
 		if(OI.getInstance().getDriver().getButton(Logitech.LT).get()) {
 			a_p_v *= 0.3;
 		}
-		a_p_v += a_v_max * 0.2 * Math.pow(-OI.getInstance().getOperator().getAxis(Xbox.RIGHT_HORIZONTAL), 1.0);
+		
+		if(OI.getInstance().getOperator().getAxis(Xbox.RT) >= 0.5){
+			a_p_v += a_v_max * 0.8 * Math.pow(-OI.getInstance().getOperator().getAxis(Xbox.RIGHT_HORIZONTAL), 1.0);
+		}else{
+			a_p_v += a_v_max * 0.2 * Math.pow(-OI.getInstance().getOperator().getAxis(Xbox.RIGHT_HORIZONTAL), 1.0);
+		}
 		drive.setSetpoint(DriveSubsystem.Follower.ANGLE, a_p_v);
     }
 

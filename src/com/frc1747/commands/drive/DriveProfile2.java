@@ -27,8 +27,8 @@ public class DriveProfile2 extends Command {
     	drive.setMode(DriveSubsystem.Follower.DISTANCE, HBRSubsystem.Mode.FOLLOWER);
     	drive.setPIDMode(DriveSubsystem.Follower.DISTANCE, HBRSubsystem.PIDMode.POSITION);
     	drive.setILimit(DriveSubsystem.Follower.DISTANCE, 0);
-    	drive.setFeedforward(DriveSubsystem.Follower.DISTANCE, 0, 0.12, 0.0325);
-    	drive.setFeedback(DriveSubsystem.Follower.DISTANCE, 0.5675/*0.75*/, 0.00745/*0.015*/, 0);
+    	drive.setFeedforward(DriveSubsystem.Follower.DISTANCE, 0, 0.12, 0.01625);
+    	drive.setFeedback(DriveSubsystem.Follower.DISTANCE, /*0.5675*/1.5, /*0.00745*/0.015, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.DISTANCE);
     	drive.setProfile(DriveSubsystem.Follower.DISTANCE, profiles[0]);
     	
@@ -36,7 +36,7 @@ public class DriveProfile2 extends Command {
     	drive.setMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.Mode.FOLLOWER);
     	drive.setPIDMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.PIDMode.POSITION);
     	drive.setILimit(DriveSubsystem.Follower.ANGLE, 0);
-    	drive.setFeedforward(DriveSubsystem.Follower.ANGLE, 0, 0.18, 0.05);
+    	drive.setFeedforward(DriveSubsystem.Follower.ANGLE, 0, 0.18, 0.025);
     	drive.setFeedback(DriveSubsystem.Follower.ANGLE, 1.66, 0.01, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.ANGLE);
     	drive.setProfile(DriveSubsystem.Follower.ANGLE, profiles[1]);

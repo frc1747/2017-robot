@@ -32,7 +32,7 @@ public class Shoot extends Command {
 	private double desiredBackSetpoint = 120.0;
 	//private double desiredFrontSetpoint = -20.0;
 	//private double desiredBackSetpoint = 20.0;
-	private double intakePower = .80;
+	private double intakePower = .60;
 	
 	private int rampTime;
 	private PrintWriter print;

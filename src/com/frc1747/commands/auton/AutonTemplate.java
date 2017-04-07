@@ -64,6 +64,8 @@ public class AutonTemplate extends CommandGroup{
 			addSequential(new AutonStopMotors());
 			addSequential(new AutonDriveTurn(0.8, 0));
 			addSequential(new AutonStopMotors());
+			addParallel(new AutonAlign(alliance == Alliance.Red));
+			addSequential(new Shoot());
 		default:
 			break;
 		}
