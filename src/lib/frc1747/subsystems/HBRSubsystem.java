@@ -514,7 +514,7 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 		}
 		return profile;
 	}
-	
+
 	/**
 	 * Creates a motion profile for a skid steer robot to
 	 * drive the specified distance and turn the specified angle.
@@ -527,6 +527,56 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 	 * at the same time
 	 */
 	public static double[][][] generateSkidSteerPseudoProfile(double ds, double dtheta) {
+		return generateSkidSteerPseudoProfile(ds, dtheta,
+				Parameters.I_SAMPLE_LENGTH,
+				Parameters.V_MAX, Parameters.A_MAX, Parameters.J_MAX,
+				Parameters.W_WIDTH, Parameters.DT,
+				true, true);
+	}
+	
+	/**
+	 * Creates a motion profile for a skid steer robot to
+	 * drive the specified distance and turn the specified angle.
+	 * 
+	 * Both measurements are relative and the turn angle is counterclockwise positive.
+	 * 
+	 * @param ds the distance to drive (ft)
+	 * @param dtheta the angle to turn (rad)
+	 * @param speedScaler the factor that V_MAX, A_MAX, and J_MAX should be divided by
+	 * @return a profile for a skid steer robot to execute both the driving and turning
+	 * at the same time
+	 */
+	public static double[][][] generateSkidSteerPseudoProfile(double ds, double dtheta, double speedScaler) {
+		return generateSkidSteerPseudoProfile(ds, dtheta,
+				Parameters.I_SAMPLE_LENGTH,
+				Parameters.V_MAX/speedScaler, Parameters.A_MAX/speedScaler, Parameters.J_MAX/speedScaler,
+				Parameters.W_WIDTH, Parameters.DT,
+				true, true);
+	}
+	
+	/**
+	 * Creates a motion profile for a skid steer robot to
+	 * drive the specified distance and turn the specified angle.
+	 * 
+	 * Both measurements are relative and the turn angle is counterclockwise positive.
+	 * 
+	 * @param ds the distance to drive (ft)
+	 * @param dtheta the angle to turn (rad)
+	 * @param i_sample_length the desired initial arc segment length (ft)
+	 * @param v_max the maximum velocity (ft/s)
+	 * @param a_max the maximum acceleration (ft/s^2)
+	 * @param j_max the maximum jerk (ft/s^3)
+	 * @param w_width the widht between the wheels of the robot (ft)
+	 * @param dt the timestep the profile should be generated for (s)
+	 * @param zeroStart if the start of the profile should have a zero velocity
+	 * @param zeroEnd if the end of the profile should have a zero velocity
+	 * @return a profile for a skid steer robot to execute both the driving and turning
+	 * at the same time
+	 */
+	public static double[][][] generateSkidSteerPseudoProfile(double ds, double dtheta,
+			double i_sample_length, double v_max, double a_max, double j_max,
+			double w_width, double dt,
+			boolean zeroStart, boolean zeroEnd) {
 		// Ensure the profile generator does not freak out
 		final double min_ds = 0.0100001;
 		if(ds >= 0 & ds < min_ds) ds = min_ds;
@@ -534,33 +584,37 @@ public abstract class HBRSubsystem<E extends Enum<E>> extends Subsystem {
 		
 		double[][] profileSegments = SplineGenerator.flattenPseudoProfile(
 				0, 0, ds, dtheta,
-				Parameters.I_SAMPLE_LENGTH);
+				i_sample_length);
 		
 		double[][] profilePoints = ProfileGenerator.primaryProfileIntegrate(profileSegments, 0);
 		double[] angularProfilePoints = ProfileGenerator.secondaryProfileIntegrate(profileSegments, 1);
 		
 		ProfileGenerator.skidSteerLimitVelocities(profilePoints, profileSegments,
-				Parameters.V_MAX, Parameters.A_MAX, Parameters.W_WIDTH);
+				v_max, a_max, w_width);
 		
 		// Force the max everything at the endpoints of the profile to zero
-		profilePoints[0][1] = 0;
-		profilePoints[0][2] = 0;
-		profilePoints[profilePoints.length-1][1] = 0;
-		profilePoints[profilePoints.length-1][2] = 0;
+		if(zeroStart) {
+			profilePoints[0][1] = 0;
+			profilePoints[0][2] = 0;
+		}
+		if(zeroEnd) {
+			profilePoints[profilePoints.length-1][1] = 0;
+			profilePoints[profilePoints.length-1][2] = 0;
+		}
 		
 		ProfileGenerator.limitVelocities(profilePoints);
 		double[] profileTimes = ProfileGenerator.timesFromPoints(profilePoints);
-		double[][] timePoints = ProfileGenerator.profileFromPoints(profilePoints, profileTimes, Parameters.DT);
+		double[][] timePoints = ProfileGenerator.profileFromPoints(profilePoints, profileTimes, dt);
 		double[][] angularTimePoints = ProfileGenerator.synchronizedProfileFromProfile(timePoints,
 				profilePoints,
 				angularProfilePoints,
 				profileTimes,
-				Parameters.DT);
+				dt);
 		
 		// Limit the maximum jerk
-		double jerkFilterTime = Parameters.A_MAX/Parameters.J_MAX;
-		timePoints = BoxcarFilter.multiFilter(timePoints, (int)Math.ceil(jerkFilterTime/Parameters.DT));
-		angularTimePoints = BoxcarFilter.multiFilter(angularTimePoints, (int)Math.ceil(jerkFilterTime/Parameters.DT));
+		double jerkFilterTime = a_max/j_max;
+		timePoints = BoxcarFilter.multiFilter(timePoints, (int)Math.ceil(jerkFilterTime/dt));
+		angularTimePoints = BoxcarFilter.multiFilter(angularTimePoints, (int)Math.ceil(jerkFilterTime/dt));
 		
 		return new double[][][] {timePoints, angularTimePoints};
 	}
