@@ -102,12 +102,27 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 		timer_delayedInit.schedule(new DelayedInit(), 2 * 1000);
 	}
 	
+	/**
+	 * Enables logging values to a file
+	 */
 	public void enableLogging(){
 		isEnabled = true;
 	}
 	
+	/**
+	 * Disables logging values to a file
+	 */
 	public void disableLogging(){
 		isEnabled = false;
+	}
+	
+	/**
+	 * Flushes all output buffers
+	 */
+	protected void flushAll() {
+		System.out.flush();
+		if(messageWriter != null) messageWriter.flush();
+		if(valueWriter != null) valueWriter.flush();
 	}
 	
 	/**

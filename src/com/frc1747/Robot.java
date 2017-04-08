@@ -84,6 +84,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledInit() {
 		logger.disableLogging();
+		logger.flushAll();
 	}
 
 	@Override
