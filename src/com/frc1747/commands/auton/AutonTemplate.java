@@ -28,23 +28,21 @@ public class AutonTemplate extends CommandGroup{
 		switch(auton){
 		case HOPPER1:
 			addParallel(new AutonExtend());
-			//these two run in parallel
+			addSequential(new AutonStopMotors());
 			if(alliance == Alliance.Red){
 				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3a_red.csv"));
+				addSequential(new AutonStopMotors());
 				addSequential(new Delay(1250));
-				addParallel(new AutonBallClear());
-				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3b_red.csv"));
-				addSequential(new Rotate(42));
+				addSequential(new AutonDriveTurn(-1.5, -70));
 			}
 			else {
 				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3a_blue.csv"));
+				addSequential(new AutonStopMotors());
 				addSequential(new Delay(1250));
-				addParallel(new AutonBallClear());
-				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3b_blue.csv"));
-				addSequential(new Rotate(-42));
+				addSequential(new AutonDriveTurn(-1.5, 70));
 			}
 			addSequential(new Delay(750));
-			addParallel(new AutonAlign(alliance == Alliance.Red));
+			addParallel(new AutoAlignDriveTurn());
 			addSequential(new Shoot());
 			break;
 		case HOPPER2:
@@ -66,6 +64,33 @@ public class AutonTemplate extends CommandGroup{
 			addSequential(new AutonStopMotors());
 			addParallel(new AutonAlign(alliance == Alliance.Red));
 			addSequential(new Shoot());
+			break;
+		case JUST_SHOOT:
+			addParallel(new AutonExtend());
+			addSequential(new Shoot());
+			break;
+		case CENTER_GEAR:
+			addSequential(new AutonExtend());
+			addParallel(new AutonRetract());
+			addSequential(new AutonStopMotors());
+			addSequential(new AutonDriveTurn(4.4, 0));
+			addParallel(new AutonStopMotors());
+			addParallel(new AutonGearRelease());
+			addSequential(new Delay(2000));
+			addSequential(new AutonStopMotors());
+			addSequential(new AutonDriveTurn(-2, 0));
+			addSequential(new AutonStopMotors());
+			break;
+		case TEST_AUTON:
+			addSequential(new AutonStopMotors());
+			addSequential(new AutonDriveTurn(-1.5, -45));
+			addSequential(new AutonStopMotors());
+			break;
+		case TEST_AUTON_2:
+			addSequential(new AutonStopMotors());
+			addSequential(new AutoAlignDriveTurn());
+			addSequential(new AutonStopMotors());
+			break;
 		default:
 			break;
 		}

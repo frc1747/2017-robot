@@ -19,8 +19,6 @@ public class AutonDriveTurn extends Command {
     	drive = DriveSubsystem.getInstance();
     	this.angle = (angle / 360) * 2 * Math.PI;
     	this.distance = distance;
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
@@ -30,8 +28,8 @@ public class AutonDriveTurn extends Command {
     	drive.setMode(DriveSubsystem.Follower.DISTANCE, HBRSubsystem.Mode.FOLLOWER);
     	drive.setPIDMode(DriveSubsystem.Follower.DISTANCE, HBRSubsystem.PIDMode.POSITION);
     	drive.setILimit(DriveSubsystem.Follower.DISTANCE, 0);
-    	drive.setFeedforward(DriveSubsystem.Follower.DISTANCE, 0, 0.12, 0.0325);
-    	drive.setFeedback(DriveSubsystem.Follower.DISTANCE, 0.2875 / 2/*0.75*/, 0.00745 / 2/*0.015*/, 0);
+    	drive.setFeedforward(DriveSubsystem.Follower.DISTANCE, 0, 0.165, 0.01625);
+    	drive.setFeedback(DriveSubsystem.Follower.DISTANCE, 0.5750 / 2/*0.75*/, 0.00745/*0.015*/, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.DISTANCE);
     	drive.setProfile(DriveSubsystem.Follower.DISTANCE, profiles[0]);
     	
@@ -39,8 +37,8 @@ public class AutonDriveTurn extends Command {
     	drive.setMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.Mode.FOLLOWER);
     	drive.setPIDMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.PIDMode.POSITION);
     	drive.setILimit(DriveSubsystem.Follower.ANGLE, 0);
-    	drive.setFeedforward(DriveSubsystem.Follower.ANGLE, 0, 0.18, 0.05);
-    	drive.setFeedback(DriveSubsystem.Follower.ANGLE, 1.66, 0.01, 0);
+    	drive.setFeedforward(DriveSubsystem.Follower.ANGLE, 0, 0.18, 0.03);
+    	drive.setFeedback(DriveSubsystem.Follower.ANGLE, 5.2, 0.01, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.ANGLE);
     	drive.setProfile(DriveSubsystem.Follower.ANGLE, profiles[1]);
     	    	

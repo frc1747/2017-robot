@@ -1,10 +1,13 @@
 package com.frc1747;
 
+import com.frc1747.commands.AutonAlign;
 import com.frc1747.commands.TeleopAlign;
+import com.frc1747.commands.auton.AutoAlignDriveTurn;
 import com.frc1747.commands.climb.Climb;
 import com.frc1747.commands.climb.ClimbPower;
 import com.frc1747.commands.climb.StopClimb;
 import com.frc1747.commands.collector.Extend;
+import com.frc1747.commands.collector.HopperHoldForExtend;
 import com.frc1747.commands.collector.Retract;
 import com.frc1747.commands.collector.TakeIn;
 import com.frc1747.commands.conveyer.ConveyIn;
@@ -64,7 +67,7 @@ public class OI {
 		driver.getButton(Logitech.Y).whileHeld(new ConveyIn());
 		driver.getButton(Logitech.RT).whileHeld(new TakeIn());
 		//driver.getButton(Logitech.B).whenPressed(new Boiler());
-		driver.getButton(Logitech.B).whenPressed(new TeleopAlign());
+		driver.getButton(Logitech.B).whenPressed(new AutoAlignDriveTurn());
 		driver.getButton(Logitech.X).whileHeld(new ConveyOut());
 		driver.getButton(Logitech.BACK).whenPressed(new ShiftDown());
 		driver.getButton(Logitech.START).whenPressed(new ShiftUp());
@@ -85,8 +88,9 @@ public class OI {
 		
 		operator.getButton(Xbox.Y).whenPressed(new Extend());
 		operator.getButton(Xbox.B).whenPressed(new Retract());
-		operator.getButton(Xbox.A).whileHeld(new GearToggle());
+		operator.getButton(Xbox.RB).whileHeld(new GearToggle());
 		operator.getButton(Xbox.X).whileActive(new ConveyOut());
+		operator.getButton(Xbox.LB).whileHeld(new HopperHoldForExtend());
 	}
 	
 	private void createDashboard() {

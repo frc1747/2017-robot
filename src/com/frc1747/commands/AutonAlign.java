@@ -33,7 +33,7 @@ public class AutonAlign extends Command {
 	private double s_ki = .01/.05;
 	private double s_kd = 0;
 	
-	private double a_kp = 0.04;
+	private double a_kp = 0.06;
 	private double a_ki = .01/.05;
 	private double a_kd = 0.1*0.05;
 	

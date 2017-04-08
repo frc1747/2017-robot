@@ -59,6 +59,14 @@ public class Logger {
 		loggedValue.value = value;
 	}
 	
+	public void enableLogging(){
+		instrumentation.enableLogging();
+	}
+	
+	public void disableLogging(){
+		instrumentation.disableLogging();
+	}
+	
 	/**
 	 * Sets the minimum level of messages that will be logged
 	 * @param level the minimum level to log

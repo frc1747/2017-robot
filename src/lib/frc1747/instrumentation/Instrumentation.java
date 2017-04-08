@@ -24,6 +24,8 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	// Singleton instance of this class
 	private static Instrumentation instance;
 	
+	private boolean isEnabled;
+	
 	// Logging directory location
 	private static final String logDir = "logs";
 	
@@ -80,6 +82,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	 */
 	private Instrumentation() {
 		// Init lists
+		isEnabled = false;
 		timer_delayedInit = new Timer();
 		timer_messagePeriodic = new Timer();
 		timer_valueSDPeriodic = new Timer();
@@ -97,6 +100,14 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 		
 		// Give other code 1 second to initialize
 		timer_delayedInit.schedule(new DelayedInit(), 2 * 1000);
+	}
+	
+	public void enableLogging(){
+		isEnabled = true;
+	}
+	
+	public void disableLogging(){
+		isEnabled = false;
 	}
 	
 	/**
@@ -254,7 +265,7 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 				System.out.print(output);
 				if(messageWriter != null) {
 					messageWriter.print(output);
-					messageWriter.flush();
+					//messageWriter.flush();
 				}
 			}
 		}
@@ -291,14 +302,14 @@ public class Instrumentation implements Thread.UncaughtExceptionHandler {
 	private class ValueFilePeriodic extends TimerTask {
 		@Override
 		public void run() {
-			if(valueWriter != null) {
+			if(valueWriter != null && isEnabled) {
 				for(LoggedValue value:values) {
 					if(value.willLogToFile()) {
 						valueWriter.print(value.toString() + ", ");
 					}
 				}
 				valueWriter.println();
-				valueWriter.flush();
+				//valueWriter.flush();
 			}
 		}	
 	}
