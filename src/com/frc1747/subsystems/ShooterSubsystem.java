@@ -11,7 +11,6 @@ import com.ctre.CANTalon.VelocityMeasurementPeriod;
 import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import lib.frc1747.pid.PIDValues;
 import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 
@@ -24,14 +23,7 @@ public class ShooterSubsystem extends HBRSubsystem {
 		ARDUINO_SCALING = 25.0,
 		GEAR_RATIO = 2.0,
 		ENCODER_EDGES_PER_OUTPUT_REVOLUTION = ENCODER_EDGES_PER_INPUT_REVOLUTION * GEAR_RATIO * ARDUINO_SCALING;		
-	private final int 
-		SHOOTER_TOLERANCE = 5/*,
-		SHOOTER_POWER = 0*/; //TODO: put actual value
-		
-	private final PIDValues backPID = new PIDValues(1.12, 0.001, 12.8, 0.1285); //TODO try increasing D to prevent overshoot after shooting
-	private final PIDValues frontPID = new PIDValues(1, 0.001, 12, 0.17);
-	//20,0.05,360 2/20/17
-	//private final PIDValues backPID = new PIDValues(0, 0, 0, 5.3);
+	private final int SHOOTER_TOLERANCE = 5;
 
 	private double frontSetpoint = 0.0, backSetpoint = 0.0, avg_speed = 0;
 
@@ -82,12 +74,12 @@ public class ShooterSubsystem extends HBRSubsystem {
 		frontShooterMotor.SetVelocityMeasurementWindow(16);
 
 		// Set PIDF Constants for Back Shooter Motors
-    	backShooterMotor1.setPIDF(backPID.P, backPID.I, backPID.D, backPID.F);
+    	backShooterMotor1.setPIDF(1.12, 0.001, 12.8, 0.1285);
     	backShooterMotor1.setIZone(4.0);
     	//backShooterMotor1.setPID(backPID.P, backPID.I, backPID.D);
 		//backShooterMotor1.setF(backPID.F);
     	// Set PIDF Constants for Front Shooter Motor
-    	frontShooterMotor.setPIDF(frontPID.P, frontPID.I, frontPID.D, frontPID.F);
+    	frontShooterMotor.setPIDF(1, 0.001, 12, 0.17);
     	frontShooterMotor.setIZone(125.0);
 		//frontShooterMotor.setPID(frontPID.P, frontPID.I, frontPID.D);
 		//frontShooterMotor.setF(frontPID.F);
@@ -130,9 +122,6 @@ public class ShooterSubsystem extends HBRSubsystem {
     	
     	frontSetpoint = frontSpeed;
     	backSetpoint = backSpeed;
-    	
-    	//backSpeed *= ENCODER_COUNTS_PER_REVOLUTION * ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
-    	//frontSpeed *= ENCODER_COUNTS_PER_REVOLUTION * ENCODER_COUNTS_PER_REVOLUTION / READ_TIME;
     	
     	backShooterMotor1.set(backSpeed);
     	backShooterMotor2.set(backShooterMotor1.getDeviceID());
@@ -232,20 +221,13 @@ public class ShooterSubsystem extends HBRSubsystem {
 		
 		writeBackValues();
 	}
-	
-	public boolean temp;
-	public double sumSpeed;
-	public double samples;
 
 	@Override
 	public double[][] pidRead() {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
 	public void pidWrite(double[] output) {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -1,34 +1,44 @@
-package com.frc1747.commands.drive;
+package com.frc1747.commands.auton;
 
-import lib.frc1747.subsystems.HBRSubsystem;
+import java.util.logging.Level;
+
 import com.frc1747.subsystems.DriveSubsystem;
+
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import lib.frc1747.instrumentation.Instrumentation;
+import lib.frc1747.instrumentation.Logger;
+import lib.frc1747.subsystems.HBRSubsystem;
 
-public class DriveProfile2 extends Command {
+/**
+ *
+ */
+public class AutoAlign extends Command {
+	
 	private DriveSubsystem drive;
-	String filename;
-
-    public DriveProfile2(String filename) {
-    	// Command initialization
+	double angle;
+	double distance;
+	private Logger logger;
+	
+    public AutoAlign() {
     	requires(drive = DriveSubsystem.getInstance());
-    	setInterruptible(true);
-    	
-    	this.filename = filename;
+    	logger = Instrumentation.getLogger("Auton Align Drive");
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	double[][][] profiles = HBRSubsystem.readProfilesFromFile(filename);
-
-    	// Setup left side
-//    	drive.resetEncoders();
-//    	drive.getGyro().zeroYaw();
+    	distance = SmartDashboard.getNumber("Boiler Vertical", 0);
+    	angle = -1.05 * SmartDashboard.getNumber("Boiler Horizontal", 0);
+    	angle = (angle / 360) * 2 * Math.PI;
+    	logger.log(Level.INFO, "distance:" + distance);
+    	logger.log(Level.INFO, "angle:" + angle);
+    	double[][][] profiles = HBRSubsystem.generateSkidSteerPseudoProfile(distance, angle);
 
     	drive.setMode(DriveSubsystem.Follower.DISTANCE, HBRSubsystem.Mode.FOLLOWER);
     	drive.setPIDMode(DriveSubsystem.Follower.DISTANCE, HBRSubsystem.PIDMode.POSITION);
     	drive.setILimit(DriveSubsystem.Follower.DISTANCE, 0);
-    	drive.setFeedforward(DriveSubsystem.Follower.DISTANCE, 0, 0.12, 0.0325);
-    	drive.setFeedback(DriveSubsystem.Follower.DISTANCE, /*0.5675*/1.5, /*0.00745*/0.015, 0);
+    	drive.setFeedforward(DriveSubsystem.Follower.DISTANCE, 0, 0.165, 0.01625);
+    	drive.setFeedback(DriveSubsystem.Follower.DISTANCE,  0.5750 / 2/*0.75*/, 0.00745/*0.015*/, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.DISTANCE);
     	drive.setProfile(DriveSubsystem.Follower.DISTANCE, profiles[0]);
     	
@@ -36,8 +46,8 @@ public class DriveProfile2 extends Command {
     	drive.setMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.Mode.FOLLOWER);
     	drive.setPIDMode(DriveSubsystem.Follower.ANGLE, HBRSubsystem.PIDMode.POSITION);
     	drive.setILimit(DriveSubsystem.Follower.ANGLE, 0);
-    	drive.setFeedforward(DriveSubsystem.Follower.ANGLE, 0, 0.18, 0.05);
-    	drive.setFeedback(DriveSubsystem.Follower.ANGLE, 1.66, 0.01, 0);
+    	drive.setFeedforward(DriveSubsystem.Follower.ANGLE, 0, 0.18, 0.03);
+    	drive.setFeedback(DriveSubsystem.Follower.ANGLE, 5.2, 0.01, 0);
     	drive.resetIntegrator(DriveSubsystem.Follower.ANGLE);
     	drive.setProfile(DriveSubsystem.Follower.ANGLE, profiles[1]);
     	    	
@@ -48,7 +58,8 @@ public class DriveProfile2 extends Command {
     }
 
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {}
+    protected void execute() {
+    }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

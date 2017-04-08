@@ -3,6 +3,7 @@ package com.frc1747.commands.auton;
 import com.frc1747.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 
 /**
  *

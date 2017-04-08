@@ -6,7 +6,6 @@ import com.ctre.CANTalon.TalonControlMode;
 import com.frc1747.RobotMap;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import lib.frc1747.pid.PIDValues;
 import lib.frc1747.speed_controller.HBRTalon;
 import lib.frc1747.subsystems.HBRSubsystem;
 
@@ -19,7 +18,7 @@ public class ConveyorSubsystem extends HBRSubsystem {
 	
 	private HBRTalon motor1;
 	private CANTalon motor2;
-	private PIDValues pidValues = new PIDValues(5, 0.015, 200, 4.17);
+	private double kp = 5, ki = 0.015, kd = 200, kf = 4.17;
 	
 	private static ConveyorSubsystem instance;
 
@@ -41,15 +40,13 @@ public class ConveyorSubsystem extends HBRSubsystem {
     	motor2.setInverted(RobotMap.CONVEYOR_INVERTED2);
     	motor2.setNominalClosedLoopVoltage(12.0);
     	
-    	setPIDF(pidValues);
+    	setPIDF(kp, ki, kd, kf);
 		motor1.setIZone(20);
 	}
 	
-	public void setPIDF(PIDValues pidValues){
-		motor1.setPID(pidValues.P, pidValues.I, pidValues.D);
-		motor1.setF(pidValues.F);
-		
-		this.pidValues = pidValues;
+	public void setPIDF(double kp, double ki, double kd, double kf){
+		motor1.setPID(kp, ki, kd);
+		motor1.setF(kf);
 	}
 	
 	public static ConveyorSubsystem getInstance(){

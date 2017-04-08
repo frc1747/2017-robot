@@ -6,11 +6,8 @@ import lib.frc1747.instrumentation.Instrumentation;
 import lib.frc1747.instrumentation.Logger;
 
 import com.frc1747.Robot.Autons;
-import com.frc1747.commands.AutonAlign;
 import com.frc1747.commands.Delay;
 import com.frc1747.commands.drive.DriveProfile;
-import com.frc1747.commands.drive.DriveProfile2;
-import com.frc1747.commands.drive.Rotate;
 import com.frc1747.commands.shooter.Shoot;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -30,31 +27,33 @@ public class AutonTemplate extends CommandGroup{
 			addParallel(new AutonExtend());
 			addSequential(new AutonStopMotors());
 			if(alliance == Alliance.Red){
-				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3a_red.csv"));
+				addSequential(new DriveProfile("/home/lvuser/hopper3a_red.csv"));
 				addSequential(new AutonStopMotors());
-				addSequential(new Delay(1250));
-				addSequential(new AutonDriveTurn(-1.5, -70));
+				addSequential(new Delay(1500));
+				addSequential(new AutonDriveTurn(-1.5, -65));
 			}
 			else {
-				addSequential(DriveProfile.fromFile("/home/lvuser/hopper3a_blue.csv"));
+				addSequential(new DriveProfile("/home/lvuser/hopper3a_blue.csv"));
 				addSequential(new AutonStopMotors());
-				addSequential(new Delay(1250));
-				addSequential(new AutonDriveTurn(-1.5, 70));
+				addSequential(new Delay(1500));
+				addSequential(new AutonDriveTurn(-1.5, 65));
 			}
+			addParallel(new AutonStopMotors());
 			addSequential(new Delay(750));
-			addParallel(new AutoAlignDriveTurn());
-			addSequential(new Shoot());
+			addParallel(new Shoot());
+			addSequential(new AutoAlign());
+			addSequential(new AutonStopMotors());
 			break;
 		case HOPPER2:
 			addSequential(new AutonStopMotors());
 			if(alliance == Alliance.Red) {
-				addSequential(new DriveProfile2("/home/lvuser/hopper4_red.csv"));
+				addSequential(new DriveProfile("/home/lvuser/hopper4_red.csv"));
 				addSequential(new AutonStopMotors());
 				addParallel(new AutonExtend());
 				addSequential(new AutonDriveTurn(0.001, 40));
 			}
 			else {
-				addSequential(new DriveProfile2("/home/lvuser/hopper4_blue.csv"));
+				addSequential(new DriveProfile("/home/lvuser/hopper4_blue.csv"));
 				addSequential(new AutonStopMotors());
 				addParallel(new AutonExtend());
 				addSequential(new AutonDriveTurn(0.001, -40));
@@ -62,7 +61,7 @@ public class AutonTemplate extends CommandGroup{
 			addSequential(new AutonStopMotors());
 			addSequential(new AutonDriveTurn(0.8, 0));
 			addSequential(new AutonStopMotors());
-			addParallel(new AutonAlign(alliance == Alliance.Red));
+			addParallel(new AutoAlign());
 			addSequential(new Shoot());
 			break;
 		case JUST_SHOOT:
@@ -88,7 +87,7 @@ public class AutonTemplate extends CommandGroup{
 			break;
 		case TEST_AUTON_2:
 			addSequential(new AutonStopMotors());
-			addSequential(new AutoAlignDriveTurn());
+			addSequential(new AutoAlign());
 			addSequential(new AutonStopMotors());
 			break;
 		default:
