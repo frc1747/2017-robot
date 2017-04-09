@@ -105,7 +105,7 @@ public class DriveSubsystem extends HBRSubsystem<DriveSubsystem.Follower>{
 	
 	public void driveArcadeMode(double leftVert, double rightHoriz) {
 		right.setPower(leftVert - rightHoriz);
-		left.setPower(leftVert + rightHoriz);
+		left.setPower((leftVert + rightHoriz) * 0.9);
 	}
 
 	public double getAverageSpeed(){

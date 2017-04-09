@@ -78,6 +78,7 @@ public class Shoot extends Command {
     	desiredFrontSetpoint = -SmartDashboard.getNumber("Front Shooter Setpoint", 35);
     	desiredBackSetpoint = -SmartDashboard.getNumber("Back Shooter Setpoint", 89);
     	Robot.getCompressor().stop();
+    	shooterGate.gatesClose();
       	/*shooter.setSetpoint(SmartDashboard.getNumber("Back Shooter Setpoint", 75.5),
     			-SmartDashboard.getNumber("Front Shooter Setpoint", 35));*/
       	//conveyor.setMotorPower(conveyor.CONVEYOR_POWER);
@@ -105,12 +106,12 @@ public class Shoot extends Command {
 	    			//System.out.println("on target");
 		    		if (counter % 2 == 0) {
 		    			if(shooter.onTarget()){
-		    				shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_OPEN);
+//		    				shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_OPEN);
 		    			}
 		    		}
 		    		else {
 		    			if(shooter.onTarget()){
-		    				shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
+//		    				shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
 		    			}
 		    		}
 		    		startTime = System.currentTimeMillis();
@@ -134,11 +135,11 @@ public class Shoot extends Command {
 			//System.out.println("LOG");
 		}
 		
-		if(System.currentTimeMillis() - pidStartTime > 2000){
+		if(System.currentTimeMillis() - pidStartTime > 1250){
 			shooterGate.setSolenoid(1, ShooterGateSubsystem.GATE_OPEN);
 		}
 		
-		if(System.currentTimeMillis() - pidStartTime > 2350){
+		if(System.currentTimeMillis() - pidStartTime > 1600){
 			shooterGate.setSolenoid(2, ShooterGateSubsystem.GATE_OPEN);
 		}
     }

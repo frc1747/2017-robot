@@ -88,6 +88,7 @@ public class OI {
 		operator.getButton(Xbox.RB).whileHeld(new GearToggle());
 		operator.getButton(Xbox.X).whileActive(new ConveyOut());
 		operator.getButton(Xbox.LB).whileHeld(new HopperHoldForExtend());
+		operator.getButton(Xbox.A).whileHeld(new AutoAlign());
 	}
 	
 	private void createDashboard() {
